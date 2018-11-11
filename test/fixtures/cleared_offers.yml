@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: MyString
+  trading_period: 1
+  island: MyString
+  poc: MyString
+  trader: MyString
+  offer_type: MyString
+  cleared_energy: 1.5
+
+two:
+  date: MyString
+  trading_period: 1
+  island: MyString
+  poc: MyString
+  trader: MyString
+  offer_type: MyString
+  cleared_energy: 1.5

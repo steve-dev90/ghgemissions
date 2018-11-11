@@ -1,0 +1,2 @@
+class ClearedOffer < ApplicationRecord
+end

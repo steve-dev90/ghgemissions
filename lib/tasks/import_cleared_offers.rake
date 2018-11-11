@@ -10,19 +10,16 @@ class ImportClearedOffers
   
   def initialize(file)
     @file = file
-    @cleared_offer_rows = [] 
   end  
   
   def call
     read_file
-    pp @cleared_offer_rows
-    # self.validate_records
-    # self.save_to_database
   end
 
   def read_file
     # Date,TradingPeriod,Island,PointOfConnection,Trader,Type,ClearedEnergy (MW),ClearedFIR (MW),ClearedSIR (MW)
     CSV.foreach(@file) do |row|
+      next if row[0] == 'Date'
       hash = {}
       hash = {
         date: row[0],
@@ -32,8 +29,7 @@ class ImportClearedOffers
         trader: row[4],
         offer_type: row[5],
         cleared_energy: row[6] }
-      @cleared_offer_rows << hash  
-
+      ClearedOffer.create(hash)  
     end 
   end   
 end 
