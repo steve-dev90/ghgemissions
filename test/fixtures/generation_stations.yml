@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  station_name: MyString
+  poc: MyString
+  generation_type: MyString
+  fuel_name: MyString
+  primary_efficiency: 1.5
+
+two:
+  station_name: MyString
+  poc: MyString
+  generation_type: MyString
+  fuel_name: MyString
+  primary_efficiency: 1.5

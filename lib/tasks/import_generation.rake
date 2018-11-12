@@ -26,7 +26,7 @@ class ImportExistGeneration
         generation_type: row[5],
         fuel_name: row[7],
         primary_efficiency: row[8] } 
-      pp hash   
+      GenerationStation.create(hash)   
     end 
   end      
 end 

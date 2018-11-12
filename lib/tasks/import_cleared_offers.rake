@@ -10,7 +10,14 @@ class ImportClearedOffers
   
   def initialize(file)
     @file = file
-  end  
+  end 
+  
+  def badName
+    if something
+      test
+      end
+  end
+  
   
   def call
     read_file

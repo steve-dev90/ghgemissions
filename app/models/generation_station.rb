@@ -1,0 +1,2 @@
+class GenerationStation < ApplicationRecord
+end
