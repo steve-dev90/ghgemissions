@@ -7,52 +7,74 @@ task :import_ea_exist_generation => :environment do
 end
 
 class ImportExistGeneration
-  # New Zealand’s Greenhouse Gas Inventory 1990–2016, Page 459. 
+  # New Zealand Greenhouse Gas Inventory 1990 2016, Page 459. 
   # Units tCO2/TJ
   # CHECK DIESEL!!!
-  FOSSIL_FUEL_EMISSIONS_FACTORS = { 'Gas' => 53.96, 'Coal_NI' => 92.2, 'Diesel' => 50}
+  FOSSIL_FUEL_EMISSIONS_FACTORS = { 'Gas' => 53.96, 'Coal_NI' => 92.2, 'Diesel' => 50.0 }.freeze
   # http://nzgeothermal.org.nz/emissions/
   # Units tCO2/MWh
-  GEOTHERMAIL_ELECTRICITY_EMISSIONS_FACTOR = 0.100
-  GAS_POWER_STATION_EFFICIENCY_ESTIMATE = 9000
+  GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR = 0.100
   # This needs some work
-  DIESEL_POWER_STATION_EFFICIENCY_ESTIMATE = 9000
+  HEAT_RATE_ESTIMATES = { 'Gas' => 9000, 'Diesel' => 9000 }.freeze
   
   def initialize(file)
     @file = file
   end  
   
   def call
-    read_file
-  end
-
-  def read_file
     Roo::Spreadsheet.open(@file).sheet("Generating Stations").each do |row| 
-      next if row[0] == 'Station_Name'
-      hash = {}
-      hash = {
-        station_name: row[0],
-        poc: row[20],
-        generation_type: row[5],
-        fuel_name: row[7],
-        primary_efficiency: row[8] }
-      hash[:emissions_factor] = get_emissions_factor(hash[:fuel_name],
-        hash[:primary_efficiency], hash[:generation_type])  
-      GenerationStation.create(hash)   
+      next if row[0] == 'Station_Name'      
+      record = get_record(row)
+      record[:primary_efficiency] = get_primary_efficiency(
+        record[:primary_efficiency],
+        record[:fuel_name],
+        record[:generation_type]
+      )  
+      record[:emissions_factor] = get_emissions_factor(
+        record[:fuel_name],
+        record[:primary_efficiency]
+      )  
+      save_record(record)   
     end 
+  end
+  
+  def get_record(row)
+    { station_name: row[0],
+      poc: row[20],
+      generation_type: row[5],
+      fuel_name: row[7] }
   end  
   
-  def get_emissions_factor(fuel_name, primary_efficiency, generation_type)
-    return unless ['Gas', 'Coal_NI', 'Diesel', 'Geothermal'].include?(fuel_name)
-    return GEOTHERMAIL_ELECTRICITY_EMISSIONS_FACTOR if fuel_name == 'Geothermal'    
-    if primary_efficiency.zero?
-      if fuel_name == 'Gas' && generation_type == 'Thermal' 
-        GAS_POWER_STATION_EFFICIENCY_ESTIMATE * FOSSIL_FUEL_EMISSIONS_FACTORS[fuel_name] / 10**6
-      elsif fuel_name == 'Diesel'
-        DIESEL_POWER_STATION_EFFICIENCY_ESTIMATE * FOSSIL_FUEL_EMISSIONS_FACTORS[fuel_name] / 10**6   
-      end 
-    else  
-      primary_efficiency * FOSSIL_FUEL_EMISSIONS_FACTORS[fuel_name] / 10**6 
+  def get_primary_efficiency(efficiency, fuel_name, generation_type) 
+    return estimate_primary_efficiency(fuel_name, generation_type) if efficiency.nil?    
+    return efficiency unless efficiency.zero?
+    estimate_primary_efficiency(fuel_name, generation_type)     
+  end
+
+  def estimate_primary_efficiency(fuel_name, generation_type)
+    if fuel_name == 'Gas' && generation_type == 'Thermal' 
+      HEAT_RATE_ESTIMATES[fuel_name]
+    elsif fuel_name == 'Diesel'
+      HEAT_RATE_ESTIMATES[fuel_name]
+    else
+      0.0  
+    end
+  end  
+
+  def get_emissions_factor(fuel_name, primary_efficiency)
+    case fuel_name
+    when 'Gas', 'Coal_NI', 'Diesel' 
+      primary_efficiency * FOSSIL_FUEL_EMISSIONS_FACTORS[fuel_name] / 10**6
+    when 'Geothermal'
+      GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR
     end  
+  end
+
+  def save_record(record)
+    generation_station = GenerationStation.find_or_create_by(
+      station_name: record[:station_name],
+      poc: record[:poc]
+    )
+    generation_station.update_attributes(record)
   end  
 end 

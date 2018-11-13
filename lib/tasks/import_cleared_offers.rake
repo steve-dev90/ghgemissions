@@ -17,7 +17,6 @@ class ImportClearedOffers
   end
 
   def read_file
-    # Date,TradingPeriod,Island,PointOfConnection,Trader,Type,ClearedEnergy (MW),ClearedFIR (MW),ClearedSIR (MW)
     CSV.foreach(@file) do |row|
       next if row[0] == 'Date'
       hash = {}
