@@ -16,6 +16,7 @@ class ImportExistGeneration
   GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR = 0.100
   # This needs some work
   HEAT_RATE_ESTIMATES = { 'Gas' => 9000, 'Diesel' => 9000 }.freeze
+  EXCLUDED_FUEL_TYPES = %w(Hydro Unknown Wind).freeze
   
   def initialize(file)
     @file = file
@@ -23,10 +24,10 @@ class ImportExistGeneration
   
   def call
     Roo::Spreadsheet.open(@file).sheet("Generating Stations").each do |row| 
-      next if row[0] == 'Station_Name'      
+      next if row[0] == 'Station_Name' || EXCLUDED_FUEL_TYPES.include?(row[7])      
       record = get_record(row)
       record[:primary_efficiency] = get_primary_efficiency(
-        record[:primary_efficiency],
+        row[8],
         record[:fuel_name],
         record[:generation_type]
       )  
@@ -39,13 +40,14 @@ class ImportExistGeneration
   end
   
   def get_record(row)
-    { station_name: row[0],
+    { station_name: row[0],      
       poc: row[20],
       generation_type: row[5],
       fuel_name: row[7] }
   end  
   
   def get_primary_efficiency(efficiency, fuel_name, generation_type) 
+    pp efficiency 
     return estimate_primary_efficiency(fuel_name, generation_type) if efficiency.nil?    
     return efficiency unless efficiency.zero?
     estimate_primary_efficiency(fuel_name, generation_type)     

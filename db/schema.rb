@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_12_231547) do
+ActiveRecord::Schema.define(version: 2018_11_14_065348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(version: 2018_11_12_231547) do
     t.float "cleared_energy"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "generation_station_id"
+    t.float "emissions"
+    t.index ["generation_station_id"], name: "index_cleared_offers_on_generation_station_id"
   end
 
   create_table "generation_stations", force: :cascade do |t|
@@ -38,4 +41,5 @@ ActiveRecord::Schema.define(version: 2018_11_12_231547) do
     t.float "emissions_factor"
   end
 
+  add_foreign_key "cleared_offers", "generation_stations"
 end
