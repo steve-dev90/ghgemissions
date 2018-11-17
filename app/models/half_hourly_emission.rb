@@ -1,0 +1,2 @@
+class HalfHourlyEmission < ApplicationRecord
+end

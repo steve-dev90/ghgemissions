@@ -2,21 +2,21 @@ require 'rails_helper'
 
 FactoryBot.define do
   factory :GenerationStation do
-      station_name { 'Huntly' }
-      poc { 'HLY2201' }
-      fuel_name { 'Gas' }
-      generation_type { 'Thermal' }
-      primary_efficiency { 9000 }
-      emissions_factor { 0.48 }
+    station_name { 'Huntly' }
+    poc { 'HLY2201' }
+    fuel_name { 'Gas' }
+    generation_type { 'Thermal' }
+    primary_efficiency { 9000 }
+    emissions_factor { 0.48 }
   end
 end
 
 RSpec.describe GenerationStation, type: :model do
-  it "has a valid factory" do
+  it 'has a valid factory' do
     expect(FactoryBot.create(:GenerationStation)).to be_valid
   end
 
-  it "invalidates records with no station name" do
+  it 'invalidates records with no station name' do
     station = GenerationStation.new(station_name: 'Huntly', poc: 'HLY2201',
       fuel_name: 'Gas', generation_type: 'Thermal', primary_efficiency: 9000, emissions_factor: 0.48)
     # pp station.valid?

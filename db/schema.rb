@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_14_065348) do
+ActiveRecord::Schema.define(version: 2018_11_16_221022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,17 @@ ActiveRecord::Schema.define(version: 2018_11_14_065348) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "emissions_factor"
+  end
+
+  create_table "half_hourly_emissions", force: :cascade do |t|
+    t.string "date"
+    t.integer "trading_period"
+    t.string "trader"
+    t.float "emissions"
+    t.float "energy"
+    t.float "emissions_factor"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "cleared_offers", "generation_stations"

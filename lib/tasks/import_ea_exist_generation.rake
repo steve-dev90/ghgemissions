@@ -1,7 +1,7 @@
 require 'roo'
 
 desc 'Import EA existing generation spreadsheet'
-task :import_ea_exist_generation => :environment do
+task import_ea_exist_generation: :environment do
   exist_generation = ImportExistGeneration.new('./lib/assets/20151030_Existing_generating_plant.xlsx')
   exist_generation.call
 end
