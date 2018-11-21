@@ -1,5 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe Profile, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before(:all) do
+    @profile1 = FactoryBot.create(:profile)
+  end
+
+  it 'is valid with valid attributes' do
+    expect(@profile1).to be_valid
+  end
+
+  it 'invalidates records with no trading period' do
+    profile2 = FactoryBot.build(:profile, trading_period: nil)
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with non integer trading periods' do
+    profile2 = FactoryBot.build(:profile, trading_period: 'a')
+    # pp station.valid?
+    # pp station.errors.messages
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with no profile' do
+    profile2 = FactoryBot.build(:profile, profile: nil)
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with non float profile' do
+    profile2 = FactoryBot.build(:profile, profile: 'a')
+    # pp station.valid?
+    # pp station.errors.messages
+    expect(profile2).to_not be_valid
+  end
+
 end

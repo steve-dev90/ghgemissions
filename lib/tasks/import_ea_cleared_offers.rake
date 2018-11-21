@@ -19,7 +19,7 @@ class ImportClearedOffers
       record = get_record(row)
       record[:generation_station_id] = get_generation_station_id(record[:poc])
       record[:emissions] = get_emissions(record[:cleared_energy], record[:generation_station_id])
-      ClearedOffer.create(record)
+      save_record(record)     
     end
   end
 
@@ -43,4 +43,9 @@ class ImportClearedOffers
     emissions_factor = GenerationStation.where(id: generation_station_id).first[:emissions_factor]
     (cleared_energy.to_f * 0.5 * (emissions_factor || 0)).round(2)
   end
+
+  def save_record(record)
+    cleared_offer = ClearedOffer.new(record)  
+    pp '*** Record not Valid ***', record, cleared_offer.errors.messages unless cleared_offer.save  
+  end  
 end
