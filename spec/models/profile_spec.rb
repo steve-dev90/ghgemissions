@@ -21,16 +21,25 @@ RSpec.describe Profile, type: :model do
     expect(profile2).to_not be_valid
   end
 
+  it 'invalidates records with trading periods less than 1' do
+    profile2 = FactoryBot.build(:profile, trading_period: 0)
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with trading periods greater than 50' do
+    profile2 = FactoryBot.build(:profile, trading_period: 51)
+    expect(profile2).to_not be_valid
+  end
+
   it 'invalidates records with no profile' do
     profile2 = FactoryBot.build(:profile, profile: nil)
     expect(profile2).to_not be_valid
   end
 
-  it 'invalidates records with non float profile' do
+  it 'invalidates records with a profile that is not a float' do
     profile2 = FactoryBot.build(:profile, profile: 'a')
     # pp station.valid?
     # pp station.errors.messages
     expect(profile2).to_not be_valid
   end
-
 end

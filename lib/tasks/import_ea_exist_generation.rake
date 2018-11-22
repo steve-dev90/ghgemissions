@@ -78,10 +78,10 @@ class ImportExistGeneration
   end
 
   def save_record(record)
-    generation_station = GenerationStation.find_or_create_by(
+    station = GenerationStation.find_or_create_by(
       station_name: record[:station_name],
       poc: record[:poc]
     )
-    generation_station.update_attributes(record)
+    pp '*** Record not Valid ***', record, station.errors.messages unless station.update_attributes(record)
   end
 end
