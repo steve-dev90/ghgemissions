@@ -60,7 +60,7 @@ RSpec.describe HalfHourlyEmission, type: :model do
   end
 
   it 'invalidates records with non numerical emissions' do
-    hhemission2 = FactoryBot.build(:half_hourly_emission, energy: 'a')
+    hhemission2 = FactoryBot.build(:half_hourly_emission, emissions: 'a')
     expect(hhemission2).to_not be_valid
   end  
 end
