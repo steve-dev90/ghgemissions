@@ -1,12 +1,4 @@
-require 'roo'
-
-desc 'Import EA existing generation spreadsheet'
-task import_ea_exist_generation: :environment do
-  exist_generation = ImportExistGeneration.new('./lib/assets/20151030_Existing_generating_plant.xlsx')
-  exist_generation.call
-end
-
-class ImportExistGeneration
+class Power::GenerationData
   # New Zealand Greenhouse Gas Inventory 1990 2016, Page 459.
   # Units tCO2/TJ
   # CHECK DIESEL!!!
@@ -82,6 +74,7 @@ class ImportExistGeneration
       station_name: record[:station_name],
       poc: record[:poc]
     )
+    pp station
     pp '*** Record not Valid ***', record, station.errors.messages unless station.update_attributes(record)
   end
 end

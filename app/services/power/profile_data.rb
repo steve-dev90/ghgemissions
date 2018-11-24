@@ -1,12 +1,4 @@
-require 'roo'
-
-desc 'Import EA rps profile for GXP CPK0111 stored in spreadsheet'
-task import_ea_profile: :environment do
-  profile = ImportProfile.new('./lib/assets/CPK0111 RPS.xlsx')
-  profile.call
-end
-
-class ImportProfile
+class Power::ProfileData
   def initialize(file)
     @file = file
     @profile_records = []

@@ -1,12 +1,6 @@
-desc 'Create daily emissions factor'
-task create_half_hourly_emissions_factors: :environment do
-  hh_emissions = ImportHHEmissions.new
-  hh_emissions.call
-end
-
 # Processes a single trading day of cleared_offers data. This data is then
 # deleted from the cleared_offers table.
-class ImportHHEmissions
+class Power::EmissionsData
   def call
     HalfHourlyEmission.destroy_all
     (1..ClearedOffer.maximum(:trading_period)).each do |trading_period|

@@ -1,12 +1,4 @@
-require 'csv'
-
-desc 'Import EA cleared offers csv'
-task import_ea_cleared_offers: :environment do
-  cleared_offers = ImportClearedOffers.new('./lib/assets/20181103_Cleared_Offers.csv')
-  cleared_offers.call
-end
-
-class ImportClearedOffers
+class Power::ClearedOfferData
   def initialize(file)
     @file = file
   end
