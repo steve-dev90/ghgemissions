@@ -1,24 +1,35 @@
-# README
+# Carbon Footprint Calculator 
+This app calculates the carbon footprint for a typical New Zealand household.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Nov 2018 : This is a work in progress; have a look at the models and service objects. 
 
-Things you may want to cover:
+## Technologies
+CSS framework : TBA.
 
-* Ruby version
+Front end : TBA.
 
-* System dependencies
+Back end : Rails v5.2
 
-* Configuration
+Testing : Rspec, FactoryBot
 
-* Database creation
+Linting : Rubocop
 
-* Database initialization
+## Configuration
 
-* How to run the test suite
+TBA
 
-* Services (job queues, cache servers, search engines, etc.)
+## Database creation and initialization
 
-* Deployment instructions
+TBA
 
-* ...
+## How to run the test suite
+
+In the command line: `bundle exec rspec`
+
+## Services (job queues, cache servers, search engines, etc.)
+
+TBA
+
+## Deployment instructions
+
+TBA
