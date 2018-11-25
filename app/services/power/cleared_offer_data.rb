@@ -11,7 +11,7 @@ class Power::ClearedOfferData
       record = get_record(row)
       record[:generation_station_id] = get_generation_station_id(record[:poc])
       record[:emissions] = get_emissions(record[:cleared_energy], record[:generation_station_id])
-      save_record(record)     
+      save_record(record)
     end
   end
 
@@ -37,7 +37,7 @@ class Power::ClearedOfferData
   end
 
   def save_record(record)
-    cleared_offer = ClearedOffer.new(record)  
-    pp '*** Record not Valid ***', record, cleared_offer.errors.messages unless cleared_offer.save  
-  end  
+    cleared_offer = ClearedOffer.new(record)
+    pp '*** Record not Valid ***', record, cleared_offer.errors.messages unless cleared_offer.save
+  end
 end

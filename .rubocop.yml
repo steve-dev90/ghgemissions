@@ -9,12 +9,20 @@ Metrics/MethodLength:
 Style/Documentation:
   Enabled: false
 
+Style/ClassAndModuleChildren: 
+  EnforcedStyle: compact
+  SupportedStyles:
+    - nested
+    - compact
+
 AllCops:
   Exclude:
     - 'db/**/*'
     - 'config/**/*'
     - 'bin/rspec'
-    - 'spec/spec_helper.rb'  
+    - 'spec/spec_helper.rb' 
+
+
 
 
 

@@ -50,4 +50,3 @@ RSpec.describe GenerationStation, type: :model do
     expect(station2).to_not be_valid
   end
 end
-

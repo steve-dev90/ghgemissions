@@ -4,4 +4,4 @@ namespace :power do
     hh_emissions = Power::EmissionsData.new
     hh_emissions.call
   end
-end  
+end

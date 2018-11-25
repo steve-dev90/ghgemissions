@@ -52,7 +52,7 @@ RSpec.describe ClearedOffer, type: :model do
   it 'invalidates records with an invalid poc' do
     cleared_offer2 = FactoryBot.build(:cleared_offer, poc: 'GLN0332 GLN11')
     expect(cleared_offer2).to_not be_valid
-  end  
+  end
 
   it 'invalidates records with no trader' do
     cleared_offer2 = FactoryBot.build(:cleared_offer, trader: nil)
@@ -92,5 +92,5 @@ RSpec.describe ClearedOffer, type: :model do
   it 'invalidates records with non numerical emissions' do
     cleared_offer2 = FactoryBot.build(:cleared_offer, emissions: 'a')
     expect(cleared_offer2).to_not be_valid
-  end 
+  end
 end

@@ -43,7 +43,7 @@ RSpec.describe HalfHourlyEmission, type: :model do
     hhemission2 = FactoryBot.build(:half_hourly_emission, trader: 'Genesis')
     expect(hhemission2).to_not be_valid
   end
-  
+
   it 'invalidates records with no energy' do
     hhemission2 = FactoryBot.build(:half_hourly_emission, energy: nil)
     expect(hhemission2).to_not be_valid
@@ -62,5 +62,5 @@ RSpec.describe HalfHourlyEmission, type: :model do
   it 'invalidates records with non numerical emissions' do
     hhemission2 = FactoryBot.build(:half_hourly_emission, emissions: 'a')
     expect(hhemission2).to_not be_valid
-  end  
+  end
 end
