@@ -24,7 +24,7 @@ TBA
 
 ## How to run the test suite
 
-In the command line `bundle exec rspec`
+In the command line: `bundle exec rspec`
 
 ## Services (job queues, cache servers, search engines, etc.)
 
