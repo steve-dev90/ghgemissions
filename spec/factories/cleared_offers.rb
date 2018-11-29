@@ -8,6 +8,6 @@ FactoryBot.define do
     offer_type { 'ENOF' }
     cleared_energy { 50.0 }
     emissions { 4.15 }
-    generation_station_id { 1 }
+    generation_station_id { nil }
   end
 end

@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Profile, type: :model do
   before(:all) do
-    @profile1 = FactoryBot.create(:profile)
+    @profile1 = FactoryBot.build(:profile)
+    # @profiletest = FactoryBot.create(:profile)
+    # pp @profile1
+    # pp @profiletest
   end
 
   it 'is valid with valid attributes' do

@@ -4,7 +4,7 @@ FactoryBot.define do
     trading_period { 1 }
     trader { 'CTCT' }
     emissions { 150.0 }
-    energy { 1.5 }
-    emissions_factor { 0.002 }
+    energy { 1.5 }    
+    emissions_factor { 0.001 }
   end
 end
