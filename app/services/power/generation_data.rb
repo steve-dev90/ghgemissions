@@ -1,7 +1,7 @@
 class Power::GenerationData
   # New Zealand Greenhouse Gas Inventory 1990 2016, Page 459.
   # Units tCO2/TJ
- FOSSIL_FUEL_EMISSIONS_FACTORS = { 'Gas' => 53.96, 'Coal_NI' => 92.2, 'Diesel' => 69.69 }.freeze
+  FOSSIL_FUEL_EMISSIONS_FACTORS = { 'Gas' => 53.96, 'Coal_NI' => 92.2, 'Diesel' => 69.69 }.freeze
   # http://nzgeothermal.org.nz/emissions/
   # Units tCO2/MWh
   GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR = 0.100
@@ -41,7 +41,7 @@ class Power::GenerationData
     row[0] == 
       'Station_Name' || 
       EXCLUDED_FUEL_TYPES.include?(row[7]) ||
-      EXCLUDED_CONNECTION_TYPES.incude(row[4])
+      EXCLUDED_CONNECTION_TYPES.include?(row[4])
   end
 
   def get_record(row)
@@ -78,10 +78,15 @@ class Power::GenerationData
   end
 
   def save_record(record)
-    station = GenerationStation.find_or_create_by(
-      station_name: record[:station_name],
-      poc: record[:poc]
-    )
-    pp '*** Record not Valid ***', record, station.errors.messages unless station.update_attributes(record)
+    full_pocs = Power::FullPoc.new(@file)
+    full_pocs.call
+      .select{ |a| a[:station_name] == record[:station_name]}.each do |full_poc|       
+        record[:poc] = full_poc[:full_poc]
+        station = GenerationStation.find_or_create_by(
+          station_name: record[:station_name],
+          poc: record[:poc]
+        )
+        pp '*** Record not Valid ***', record, station.errors.messages unless station.update_attributes(record)
+      end  
   end
 end

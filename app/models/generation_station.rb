@@ -6,7 +6,7 @@ class GenerationStation < ApplicationRecord
   validates :station_name, presence: true
   validates :poc,
             presence: true,
-            format: { with: /[A-Z]{3}\d{4}\z/, message: 'must be a valid point of connection' }
+            format: { with: /[A-Z]{3}\d{4}\s[A-Z]{3}\d{1,2}\z/, message: 'must be a valid point of connection' }
   validates :generation_type, presence: true
   validates :fuel_name,
             presence: true,
