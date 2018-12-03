@@ -1,14 +1,19 @@
 class Power::GenerationData
   # New Zealand Greenhouse Gas Inventory 1990 2016, Page 459.
   # Units tCO2/TJ
-  # CHECK DIESEL!!!
-  FOSSIL_FUEL_EMISSIONS_FACTORS = { 'Gas' => 53.96, 'Coal_NI' => 92.2, 'Diesel' => 50.0 }.freeze
+ FOSSIL_FUEL_EMISSIONS_FACTORS = { 'Gas' => 53.96, 'Coal_NI' => 92.2, 'Diesel' => 69.69 }.freeze
   # http://nzgeothermal.org.nz/emissions/
   # Units tCO2/MWh
   GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR = 0.100
   # This needs some work
   HEAT_RATE_ESTIMATES = { 'Gas' => 9000, 'Diesel' => 9000 }.freeze
-  EXCLUDED_FUEL_TYPES = %w[Hydro Unknown Wind].freeze
+  # Only include fuel types with emissions. 
+  # While wood waste and biogas emit CO2 on combustion, emissions over the lifecycle
+  # of the fuel are assumed to be zero as a simplification.
+  EXCLUDED_FUEL_TYPES = %w[Hydro Unknown Wind Wood_waste Biogas].freeze
+  # Don't worry about embedded genration, as there is no readily accessible data on
+  # generation levels
+  EXCLUDED_CONNECTION_TYPES = %w[Embedded].freeze
 
   def initialize(file)
     @file = file
@@ -33,7 +38,10 @@ class Power::GenerationData
   end
 
   def skip_row(row)
-    row[0] == 'Station_Name' || EXCLUDED_FUEL_TYPES.include?(row[7])
+    row[0] == 
+      'Station_Name' || 
+      EXCLUDED_FUEL_TYPES.include?(row[7]) ||
+      EXCLUDED_CONNECTION_TYPES.incude(row[4])
   end
 
   def get_record(row)
