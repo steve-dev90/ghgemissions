@@ -9,6 +9,8 @@ RSpec.describe Power::UserEmissions do
   before(:all) do
     @user_energy = 100.0
     @user_emissions = Power::UserEmissions.new(@user_energy)
+    HalfHourlyEmission.destroy_all
+    Profile.destroy_all
     (1..48).each do |trading_period|
       FactoryBot.create(:profile, trading_period: trading_period)
       FactoryBot.create(:half_hourly_emission, trading_period: trading_period)
@@ -33,24 +35,15 @@ RSpec.describe Power::UserEmissions do
                           trader: 'GENE',
                           emissions_factor: EMISSIONS_FACTORS[trading_period - 1])
       end
-      actual_CTCT = user_emissions_first_trading_period(@user_emissions.call, 'CTCT')
+      actuals = @user_emissions.call
+      actual_CTCT = user_emissions_first_trading_period(actuals, 'CTCT')
       expect(actual_CTCT).to eq(@user_energy * 0.1 * 0.001) 
-      actual_GENE = user_emissions_first_trading_period(@user_emissions.call, 'GENE')
+      actual_GENE = user_emissions_first_trading_period(actuals, 'GENE')
       expect(actual_GENE).to eq(@user_energy * 0.1 * 0.003) 
-      actual_CTCT = user_emissions_total(@user_emissions.call, 'CTCT')
+      actual_CTCT = user_emissions_total(actuals, 'CTCT')
       expect(actual_CTCT).to eq(@user_energy * 0.1 * 0.001 * 48)                        
-      # actual_CTCT_totals =  actuals
-      #                       .select{ |r| r.trader == 'CTCT' }
-      #                       .sum { |r| r.user_emissions}
-      # expect(actual_CTCT_totals).to eq(@user_emissions * 0.1 * 0.001 * 48)                       
-      # actual_GENE_tp1 = actuals
-      #                   .select{ |r| r.trader == 'GENE' && r.trading_period == 1 }
-      #                   .first[:user_emissions] 
-      # expect(actual_GENE_tp1).to eq(@user_emissions * 0.2 * 0.003)                                   
-      # actual_GENE_totals =  actuals
-      #                   .select{ |r| r.trader == 'GENE' }
-      #                   .sum { |r| r.user_emissions}
-      # expect(actual_CTCT_totals).to eq([PROFILES, EMISSIONS_FACTORS].transpose.map {|a| a.inject(:*)} * @user_energy) 
+      actual_GENE = user_emissions_total(actuals, 'GENE')
+      expect(actual_GENE).to eq(@user_energy * (0.1 * 0.003 + 0.1 * 0.005 * 47))  
     end
 
     def user_emissions_first_trading_period(actuals, trader)

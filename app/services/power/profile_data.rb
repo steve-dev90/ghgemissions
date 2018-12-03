@@ -7,7 +7,6 @@ class Power::ProfileData
   def call
     obtain_profile_records
     get_profile_divided_by_total_profile
-    pp @profile_records
     save_records
     puts 'Profile table updated!'
   end
@@ -27,7 +26,7 @@ class Power::ProfileData
   end
 
   def extract_record(row)
-    { trading_period: row[4], profile: row[5] }
+    { trading_period: row[4].to_i, profile: row[5].to_f }
   end
 
   def record_index(record)
@@ -49,7 +48,7 @@ class Power::ProfileData
   end
 
   def get_profile_divided_by_total_profile
-    sum = obtain_profile_sum
+    pp sum = obtain_profile_sum
     @profile_records.each { |record| record[:profile] = record[:profile] / sum }
   end
 
