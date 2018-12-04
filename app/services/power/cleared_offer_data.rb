@@ -9,8 +9,7 @@ class Power::ClearedOfferData
       next if row[0] == 'Date' || row[5] != 'ENOF'
 
       record = get_record(row)
-      record[:generation_station_id] = get_generation_station_id(record[:poc])
-      record[:emissions] = get_emissions(record[:cleared_energy], record[:generation_station_id])
+      record[:emissions] = get_emissions(record[:cleared_energy], record[:poc])
       save_record(record)
     end
   end
@@ -25,14 +24,10 @@ class Power::ClearedOfferData
       cleared_energy: row[6].to_f }
   end
 
-  def get_generation_station_id(poc)
-    GenerationStation.find_by(poc: poc.split[0])&.id
-  end
-
-  def get_emissions(cleared_energy, generation_station_id)
-    return 0.0 if generation_station_id.nil?
-
-    emissions_factor = GenerationStation.where(id: generation_station_id).first[:emissions_factor]
+  def get_emissions(cleared_energy, poc)
+    emissions_factor = GenerationStation.where(poc: poc)&.first && 
+      GenerationStation.where(poc: poc).first[:emissions_factor]
+    return 0.0 if emissions_factor.nil?
     (cleared_energy.to_f * 0.5 * (emissions_factor || 0)).round(2)
   end
 

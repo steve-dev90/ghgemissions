@@ -1,8 +1,6 @@
 class GenerationStation < ApplicationRecord
   FUEL_NAMES = %w[Geothermal Wood_waste Coal_NI Gas Diesel Biogas].freeze
 
-  has_many :cleared_offers
-
   validates :station_name, presence: true
   validates :poc,
             presence: true,

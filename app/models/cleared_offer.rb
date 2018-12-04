@@ -1,9 +1,6 @@
 class ClearedOffer < ApplicationRecord
   ISLANDS = %w[NI SI].freeze
 
-  # More thought required - get all the stations?
-  # belongs_to :generation_station
-
   validates :date, presence: true
   validates :trading_period,
             presence: true,
