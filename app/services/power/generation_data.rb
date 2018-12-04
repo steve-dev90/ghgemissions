@@ -50,7 +50,7 @@ class Power::GenerationData
       generation_type: row[5],
       fuel_name: row[7] }
   end
-
+  
   def get_primary_efficiency(efficiency, fuel_name, generation_type)
     return estimate_primary_efficiency(fuel_name, generation_type) if efficiency.nil?
     return efficiency unless efficiency.zero?
@@ -68,6 +68,9 @@ class Power::GenerationData
     end
   end
 
+  # Note : heat rates are in kJ/KWh = MJ/MWh
+  # Emissions factors are in tCO2/MWh
+  # 1 TJ = 10**6 MJ
   def get_emissions_factor(fuel_name, primary_efficiency)
     case fuel_name
     when 'Gas', 'Coal_NI', 'Diesel'
@@ -76,17 +79,21 @@ class Power::GenerationData
       GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR
     end
   end
-
-  def save_record(record)
+  
+  # Note : record only saved to database if on the station name is on the POC list
+  def save_record(record)   
     full_pocs = Power::FullPoc.new(@file)
-    full_pocs.call
-      .select{ |a| a[:station_name] == record[:station_name]}.each do |full_poc|       
-        record[:poc] = full_poc[:full_poc]
-        station = GenerationStation.find_or_create_by(
-          station_name: record[:station_name],
-          poc: record[:poc]
-        )
-        pp '*** Record not Valid ***', record, station.errors.messages unless station.update_attributes(record)
-      end  
+    list_of_pocs = full_pocs.call
+    if list_of_pocs.find{ |a| a[:station_name] == record[:station_name]}.nil?
+      pp '**** Full station POC unknown, please check ****' and return 
+    end  
+    list_of_pocs.select{ |a| a[:station_name] == record[:station_name]}.each do |full_poc|       
+      record[:poc] = full_poc[:full_poc]
+      station = GenerationStation.find_or_create_by(
+        station_name: record[:station_name],
+        poc: record[:poc]
+      )
+      pp '*** Record not Valid ***', record, station.errors.messages unless station.update_attributes(record)
+    end  
   end
 end

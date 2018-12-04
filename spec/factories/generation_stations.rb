@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :generation_station do
     station_name { 'Huntly' }
-    poc { 'HLY2201' }
+    poc { 'HLY2201 HLY1' }
     fuel_name { 'Gas' }
     generation_type { 'Thermal' }
     primary_efficiency { 9000 }

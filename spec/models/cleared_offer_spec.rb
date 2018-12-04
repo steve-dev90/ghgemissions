@@ -50,7 +50,7 @@ RSpec.describe ClearedOffer, type: :model do
   end
 
   it 'invalidates records with an invalid poc' do
-    cleared_offer2 = FactoryBot.build(:cleared_offer, poc: 'GLN0332 GLN11')
+    cleared_offer2 = FactoryBot.build(:cleared_offer, poc: 'GLN0332 GLN113')
     expect(cleared_offer2).to_not be_valid
   end
 
