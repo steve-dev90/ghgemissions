@@ -52,6 +52,8 @@ GEM
     bootsnap (1.3.2)
       msgpack (~> 1.0)
     builder (3.2.3)
+    bulma-rails (0.0.28)
+      sass (~> 3.2)
     byebug (10.0.2)
     capybara (3.10.1)
       addressable
@@ -197,6 +199,15 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (2.0.0)
+      ffi (~> 1.9.6)
+      rake
+    sassc-rails (2.0.0)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
@@ -239,6 +250,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
+  bulma-rails (~> 0.0.4)
   byebug
   capybara (>= 2.15, < 4.0)
   chromedriver-helper
@@ -254,6 +266,7 @@ DEPENDENCIES
   rspec-rails (~> 3.8)
   rubocop (~> 0.60.0)
   sass-rails (~> 5.0)
+  sassc-rails
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)

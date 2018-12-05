@@ -7,14 +7,14 @@ RSpec.describe Power::ProfileData do
     @profile.call
   end
 
-  it 'uploads the correct number of record' do 
-    expect(Profile.count).to eq(3)    
+  it 'uploads the correct number of record' do
+    expect(Profile.count).to eq(3)
   end
 
-  it 'calculates a normalised profile' do 
+  it 'calculates a normalised profile' do
     sum_tp1 = 100 * 30
     sum_tpall = 100.0 * 30.0 + 120.0 * 30.0 + 140.0 * 30.0
-    expect(Profile.find_by(trading_period: 1)[:profile].round(4)).to eq((sum_tp1 / sum_tpall).round(4)) 
-    expect(Profile.sum(:profile)).to eq(1.0) 
+    expect(Profile.find_by(trading_period: 1)[:profile].round(4)).to eq((sum_tp1 / sum_tpall).round(4))
+    expect(Profile.sum(:profile)).to eq(1.0)
   end
-end   
+end

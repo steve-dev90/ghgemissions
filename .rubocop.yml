@@ -9,7 +9,7 @@ Metrics/MethodLength:
 Style/Documentation:
   Enabled: false
 
-Style/ClassAndModuleChildren: 
+Style/ClassAndModuleChildren:
   EnforcedStyle: compact
   SupportedStyles:
     - nested
@@ -20,7 +20,9 @@ AllCops:
     - 'db/**/*'
     - 'config/**/*'
     - 'bin/rspec'
-    - 'spec/spec_helper.rb' 
+    - 'spec/spec_helper.rb'
+    - 'spec/rails_helper.rb'
+    - 'app/channels/application_cable/*'
 
 
 

@@ -7,34 +7,35 @@ RSpec.describe Power::GenerationData do
     @stations.call
   end
 
-  it 'uploads the correct number of record' do 
-    expect(GenerationStation.count).to eq(6)    
+  it 'uploads the correct number of record' do
+    expect(GenerationStation.count).to eq(6)
   end
 
   it 'only include power stations that use gas, coal, diesel or geothermal' do
     expect(GenerationStation.pluck(:fuel_name)).to include('Geothermal', 'Coal_NI', 'Gas', 'Diesel')
-  end  
-  
+  end
+
   it 'does not include embedded power stations' do
-    expect(GenerationStation.pluck(:station_name)).to_not include('Addington', 'Amethyst', 'Bay Milk Edgecumbe', 'Blue Mountain Lumber', 'Christchurch City Wastewater')
-  end  
+    expect(GenerationStation.pluck(:station_name)).to_not include('Addington', 'Amethyst', 'Bay Milk Edgecumbe',
+                                                                  'Blue Mountain Lumber', 'Christchurch City Wastewater')
+  end
 
   it 'calculates emissions factors for geothermal power stations correctly' do
-    expect(GenerationStation.where(generation_type: 'Geothermal').pluck(:emissions_factor)).to include(eq(0.1)) 
+    expect(GenerationStation.where(generation_type: 'Geothermal').pluck(:emissions_factor)).to include(eq(0.1))
   end
 
   it 'calculates emissions factors for gas power stations correctly' do
-    expected = (9000.0 * 53.96 / 10**6).round(6)
-    pp 
-    expect(GenerationStation.where(station_name: 'McKee').first[:emissions_factor].round(6)).to eq(expected) 
+    expected = (10_000.0 * 53.96 / 10**6).round(6)
+    pp
+    expect(GenerationStation.where(station_name: 'McKee').first[:emissions_factor].round(6)).to eq(expected)
   end
 
   it 'calculates emissions factors for coal power stations correctly' do
-    expected = 10300.0 * 92.2 / 10**6
-    expect(GenerationStation.where(station_name: 'Huntly').first[:emissions_factor]).to eq(expected) 
+    expected = 10_300.0 * 92.2 / 10**6
+    expect(GenerationStation.where(station_name: 'Huntly').first[:emissions_factor]).to eq(expected)
   end
 
   it 'calculate emissions factors for gas power stations that are not thermal and have 0 primary efficiency' do
     expect(GenerationStation.where(station_name: 'Te Rapa').first[:emissions_factor]).to eq(0.0)
-  end  
-end  
+  end
+end

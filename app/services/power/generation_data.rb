@@ -5,9 +5,8 @@ class Power::GenerationData
   # http://nzgeothermal.org.nz/emissions/
   # Units tCO2/MWh
   GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR = 0.100
-  # This needs some work
-  HEAT_RATE_ESTIMATES = { 'Gas' => 9000, 'Diesel' => 9000 }.freeze
-  # Only include fuel types with emissions. 
+  HEAT_RATE_ESTIMATES = { 'Gas' => 10000.0, 'Diesel' => 10000.0 }.freeze
+  # Only include fuel types with emissions.
   # While wood waste and biogas emit CO2 on combustion, emissions over the lifecycle
   # of the fuel are assumed to be zero as a simplification.
   EXCLUDED_FUEL_TYPES = %w[Hydro Unknown Wind Wood_waste Biogas].freeze
@@ -38,8 +37,8 @@ class Power::GenerationData
   end
 
   def skip_row(row)
-    row[0] == 
-      'Station_Name' || 
+    row[0] ==
+      'Station_Name' ||
       EXCLUDED_FUEL_TYPES.include?(row[7]) ||
       EXCLUDED_CONNECTION_TYPES.include?(row[4])
   end
@@ -50,7 +49,7 @@ class Power::GenerationData
       generation_type: row[5],
       fuel_name: row[7] }
   end
-  
+
   def get_primary_efficiency(efficiency, fuel_name, generation_type)
     return estimate_primary_efficiency(fuel_name, generation_type) if efficiency.nil?
     return efficiency unless efficiency.zero?
@@ -79,21 +78,22 @@ class Power::GenerationData
       GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR
     end
   end
-  
+
   # Note : record only saved to database if on the station name is on the POC list
-  def save_record(record)   
+  def save_record(record)
     full_pocs = Power::FullPoc.new(@file)
     list_of_pocs = full_pocs.call
-    if list_of_pocs.find{ |a| a[:station_name] == record[:station_name]}.nil?
-      pp '**** Full station POC unknown, please check ****' and return 
-    end  
-    list_of_pocs.select{ |a| a[:station_name] == record[:station_name]}.each do |full_poc|       
+    if list_of_pocs.find { |a| a[:station_name] == record[:station_name] }.nil?
+      pp '**** Full station POC unknown, please check ****'
+      return
+    end
+    list_of_pocs.select { |a| a[:station_name] == record[:station_name] }.each do |full_poc|
       record[:poc] = full_poc[:full_poc]
       station = GenerationStation.find_or_create_by(
         station_name: record[:station_name],
         poc: record[:poc]
       )
       pp '*** Record not Valid ***', record, station.errors.messages unless station.update_attributes(record)
-    end  
+    end
   end
 end

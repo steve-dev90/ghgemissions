@@ -5,11 +5,11 @@ class Power::EmissionsData
     HalfHourlyEmission.destroy_all
     (1..ClearedOffer.maximum(:trading_period)).each do |trading_period|
       get_hh_emissions_by_top_four_traders(trading_period).each do |record|
-        save_record(record, trading_period)  
+        save_record(record, trading_period)
       end
       record = get_hh_emissions_other_traders(trading_period).first
       record[:trader] = 'OTHR'
-      save_record(record, trading_period)  
+      save_record(record, trading_period)
     end
   end
 
@@ -20,7 +20,7 @@ class Power::EmissionsData
       .group('date, trading_period, trader')
       .order(:trading_period)
       .where(trading_period: trading_period)
-      .where(trader: ['CTCT', 'GENE', 'TODD', 'MRPL'])
+      .where(trader: %w[CTCT GENE TODD MRPL])
   end
 
   def get_hh_emissions_other_traders(trading_period)
@@ -29,7 +29,7 @@ class Power::EmissionsData
       .group('date, trading_period')
       .order(:trading_period)
       .where(trading_period: trading_period)
-      .where.not(trader: ['CTCT', 'GENE', 'TODD', 'MRPL'])
+      .where.not(trader: %w[CTCT GENE TODD MRPL])
   end
 
   def save_record(record, trading_period)
@@ -38,7 +38,7 @@ class Power::EmissionsData
     hh_emissions[:emissions_factor] = hh_emissions[:emissions_factor].round(6)
     new_hh_emisisons = HalfHourlyEmission.new(hh_emissions)
     pp '*** Record not Valid ***', record, new_hh_emisisons.errors.messages unless new_hh_emisisons.save
-  end  
+  end
 
   def get_hh_emissions(record)
     { date: record[:date],

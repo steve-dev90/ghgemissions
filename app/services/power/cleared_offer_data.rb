@@ -25,9 +25,10 @@ class Power::ClearedOfferData
   end
 
   def get_emissions(cleared_energy, poc)
-    emissions_factor = GenerationStation.where(poc: poc)&.first && 
-      GenerationStation.where(poc: poc).first[:emissions_factor]
+    emissions_factor = GenerationStation.where(poc: poc)&.first &&
+                       GenerationStation.where(poc: poc).first[:emissions_factor]
     return 0.0 if emissions_factor.nil?
+
     (cleared_energy.to_f * 0.5 * (emissions_factor || 0)).round(2)
   end
 

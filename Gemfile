@@ -26,6 +26,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
+gem "bulma-rails", "~> 0.0.4"
+gem 'sassc-rails'
 
 gem 'rubocop', '~> 0.60.0', require: false
 

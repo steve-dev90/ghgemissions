@@ -6,7 +6,7 @@ class Power::ProfileData
 
   def call
     obtain_profile_records
-    get_profile_divided_by_total_profile
+    divide_profile_by_total_profile
     save_records
     puts 'Profile table updated!'
   end
@@ -47,7 +47,7 @@ class Power::ProfileData
     @profile_records.sum { |record| record[:profile] }
   end
 
-  def get_profile_divided_by_total_profile
+  def divide_profile_by_total_profile
     pp sum = obtain_profile_sum
     @profile_records.each { |record| record[:profile] = record[:profile] / sum }
   end

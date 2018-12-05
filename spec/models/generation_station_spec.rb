@@ -14,7 +14,6 @@ RSpec.describe GenerationStation, type: :model do
     expect(station2).to_not be_valid
   end
 
-
   it 'invalidates records with no fuel name' do
     station2 = FactoryBot.build(:generation_station, fuel_name: nil)
     expect(station2).to_not be_valid
