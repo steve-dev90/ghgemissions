@@ -33,7 +33,10 @@ class Power::UserEmissions
   private
 
   def system_emissions_by_trader
-    HalfHourlyEmission.select(:date, :trading_period, :trader, :emissions_factor)
+    HalfHourlyEmission
+      .select(:date, :trading_period, :trader, :emissions_factor)
+      .order(trader: :asc)
+      .order(trading_period: :asc)
   end
 
   def system_emissions

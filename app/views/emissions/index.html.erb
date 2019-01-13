@@ -1,4 +1,4 @@
 
 <%= @user_energy %>
 
-<div id="chartContainer"><%= @chart.render() %></div>
+<div id="chartContainer"><%= get_user_emissions_chart(@user_emissions).render() %></div>
