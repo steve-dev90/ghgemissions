@@ -2,3 +2,5 @@
 <%= @user_energy %>
 
 <div id="chartContainer"><%= get_user_emissions_chart(@user_emissions).render() %></div>
+
+<div id="piechartContainer"><%= get_trader_emissions_chart(@trader_emissions).render() %></div>
