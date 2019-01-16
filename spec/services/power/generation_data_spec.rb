@@ -26,7 +26,6 @@ RSpec.describe Power::GenerationData do
 
   it 'calculates emissions factors for gas power stations correctly' do
     expected = (10_000.0 * 53.96 / 10**6).round(6)
-    pp
     expect(GenerationStation.where(station_name: 'McKee').first[:emissions_factor].round(6)).to eq(expected)
   end
 
