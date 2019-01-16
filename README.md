@@ -1,12 +1,12 @@
 # Carbon Footprint Calculator 
 This app calculates the carbon footprint for a typical New Zealand household.
 
-Nov 2018 : This is a work in progress; have a look at the models and service objects. 
+Jan 2019 : This is a work in progress; have a look at the models and service objects. 
 
 ## Technologies
-CSS framework : TBA.
+CSS framework : Bulma
 
-Front end : TBA.
+Front end : Rails v5.2, Fusion Charts
 
 Back end : Rails v5.2
 
@@ -32,4 +32,4 @@ TBA
 
 ## Deployment instructions
 
-TBA
+Deployed to Heroku: See https://ghgemissions.herokuapp.com/
