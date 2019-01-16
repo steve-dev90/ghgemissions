@@ -1,15 +1,15 @@
-<nav class="navbar is-transparent is-size-4 is-fixed-top">
+<nav class="navbar is-transparent is-fixed-top">
   <div class="container">
 
     <div class="navbar-brand">
-      <h1 class='title'>Carbon Foot Prints</h1>
+      <div class="navbar-item">
+        <h1 class="title is-2"> Carbon Foot Prints </h1>
+      </div>
     </div>
 
     <div class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item">
-          Home
-        </a>
+        <%= link_to "Home", root_path, class: "navbar-item" %>
 
         <a class="navbar-item">
           About
