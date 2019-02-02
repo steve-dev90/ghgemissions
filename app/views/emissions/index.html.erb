@@ -1,5 +1,10 @@
-
-<%= @user_energy %>
+<section class="hero is-medium">
+  <div class="hero-body">
+    <div class="container">
+      <h2>Today you emitted <%= @total_emissions %> kilograms of greenhouse gases! </p>
+    </div>
+  </div>
+</section>
 
 <div id="chartContainer"><%= get_user_emissions_chart(@user_emissions).render() %></div>
 
