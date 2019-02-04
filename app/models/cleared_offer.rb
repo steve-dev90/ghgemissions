@@ -13,10 +13,10 @@ class ClearedOffer < ApplicationRecord
             format: { with: /[A-Z]{3}\d{4}\s[A-Z]{3}\d{1,2}\z/, message: 'must be a valid point of connection' }
   validates :trader,
             presence: true,
-            format: { with: /[A-Z]{4}/, message: 'must be a valid point of connection' }
+            format: { with: /[A-Z]{4}/, message: 'must be a valid point of trader' }
   validates :offer_type,
             presence: true,
-            format: { with: /[A-Z]{4}/, message: 'must be a valid point of connection' }
+            format: { with: /[A-Z]{4}/, message: 'must be a valid offer type' }
   validates :cleared_energy, presence: true, numericality: true
   validates :emissions, presence: true, numericality: true
 end

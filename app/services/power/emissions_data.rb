@@ -1,5 +1,4 @@
-# Processes a single trading day of cleared_offers data. This data is then
-# deleted from the cleared_offers table.
+# Processes a single trading day of cleared_offers data.
 class Power::EmissionsData
   def call
     HalfHourlyEmission.destroy_all

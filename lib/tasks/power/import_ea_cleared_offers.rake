@@ -1,5 +1,3 @@
-require 'csv'
-
 namespace :power do
   desc 'Import EA cleared offers csv'
   task import_ea_cleared_offers: :environment do

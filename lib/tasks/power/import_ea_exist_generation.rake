@@ -1,5 +1,3 @@
-require 'roo'
-
 namespace :power do
   desc 'Import EA existing generation spreadsheet'
   task import_ea_exist_generation: :environment do
