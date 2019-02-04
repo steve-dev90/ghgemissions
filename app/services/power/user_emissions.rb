@@ -1,4 +1,6 @@
 class Power::UserEmissions
+  include Power::TradingPeriodTimeConverter
+
   def initialize(user_energy)
     @user_energy = user_energy
   end
@@ -13,7 +15,7 @@ class Power::UserEmissions
   def calculate_user_emissions
     user_emissions_factors_by_trading_period.reduce([]) do |result, record|
       result << {
-        trading_period: record[:trading_period],
+        trading_period: convert_trading_period_to_24hrtime(record[:trading_period]),
         user_emission: record[:emissions_factor] * @user_energy
       }
     end

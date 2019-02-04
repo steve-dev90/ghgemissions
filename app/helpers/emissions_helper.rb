@@ -5,8 +5,8 @@ module EmissionsHelper
     # Chart appearance configuration
     chartAppearancesConfigObj = Hash.new
     chartAppearancesConfigObj = {
-                               "caption" => "User Emissions By Trading Period",
-                               "xAxisName" => "Trading Period",
+                               "caption" => "This is how your emissions probably varied over the day",
+                               "xAxisName" => "Time - Hours : Minutes",
                                "yAxisName" => "Emissions (kgCO2)",
                                "paletteColors": "#81BB76",
                                "theme" => "fusion",
