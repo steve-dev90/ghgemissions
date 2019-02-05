@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :trader do
-    code { "MyString" }
-    name { "MyString" }
+    code { "CTCT" }
+    name { "Contact Energy" }
   end
 end

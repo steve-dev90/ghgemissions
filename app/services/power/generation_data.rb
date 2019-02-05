@@ -79,7 +79,7 @@ class Power::GenerationData
     end
   end
 
-  # Note : record only saved to database if on the station name is on the POC list
+  # Note : record only saved to database if the station name is on the POC list
   def save_record(record)
     full_pocs = Power::FullPoc.new(@file)
     list_of_pocs = full_pocs.call

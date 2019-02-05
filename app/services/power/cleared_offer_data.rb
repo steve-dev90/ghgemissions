@@ -12,8 +12,10 @@ class Power::ClearedOfferData
       record[:emissions] = get_emissions(record[:cleared_energy], record[:poc])
       save_record(record)
     end
+    puts 'Cleared offer table uploaded!'
   end
 
+  # Note: cleared energy converted from MW to MWh, by multiplying by 0.5
   def get_record(row)
     { date: row[0],
       trading_period: row[1],
@@ -21,7 +23,7 @@ class Power::ClearedOfferData
       poc: row[3],
       trader: row[4],
       offer_type: row[5],
-      cleared_energy: row[6].to_f }
+      cleared_energy: row[6].to_f * 0.5 }
   end
 
   def get_emissions(cleared_energy, poc)
@@ -29,7 +31,8 @@ class Power::ClearedOfferData
                        GenerationStation.where(poc: poc).first[:emissions_factor]
     return 0.0 if emissions_factor.nil?
 
-    (cleared_energy.to_f * 0.5 * (emissions_factor || 0)).round(2)
+    pp emissions_factor
+    (cleared_energy * (emissions_factor || 0)).round(2)
   end
 
   def save_record(record)

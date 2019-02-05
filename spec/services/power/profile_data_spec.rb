@@ -7,7 +7,7 @@ RSpec.describe Power::ProfileData do
     @profile.call
   end
 
-  it 'uploads the correct number of record' do
+  it 'uploads the correct number of records' do
     expect(Profile.count).to eq(3)
   end
 

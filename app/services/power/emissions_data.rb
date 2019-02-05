@@ -48,13 +48,12 @@ class Power::EmissionsData
   end
 
   # Returns total cleared energy for trading period in MWh.
-  # The 0.5 factor converts MW to MWh.
   def get_energy(trading_period)
     ClearedOffer
       .select('trading_period, sum(cleared_energy) as cleared_energy')
       .group('trading_period')
       .order(:trading_period)
       .where(trading_period: trading_period)
-      .first[:cleared_energy] * 0.5
+      .first[:cleared_energy]
   end
 end
