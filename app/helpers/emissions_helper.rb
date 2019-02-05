@@ -48,7 +48,7 @@ module EmissionsHelper
     # Chart appearance configuration
     chartAppearancesConfigObj = Hash.new
     chartAppearancesConfigObj = {
-                  "caption": "Emissions by Trader",
+                  "caption": "Estimate of emissions share by power company",
                   "theme": "hulk-light",
                   "showLabels": "0",
                   "showValues": "0",
@@ -59,13 +59,12 @@ module EmissionsHelper
                   "legendShadow": "0",
                   "legendBorderColor": "#262626",
                   "legendBorderAlpha": "20",
-                  "defaultCenterLabel": "Android Distribution",
                   "centerLabelFontSize": "10",
                   "showToolTip": "1",
                   "alignCaptionWithCanvas": "0",
                   "captionPadding": "0",
-                  "plottooltext": "<div id='nameDiv'> <b>$label</b><br/><b>Runs on : </b>$percentValue Of devices<br/></div>",
-                  "centerLabel": "$label: $value",
+                  "plottooltext": "<div id='nameDiv'> <b>$label</b><br/><b></b>$percentValue of daily emissions<br/></div>",
+                  "centerLabel": "$label: $percentValue",
     }
 
     # Chart data template to store data in "Label" & "Value" format
