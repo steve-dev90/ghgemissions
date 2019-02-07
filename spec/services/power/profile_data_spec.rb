@@ -12,7 +12,9 @@ RSpec.describe Power::ProfileData do
   end
 
   it 'calculates a normalised profile' do
+    # sum energy for each trading day for trading period 1
     sum_tp1 = 100 * 30
+    # sum energy over all trading periods and trading days
     sum_tpall = 100.0 * 30.0 + 120.0 * 30.0 + 140.0 * 30.0
     expect(Profile.find_by(trading_period: 1)[:profile].round(4)).to eq((sum_tp1 / sum_tpall).round(4))
     expect(Profile.sum(:profile)).to eq(1.0)
