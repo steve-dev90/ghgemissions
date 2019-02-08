@@ -7,7 +7,7 @@ RSpec.describe Power::GenerationData do
     @stations.call
   end
 
-  it 'uploads the correct number of record' do
+  it 'uploads the correct number of records' do
     expect(GenerationStation.count).to eq(6)
   end
 
@@ -36,5 +36,9 @@ RSpec.describe Power::GenerationData do
 
   it 'calculate emissions factors for gas power stations that are not thermal and have 0 primary efficiency' do
     expect(GenerationStation.where(station_name: 'Te Rapa').first[:emissions_factor]).to eq(0.0)
+  end
+
+  it 'only includes power stations with a full poc' do
+    expect(GenerationStation.pluck(:poc)).to_not include('', nil)
   end
 end

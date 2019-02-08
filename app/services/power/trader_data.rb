@@ -1,6 +1,6 @@
 class Power::TraderData
   TRADERS = [ {code: 'GENE', name: 'Genesis Energy'},
-              {code: 'CTCT', name: 'Contact Enegy'},
+              {code: 'CTCT', name: 'Contact Energy'},
               {code: 'MRPL', name: 'Mighty River Power'},
               {code: 'TODD', name: 'Todd Energy'},
               {code: 'OTHR', name: 'Other'} ].freeze
