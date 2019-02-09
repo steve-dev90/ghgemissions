@@ -7,10 +7,11 @@ class Power::UserEmissions
 
   def calculate_user_emissions_factors_by_trader
     HalfHourlyEmission
-     .joins("INNER JOIN profiles ON profiles.trading_period = half_hourly_emissions.trading_period")
-     .joins("INNER JOIN traders ON traders.code = half_hourly_emissions.trader")
-     .select('traders.name as trader, sum(profiles.profile * half_hourly_emissions.emissions_factor) as emissions_factor')
-     .group("traders.name")
+      .joins('INNER JOIN profiles ON profiles.trading_period = half_hourly_emissions.trading_period')
+      .joins('INNER JOIN traders ON traders.code = half_hourly_emissions.trader')
+      .select('traders.name as trader, sum(profiles.profile *
+        half_hourly_emissions.emissions_factor) as emissions_factor')
+      .group('traders.name')
   end
 
   def calculate_user_emissions
@@ -27,7 +28,8 @@ class Power::UserEmissions
   def user_emissions_factors_by_trading_period
     HalfHourlyEmission
       .joins('INNER JOIN profiles ON profiles.trading_period = half_hourly_emissions.trading_period')
-      .select('half_hourly_emissions.trading_period, sum(profiles.profile * half_hourly_emissions.emissions_factor) as emissions_factor')
+      .select('half_hourly_emissions.trading_period,
+        sum(profiles.profile * half_hourly_emissions.emissions_factor) as emissions_factor')
       .group('trading_period')
       .order(trading_period: :asc)
   end

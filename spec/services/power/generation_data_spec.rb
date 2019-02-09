@@ -17,7 +17,8 @@ RSpec.describe Power::GenerationData do
 
   it 'does not include embedded power stations' do
     expect(GenerationStation.pluck(:station_name)).to_not include('Addington', 'Amethyst', 'Bay Milk Edgecumbe',
-                                                                  'Blue Mountain Lumber', 'Christchurch City Wastewater')
+                                                                  'Blue Mountain Lumber',
+                                                                  'Christchurch City Wastewater')
   end
 
   it 'calculates emissions factors for geothermal power stations correctly' do

@@ -89,10 +89,10 @@ module EmissionsHelper
 
     # Chart rendering
     @chart = Fusioncharts::Chart.new({
-                  width: "600",
-                  height: "400",
-                  type: "doughnut2d",
-                  renderAt: "piechartContainer",
+                  width: '600',
+                  height: '400',
+                  type: 'doughnut2d',
+                  renderAt: 'piechartContainer',
                   dataSource: chartJSONDataStr
     })
 

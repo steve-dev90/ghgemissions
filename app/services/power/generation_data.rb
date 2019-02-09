@@ -5,7 +5,7 @@ class Power::GenerationData
   # http://nzgeothermal.org.nz/emissions/
   # Units tCO2/MWh
   GEOTHERMAL_ELECTRICITY_EMISSIONS_FACTOR = 0.100
-  HEAT_RATE_ESTIMATES = { 'Gas' => 10000.0, 'Diesel' => 10000.0 }.freeze
+  HEAT_RATE_ESTIMATES = { 'Gas' => 10_000.0, 'Diesel' => 10_000.0 }.freeze
   # Only include fuel types with emissions.
   # While wood waste and biogas emit CO2 on combustion, emissions over the lifecycle
   # of the fuel are assumed to be zero as a simplification.

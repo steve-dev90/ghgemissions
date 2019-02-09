@@ -16,7 +16,6 @@ RSpec.describe Power::UserEmissions do
   end
 
   context 'one trader, same profile and emissions factor per trading period' do
-
     it 'calculates user emissions by trading period' do
       # expected = user_energy * profile(=0.1) * emissions_factor(=0.001)
       expected = @user_energy * 0.1 * 0.001
@@ -62,9 +61,9 @@ RSpec.describe Power::UserEmissions do
     it 'calculates user emissions factors by trader' do
       actuals = @user_emissions.calculate_user_emissions_factors_by_trader
       expected_ctct = 0.1 * 0.001 * 48
-      actual_ctct = actuals.select{ |a| a[:trader] == 'Contact Energy'}.first[:emissions_factor]
+      actual_ctct = actuals.select { |a| a[:trader] == 'Contact Energy' }.first[:emissions_factor]
       expected_gene = 0.1 * 0.005 * 48
-      actual_gene = actuals.select{ |a| a[:trader] == 'Genesis Energy'}.first[:emissions_factor]
+      actual_gene = actuals.select { |a| a[:trader] == 'Genesis Energy' }.first[:emissions_factor]
       expect(actuals.to_a.size).to eq(2)
       expect(actual_ctct).to be_within(0.0001).of(expected_ctct)
       expect(actual_gene).to be_within(0.0001).of(expected_gene)

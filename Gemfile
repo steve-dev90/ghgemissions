@@ -26,8 +26,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem "bulma-rails", "~> 0.7.2"
-gem "font-awesome-rails"
+gem 'bulma-rails', '~> 0.7.2'
+gem 'font-awesome-rails'
 gem 'sassc-rails'
 gem 'fusioncharts-rails'
 

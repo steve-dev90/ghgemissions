@@ -11,7 +11,7 @@ RSpec.describe Power::EmissionsData do
           FactoryBot.create(:cleared_offer,
                             trading_period: trading_period,
                             trader: trader,
-                            poc: "#{trader.slice(0,3)}000#{poc} ABC0",
+                            poc: "#{trader.slice(0, 3)}000#{poc} ABC0",
                             cleared_energy: 10,
                             emissions: 2)
         end

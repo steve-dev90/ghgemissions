@@ -11,6 +11,6 @@ RSpec.describe Power::GenerationData do
   end
 
   it 'ignores power plants without a full poc' do
-    expect(@poc_list.map{ |p| p[:full_poc]}).to_not include('', nil)
+    expect(@poc_list.map { |p| p[:full_poc] }).to_not include('', nil)
   end
 end

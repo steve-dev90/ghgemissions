@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "static_pages/home.html.erb", type: :view do
+RSpec.describe 'static_pages/home.html.erb', type: :view do
   it 'successfully renders' do
     render
-    expect(rendered).to match /How much electricity did you consume today?/
+    expect(rendered).to match(/How much electricity did you consume today?/)
   end
 end

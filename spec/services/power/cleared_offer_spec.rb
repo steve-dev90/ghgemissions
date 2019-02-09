@@ -21,8 +21,8 @@ RSpec.describe Power::ClearedOfferData do
   end
 
   it 'calculates emissions correctly' do
-    expect(ClearedOffer.find_by(poc: 'HLY2201 HLY1')[:emissions]).to eq(50.0 * GenerationStation.find_by(poc: 'HLY2201 HLY1')[:emissions_factor])
+    expect(ClearedOffer.find_by(poc: 'HLY2201 HLY1')[:emissions]).to eq(50.0 *
+      GenerationStation.find_by(poc: 'HLY2201 HLY1')[:emissions_factor])
     expect(ClearedOffer.find_by(poc: 'WRK2201 WRK0')[:emissions]).to eq(60.0 * 0.1)
   end
-
 end

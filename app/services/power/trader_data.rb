@@ -1,9 +1,9 @@
 class Power::TraderData
-  TRADERS = [ {code: 'GENE', name: 'Genesis Energy'},
-              {code: 'CTCT', name: 'Contact Energy'},
-              {code: 'MRPL', name: 'Mighty River Power'},
-              {code: 'TODD', name: 'Todd Energy'},
-              {code: 'OTHR', name: 'Other'} ].freeze
+  TRADERS = [{ code: 'GENE', name: 'Genesis Energy' },
+             { code: 'CTCT', name: 'Contact Energy' },
+             { code: 'MRPL', name: 'Mighty River Power' },
+             { code: 'TODD', name: 'Todd Energy' },
+             { code: 'OTHR', name: 'Other' }].freeze
 
   def call
     save_records
