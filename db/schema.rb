@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_04_005506) do
+ActiveRecord::Schema.define(version: 2019_03_05_215700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,14 +40,14 @@ ActiveRecord::Schema.define(version: 2019_02_04_005506) do
   end
 
   create_table "half_hourly_emissions", force: :cascade do |t|
-    t.string "date"
-    t.integer "trading_period"
     t.string "trader"
     t.float "emissions"
     t.float "energy"
     t.float "emissions_factor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "month"
+    t.string "period"
   end
 
   create_table "profiles", force: :cascade do |t|
