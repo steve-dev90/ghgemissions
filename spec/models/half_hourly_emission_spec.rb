@@ -50,33 +50,43 @@ RSpec.describe HalfHourlyEmission, type: :model do
     expect(hhemission2).to_not be_valid
   end
 
-  # it 'invalidates records with no trader' do
-  #   hhemission2 = FactoryBot.build(:half_hourly_emission, trader: nil)
-  #   expect(hhemission2).to_not be_valid
-  # end
+  it 'invalidates records with no trader' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, trader: nil)
+    expect(hhemission2).to_not be_valid
+  end
 
-  # it 'invalidates records with an invalid trader ID' do
-  #   hhemission2 = FactoryBot.build(:half_hourly_emission, trader: 'Genesis')
-  #   expect(hhemission2).to_not be_valid
-  # end
+  it 'invalidates records with an invalid trader ID' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, trader: 'Genesis')
+    expect(hhemission2).to_not be_valid
+  end
 
-  # it 'invalidates records with no energy' do
-  #   hhemission2 = FactoryBot.build(:half_hourly_emission, energy: nil)
-  #   expect(hhemission2).to_not be_valid
-  # end
+  it 'invalidates records with no energy' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, energy: nil)
+    expect(hhemission2).to_not be_valid
+  end
 
-  # it 'invalidates records with a non numerical energy' do
-  #   hhemission2 = FactoryBot.build(:half_hourly_emission, energy: 'a')
-  #   expect(hhemission2).to_not be_valid
-  # end
+  it 'invalidates records with a non numerical energy' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, energy: 'a')
+    expect(hhemission2).to_not be_valid
+  end
 
-  # it 'invalidates records with no emissions' do
-  #   hhemission2 = FactoryBot.build(:half_hourly_emission, emissions: nil)
-  #   expect(hhemission2).to_not be_valid
-  # end
+  it 'invalidates records with no emissions' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, emissions: nil)
+    expect(hhemission2).to_not be_valid
+  end
 
-  # it 'invalidates records with non numerical emissions' do
-  #   hhemission2 = FactoryBot.build(:half_hourly_emission, emissions: 'a')
-  #   expect(hhemission2).to_not be_valid
-  # end
+  it 'invalidates records with non numerical emissions' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, emissions: 'a')
+    expect(hhemission2).to_not be_valid
+  end
+
+  it 'invalidates records with no emission factors' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, emissions_factor: nil)
+    expect(hhemission2).to_not be_valid
+  end
+
+  it 'invalidates records with non numerical emission factors' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, emissions_factor: 'a')
+    expect(hhemission2).to_not be_valid
+  end
 end
