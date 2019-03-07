@@ -1,16 +1,12 @@
 class HalfHourlyEmission < ApplicationRecord
-
-  def self.period_types()
-    periods = (1..50).map { |n| n.to_s } << %w[ wkday_night wkday_day wkend_night wkend_day]
-    periods.flatten
-  end
+  include PeriodTypes
 
   validates :month,
             presence: true,
             numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 12 }
   validates :period,
             presence: true,
-            inclusion: { in: self.period_types }
+            inclusion: { in: PeriodTypes.list }
   validates :trader,
             presence: true,
             format: { with: /[A-Z]{4}/, message: 'must be a valid trader id' }
