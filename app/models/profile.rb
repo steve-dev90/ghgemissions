@@ -3,7 +3,7 @@ class Profile < ApplicationRecord
 
   validates :period,
             presence: true,
-            inclusion: { in: PeriodTypes.list }
+            inclusion: { in: PeriodTypes.list << 'month' }
   validates :month,
             presence: true,
             numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 12 }

@@ -29,6 +29,11 @@ RSpec.describe Profile, type: :model do
     expect(profile2).to_not be_valid
   end
 
+  it 'validates records with a month period' do
+    profile2 = FactoryBot.build(:profile, period: 'month')
+    expect(profile2).to be_valid
+  end
+
   it 'invalidates records with no month' do
     profile2 = FactoryBot.build(:profile, month: nil)
     expect(profile2).to_not be_valid
