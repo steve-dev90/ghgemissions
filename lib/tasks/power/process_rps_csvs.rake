@@ -3,6 +3,5 @@ namespace :power do
   task process_rps_csvs: :environment do
     process_rps = Power::ProcessRps.new("./lib/assets/profile_data/*")
     process_rps.call
-
   end
 end

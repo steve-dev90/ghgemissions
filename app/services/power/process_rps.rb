@@ -7,10 +7,16 @@ class Power::ProcessRps
   end
 
   def call
-    File.delete(FILE) if File.exist?(FILE)
-    @files.each do |file|
-      process_file(@files[0])
-      puts "Processed #{file}"
+    begin
+      raise 'There should be 12 profile files' if @files.count != 12
+      File.delete(FILE) if File.exist?(FILE)
+      @files.each do |file|
+        raise 'The file should named NZRM_E_RMPW_RPSBORD...' unless file.include?('NZRM_E_RMPW_RPSBORD')
+        process_file(file)
+        puts "Processed #{file}"
+      end
+    rescue RuntimeError => e
+      puts "#{e.class}: #{e.message}"
     end
   end
 
