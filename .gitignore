@@ -30,4 +30,4 @@
 /config/master.key
 
 # Ignore large profile data files
-# /lib/assets/profile_data/*
+/lib/assets/profile_data/*
