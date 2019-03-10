@@ -7,10 +7,10 @@ class Power::ProcessRps
   end
 
   def call
-    file.delete(FILE) if File.exist?(FILE)
+    File.delete(FILE) if File.exist?(FILE)
     @files.each do |file|
       process_file(@files[0])
-      puts "Processed #{@file}"
+      puts "Processed #{file}"
     end
   end
 
