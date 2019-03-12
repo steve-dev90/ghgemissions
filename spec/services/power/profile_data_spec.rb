@@ -7,16 +7,17 @@ RSpec.describe Power::ProfileData do
     @profile.call
   end
 
-  it 'uploads the correct number of records' do
-    # expect(Profile.count).to eq(3)
+  it 'calculates normalised monthly, trading period, weekday and weekend profiles correctly' do
+    #sum profile over all trading periods, trading dates for each month
+    sum_monthly_profile = [0, 0, 0, 0, 0, 0, 0, 0, 20.0, 0, 0, 0]
+    #sum profile over trading period 1, for all trading dates, for each month
+    sum_tp1_profile = [0, 0, 0, 0, 0, 0, 0, 0, 4.0, 0, 0, 0]
+    #sum profile over weekend night trading periods, for each month
+    sum_wkend_night_profile = [0, 0, 0, 0, 0, 0, 0, 0, 20.0, 0, 0, 0]
+    #sum profile over all trading periods, trading dates and months
+    pp sum_profile = sum_monthly_profile.sum { |n| n }
+    expect(Profile.find_by(period: 'month', month: '9')[:profile]).to eq(sum_monthly_profile[8] / sum_profile)
+    expect(Profile.find_by(period: 'wkend_night', month: '9')[:profile]).to eq(sum_wkend_night_profile[8] / sum_monthly_profile[8])
+    expect(Profile.find_by(period: '1', month: '9')[:profile]).to eq(sum_tp1_profile[8] / sum_monthly_profile[8])
   end
-
-  # it 'calculates a normalised profile' do
-  #   # sum energy for each trading day for trading period 1
-  #   sum_tp1 = 100 * 30
-  #   # sum energy over all trading periods and trading days
-  #   sum_tpall = 100.0 * 30.0 + 120.0 * 30.0 + 140.0 * 30.0
-  #   expect(Profile.find_by(trading_period: 1)[:profile].round(4)).to eq((sum_tp1 / sum_tpall).round(4))
-  #   expect(Profile.sum(:profile)).to eq(1.0)
-  # end
 end

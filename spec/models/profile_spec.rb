@@ -71,8 +71,8 @@ RSpec.describe Profile, type: :model do
     expect(profile2).to_not be_valid
   end
 
-  it 'invalidates records with a profile greater than 0.4' do
-    profile2 = FactoryBot.build(:profile, profile: 0.41)
+  it 'invalidates records with a profile greater than 1.0' do
+    profile2 = FactoryBot.build(:profile, profile: 1.01)
     expect(profile2).to_not be_valid
   end
 end
