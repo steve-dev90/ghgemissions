@@ -1,5 +1,5 @@
 class Power::ProfileData
-  PERIOD_TYPES = %w[ wkday_night wkday_day wkend_night wkend_day].freeze
+  PERIOD_TYPES = %w[ wkday wkend ].freeze
 
   def initialize(file)
     @file = file
@@ -44,17 +44,13 @@ class Power::ProfileData
     @profile_records << {month: month, profile: profile, period: period}
   end
 
-  # Day is deemed from 7 am (tp = 15) to 7 pm ( tp = 39)
   def profile_test(row, month, period)
     month_test = Date.parse(row[3]).month == month
-    night_test = row[4] < 15 || row[4] > 39
     wkend_test = Date.parse(row[3]).saturday? || Date.parse(row[3]).sunday?
-    return month_test && night_test && wkend_test if period == 'wkend_night'
-    return month_test && !night_test && wkend_test if period == 'wkend_day'
-    return month_test && night_test && !wkend_test if period == 'wkday_night'
-    return month_test && !night_test && !wkend_test if period == 'wkday_day'
+    return month_test && wkend_test if period == 'wkend'
+    return month_test && !wkend_test if period == 'wkday'
     return month_test if period == 'month' if period == 'month'
-    Date.parse(row[3]).month == month && row[4] == period.to_i
+    month_test && row[4] == period.to_i
   end
 
   def save_records

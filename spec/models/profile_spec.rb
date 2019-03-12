@@ -25,7 +25,7 @@ RSpec.describe Profile, type: :model do
   end
 
   it 'invalidates records with a non-valid period' do
-    profile2 = FactoryBot.build(:profile, period: 'wkend')
+    profile2 = FactoryBot.build(:profile, period: 'weekend')
     expect(profile2).to_not be_valid
   end
 
