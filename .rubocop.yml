@@ -24,7 +24,9 @@ AllCops:
     - 'spec/rails_helper.rb'
     - 'app/channels/application_cable/*'
 
-
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*.rb'
 
 
 

@@ -8,9 +8,10 @@ class Power::ProfileData
 
   def call
     csv = CSV.read(@file, converters: :numeric)
+    puts "CSV #{@file} read complete"
     obtain_profile_records(csv)
-    pp @profile_records
     save_records
+    puts 'Records saved to database'
   end
 
   def obtain_profile_records(csv)
@@ -21,6 +22,7 @@ class Power::ProfileData
       add_profile_records(csv, profile_annual_sum, month, 'month')
       add_trading_period_profile_records(csv, profile_monthly_sum, month)
       PERIOD_TYPES.each { |period| add_profile_records(csv, profile_monthly_sum, month, period) }
+      puts "Processed month #{month}!"
     end
   end
 
@@ -31,7 +33,7 @@ class Power::ProfileData
   end
 
   def add_trading_period_profile_records(csv, profile_monthly_sum, month)
-    trading_periods = csv.map { |row| row[4] }.uniq
+    trading_periods = csv.select { |row| profile_test(row, month, 'month') }.map { |row| row[4] }.uniq
     trading_periods.each do |trading_period|
       add_profile_records(csv, profile_monthly_sum, month, trading_period.to_s)
     end
