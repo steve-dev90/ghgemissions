@@ -31,3 +31,6 @@
 
 # Ignore large profile data files
 /lib/assets/profile_data/*
+
+# Ignore large clearing offer files
+/lib/assets/cleared_offer_data/*

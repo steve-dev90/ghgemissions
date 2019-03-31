@@ -17,8 +17,8 @@ RSpec.describe Power::ClearedOfferData do
   end
 
   it 'saves the correct traders' do
-    expect(HalfHourlyEmission.where(period: 1).pluck(:trader)).to include('GENE', 'CTCT', 'MERI')
-    expect(HalfHourlyEmission.where(period: 1).count).to eq(3)
+    expect(HalfHourlyEmission.where(period: 1).pluck(:trader)).to include('GENE', 'CTCT')
+    expect(HalfHourlyEmission.where(period: 1).count).to eq(2)
   end
 
   it 'calculates the correct energy for each trading period' do
@@ -33,7 +33,7 @@ RSpec.describe Power::ClearedOfferData do
     # Trader emissions is trader energy converted to MWh multipled by the emissions factor
     expect(HalfHourlyEmission.find_by(period: 1, trader: 'GENE')[:emissions]).to eq(400 * 0.5 * 0.48)
     expect(HalfHourlyEmission.find_by(period: 2, trader: 'CTCT')[:emissions]).to eq(150 * 0.5 * 0.1)
-    expect(HalfHourlyEmission.find_by(period: 2, trader: 'MERI')[:emissions]).to eq(0.0)
+    expect(HalfHourlyEmission.find_by(period: 2, trader: 'MERI')).to be_nil
   end
 
   it 'calculates the correct emissions factor' do

@@ -4,17 +4,17 @@ class Power::ClearedOfferData
     @half_hourly_emission_record = []
   end
 
+  # This method assumes there is only one file per trading date
   def call
     @files.each do |file|
       begin
         csv = CSV.read(file, converters: :numeric, headers:true)
         if csv[0].nil?
-          raise 'File is empty' if csv[0].nil?
+          raise 'File is empty'
           break
         end
         puts "File: #{file} CSV read completed"
         obtain_half_hourly_emission_records(csv)
-        pp @half_hourly_emission_record
         save_records
         puts "File: #{file} saved to database"
       rescue RuntimeError => e
@@ -24,6 +24,7 @@ class Power::ClearedOfferData
     puts 'All files processed!'
   end
 
+  # Note: cleared energy converted from MW to MWh, by multiplying by 0.5
   def obtain_half_hourly_emission_records(csv)
     trading_periods = csv.map { |row| row['TradingPeriod'] }.uniq
     @month = Date.parse(csv[0]['Date']).month
@@ -36,7 +37,6 @@ class Power::ClearedOfferData
     end
   end
 
-  # Note: cleared energy converted from MW to MWh, by multiplying by 0.5
   def for_each_trader(rows, trading_period, trader, energy)
     emissions = rows
                   .select { |row| row['Trader'] == trader }
@@ -50,6 +50,7 @@ class Power::ClearedOfferData
       energy = energy + previous_record[:energy] || 0.0
       emissions = emissions + previous_record[:emissions] || 0.0
     end
+    return if emissions.zero?
     @half_hourly_emission_record << { month: @month,
                                       period: trading_period.to_s,
                                       trader: trader,
@@ -59,7 +60,8 @@ class Power::ClearedOfferData
   end
 
   def get_emissions(cleared_energy, poc)
-    emissions_factor = GenerationStation.where(poc: poc)&.first &&
+    # Note GenerationStation only has fossil fuel power stations
+    emissions_factor = GenerationStation.where(poc: poc).first &&
                        GenerationStation.where(poc: poc).first[:emissions_factor]
     return 0.0 if emissions_factor.nil?
 
