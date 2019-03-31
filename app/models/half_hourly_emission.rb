@@ -6,7 +6,7 @@ class HalfHourlyEmission < ApplicationRecord
             numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 12 }
   validates :period,
             presence: true,
-            inclusion: { in: PeriodTypes.list }
+            inclusion: { in: (1..50).map { |n| n.to_s } }
   validates :trader,
             presence: true,
             format: { with: /[A-Z]{4}/, message: 'must be a valid trader id' }
