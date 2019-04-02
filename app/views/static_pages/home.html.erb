@@ -1,15 +1,7 @@
 <section class="hero is-medium">
   <div class="hero-body">
     <div class="container">
-      <%= form_tag("/emissions", method: "get") do %>
-        <%= label_tag(:user_energy, "How much electricity did you consume today?", class: "label") %>
-        <div class="field">
-          <%= text_field_tag(:user_energy, value=nil, class: "input", placeholder: "Enter your power in kWh") %>
-        </div>
-        <div class="field">
-          <%= submit_tag("Calculate your emissions", class: "button is-link") %>
-        <div class="field>"
-      <% end %>
+      <%= link_to "Calculate yor emissions", emissions_form_path, class: "button is-link" %>
     </div>
   </div>
 </section>
