@@ -3,34 +3,50 @@ require 'rails_helper'
 RSpec.describe HalfHourlyEmission, type: :model do
   before(:all) do
     @hhemission1 = FactoryBot.create(:half_hourly_emission)
+    pp @hhemission1
   end
 
   it 'is valid with valid attributes' do
     expect(@hhemission1).to be_valid
   end
 
-  it 'invalidates records with no date' do
-    hhemission2 = FactoryBot.build(:half_hourly_emission, date: nil)
+  it 'invalidates records with no month' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, month: nil)
     expect(hhemission2).to_not be_valid
   end
 
-  it 'invalidates records with no trading period' do
-    hhemission2 = FactoryBot.build(:half_hourly_emission, trading_period: nil)
+  it 'invalidates records with non integer months' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, month: 'Jan')
     expect(hhemission2).to_not be_valid
   end
 
-  it 'invalidates records with non integer trading periods' do
-    hhemission2 = FactoryBot.build(:half_hourly_emission, trading_period: 'a')
+  it 'invalidates records with a month less than 1' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, month: 0)
     expect(hhemission2).to_not be_valid
   end
 
-  it 'invalidates records with trading periods less than 1' do
-    hhemission2 = FactoryBot.build(:half_hourly_emission, trading_period: 0)
+  it 'invalidates records with a month greater than 12' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, month: 14)
     expect(hhemission2).to_not be_valid
   end
 
-  it 'invalidates records with trading periods greater than 50' do
-    hhemission2 = FactoryBot.build(:half_hourly_emission, trading_period: 51)
+  it 'invalidates records with no period' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, period: nil)
+    expect(hhemission2).to_not be_valid
+  end
+
+  it 'invalidates records with periods less than 1' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, period: '0')
+    expect(hhemission2).to_not be_valid
+  end
+
+  it 'invalidates records with periods greater than 50' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, period: '51')
+    expect(hhemission2).to_not be_valid
+  end
+
+  it 'invalidates records with a non-valid period' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, period: 'wkend')
     expect(hhemission2).to_not be_valid
   end
 
@@ -61,6 +77,16 @@ RSpec.describe HalfHourlyEmission, type: :model do
 
   it 'invalidates records with non numerical emissions' do
     hhemission2 = FactoryBot.build(:half_hourly_emission, emissions: 'a')
+    expect(hhemission2).to_not be_valid
+  end
+
+  it 'invalidates records with no emission factors' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, emissions_factor: nil)
+    expect(hhemission2).to_not be_valid
+  end
+
+  it 'invalidates records with non numerical emission factors' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, emissions_factor: 'a')
     expect(hhemission2).to_not be_valid
   end
 end

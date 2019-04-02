@@ -28,3 +28,9 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Ignore large profile data files
+/lib/assets/profile_data/*
+
+# Ignore large clearing offer files
+/lib/assets/cleared_offer_data/*

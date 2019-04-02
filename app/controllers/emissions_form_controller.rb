@@ -1,0 +1,2 @@
+class EmissionsFormController < ApplicationController
+end

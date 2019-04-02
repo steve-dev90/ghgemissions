@@ -3,34 +3,54 @@ require 'rails_helper'
 RSpec.describe Profile, type: :model do
   before(:all) do
     @profile1 = FactoryBot.build(:profile)
-    # @profiletest = FactoryBot.create(:profile)
-    # pp @profile1
-    # pp @profiletest
   end
 
   it 'is valid with valid attributes' do
     expect(@profile1).to be_valid
   end
 
-  it 'invalidates records with no trading period' do
-    profile2 = FactoryBot.build(:profile, trading_period: nil)
+  it 'invalidates records with no period' do
+    profile2 = FactoryBot.build(:profile, period: nil)
     expect(profile2).to_not be_valid
   end
 
-  it 'invalidates records with non integer trading periods' do
-    profile2 = FactoryBot.build(:profile, trading_period: 'a')
-    # pp station.valid?
-    # pp station.errors.messages
+  it 'invalidates records with periods less than 1' do
+    profile2 = FactoryBot.build(:profile, period: '0')
     expect(profile2).to_not be_valid
   end
 
-  it 'invalidates records with trading periods less than 1' do
-    profile2 = FactoryBot.build(:profile, trading_period: 0)
+  it 'invalidates records with periods greater than 50' do
+    profile2 = FactoryBot.build(:profile, period: '51')
     expect(profile2).to_not be_valid
   end
 
-  it 'invalidates records with trading periods greater than 50' do
-    profile2 = FactoryBot.build(:profile, trading_period: 51)
+  it 'invalidates records with a non-valid period' do
+    profile2 = FactoryBot.build(:profile, period: 'weekend')
+    expect(profile2).to_not be_valid
+  end
+
+  it 'validates records with a month period' do
+    profile2 = FactoryBot.build(:profile, period: 'month')
+    expect(profile2).to be_valid
+  end
+
+  it 'invalidates records with no month' do
+    profile2 = FactoryBot.build(:profile, month: nil)
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with non integer months' do
+    profile2 = FactoryBot.build(:profile, month: 'Jan')
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with a month less than 1' do
+    profile2 = FactoryBot.build(:profile, month: 0)
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with a month greater than 12' do
+    profile2 = FactoryBot.build(:profile, month: 14)
     expect(profile2).to_not be_valid
   end
 
@@ -51,8 +71,8 @@ RSpec.describe Profile, type: :model do
     expect(profile2).to_not be_valid
   end
 
-  it 'invalidates records with a profile greater than 0.4' do
-    profile2 = FactoryBot.build(:profile, profile: 0.41)
+  it 'invalidates records with a profile greater than 1.0' do
+    profile2 = FactoryBot.build(:profile, profile: 1.01)
     expect(profile2).to_not be_valid
   end
 end
