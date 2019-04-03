@@ -3,7 +3,8 @@ class Power::TraderData
              { code: 'CTCT', name: 'Contact Energy' },
              { code: 'MRPL', name: 'Mighty River Power' },
              { code: 'TODD', name: 'Todd Energy' },
-             { code: 'OTHR', name: 'Other' }].freeze
+             { code: 'TUAR', name: 'Tuaropaki Power  Company' },
+             { code: 'NAPJ', name: 'Nga Awa Purua JV' }].freeze
 
   def call
     save_records
