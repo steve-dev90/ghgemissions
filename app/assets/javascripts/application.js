@@ -10,10 +10,12 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require rails-ujs
-//= require activestorage
-//= require turbolinks
-//= require_tree .
+// Removed require rails-ujs : https://www.engineyard.com/blog/using-jquery-with-rails-how-to
+// Removed require_tree, require activestorage, require turbolinks 1 June 2019
+//= require jquery3
+//= require jquery_ujs
+//= require pickadate/picker
+//= require pickadate/picker.date
 //= require fusioncharts/fusioncharts
 //= require fusioncharts/fusioncharts.charts
 //= require fusioncharts/themes/fusioncharts.theme.fint
