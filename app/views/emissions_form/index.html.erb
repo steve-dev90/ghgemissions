@@ -1,9 +1,71 @@
-<%= form_tag("/emissions", method: "get") do %>
-  <%= label_tag(:user_energy, "How much electricity did you consume today?", class: "label") %>
-  <div class="field">
-    <%= text_field_tag(:user_energy, value=nil, class: "input", placeholder: "Enter your power in kWh") %>
+<section class='section'>
+  <div class='container'>
+
+    <div class='tabs is-centered is-boxed is-medium'>
+      <ul>
+        <li class='is-active'>
+          <a>
+            <span class='icon is-small'><%= fa_icon 'bolt' %></i></span>
+            <span>Power</span>
+          </a>
+        </li>
+        <li>
+          <a>
+            <span class='icon is-small'><%= fa_icon 'fire' %></i></span>
+            <span>Natural Gas</span>
+          </a>
+        </li>
+        <li>
+          <a>
+            <span class='icon is-small'><%= fa_icon 'car' %></i></span>
+            <span>Car travel</span>
+          </a>
+        </li>
+        <li>
+          <a>
+            <span class='icon is-small'><%= fa_icon 'plane' %></i></span>
+            <span>Air plane travel</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
   </div>
-  <div class="field">
-    <%= submit_tag("Calculate your emissions", class: "button is-link") %>
-  <div class="field>"
-<% end %>
+</section>
+
+<section class='section'>
+  <div class='container'>
+    <div class="columns is-centered">
+      <div class="column is-two-thirds ">
+        <h4 class="title is-4">From your most recent power bill</h4>
+        <div class='field'>
+          <label class="label">Bill start date</label>
+          <div class="control">
+            <%= text_field_tag(:date, value = nil, html_options = {class: 'form-controller datepicker input', placeholder: 'mm/dd/yyyy' }) %>
+          </div>
+        </div>
+        <div class='field'>
+          <label class="label">Bill end date</label>
+          <div class="control">
+            <%= text_field_tag(:date, value = nil, html_options = {class: 'datepicker input', placeholder: 'mm/dd/yyyy' }) %>
+          </div>
+        </div>
+        <%= form_tag('/emissions', method: 'get') do %>
+          <div class='field'>
+            <%= label_tag(:user_energy, 'How much power did you use?', class: 'label') %>
+            <div class="control">
+              <%= text_field_tag(:user_energy, value=nil, class: 'input', placeholder: 'Enter your power in kWh') %>
+            </div>
+          </div>
+          <div class='field'>
+            <%= submit_tag('Calculate your emissions', class: 'button is-link') %>
+          <div class='field>'
+        <% end %>
+      </div>
+    </div>
+ </div>
+</section>
+
+
+
+<%= javascript_include_tag "emissions" %>
