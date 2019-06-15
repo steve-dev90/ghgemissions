@@ -38,19 +38,20 @@
     <div class="columns is-centered">
       <div class="column is-two-thirds ">
         <h4 class="title is-4">From your most recent power bill</h4>
-        <div class='field'>
-          <label class="label">Bill start date</label>
-          <div class="control">
-            <%= text_field_tag(:date, value = nil, html_options = {class: 'form-controller datepicker input', placeholder: 'mm/dd/yyyy' }) %>
-          </div>
-        </div>
-        <div class='field'>
-          <label class="label">Bill end date</label>
-          <div class="control">
-            <%= text_field_tag(:date, value = nil, html_options = {class: 'datepicker input', placeholder: 'mm/dd/yyyy' }) %>
-          </div>
-        </div>
+
         <%= form_tag('/emissions', method: 'get') do %>
+          <div class='field'>
+            <label class="label">Bill start date</label>
+            <div class="control">
+              <%= text_field_tag(:start_date, value = nil, html_options = {class: 'form-controller datepicker input', placeholder: 'Enter your bill start date'}) %>
+            </div>
+          </div>
+          <div class='field'>
+            <label class="label">Bill end date</label>
+            <div class="control">
+              <%= text_field_tag(:end_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill end date' }) %>
+            </div>
+          </div>
           <div class='field'>
             <%= label_tag(:user_energy, 'How much power did you use?', class: 'label') %>
             <div class="control">
