@@ -13,14 +13,14 @@ class Power::PreviousMonthEnergyEstimate
   end
 
   def partial_month_factors(start_month, end_month)
-    return month_factor(@start_date, MonthFactor.new, @end_date) if start_month == end_month
-    month_factor(@start_date, StartMonthFactor.new, @end_date) +
-    month_factor(@end_date, EndMonthFactor.new, @end_date)
+    return month_factor(@start_date, Power::MonthFactor.new, @end_date) if start_month == end_month
+    month_factor(@start_date, Power::StartMonthFactor.new, @end_date) +
+    month_factor(@end_date, Power::EndMonthFactor.new, @end_date)
   end
 
   def month_factor(date, factor_type, end_date)
     month = Date.parse(date).month
-    dayfactor = DayFactor.new(date, factor_type, end_date)
+    dayfactor = Power::DayFactor.new(date, factor_type, end_date)
     get_profile(month, 'month') * (
       get_profile(month, 'wkend') * dayfactor.wkend_factor +
       get_profile(month, 'wkday') * dayfactor.wkday_factor
@@ -40,7 +40,7 @@ class Power::PreviousMonthEnergyEstimate
   end
 end
 
-class DayFactor
+class Power::DayFactor
   attr_reader :bill_day, :month_end_day, :month_start_day, :end_date
 
   def initialize(date, factor_type, end_date)
@@ -70,7 +70,7 @@ class DayFactor
   end
 end
 
-class StartMonthFactor
+class Power::StartMonthFactor
   def bill_wkend_days(context)
     FindWkendDay.call(context.bill_day, context.month_end_day)
   end
@@ -80,7 +80,7 @@ class StartMonthFactor
   end
 end
 
-class EndMonthFactor
+class Power::EndMonthFactor
   def bill_wkend_days(context)
     FindWkendDay.call(context.month_start_day, context.bill_day)
   end
@@ -90,7 +90,7 @@ class EndMonthFactor
   end
 end
 
-class MonthFactor
+class Power::MonthFactor
   def bill_wkend_days(context)
     FindWkendDay.call(context.bill_day, context.end_date)
   end
