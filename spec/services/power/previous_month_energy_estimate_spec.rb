@@ -2,21 +2,76 @@ require 'rails_helper'
 
 RSpec.describe Power::PreviousMonthEnergyEstimate do
   before(:all) do
+    Profile.destroy_all
+    (1..12).each do |month|
+      FactoryBot.create(:profile, period: 'month', month: month, profile: 0.1)
+      FactoryBot.create(:profile, period: 'wkend', month: month, profile: 0.3)
+      FactoryBot.create(:profile, period: 'wkday', month: month, profile: 0.7)
+    end
+  end
+
+  it 'estimates correctly if billing period covers one full month' do
     @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
-      100,
+      100.0,
+      '1/04/2019',
+      '30/04/2019'
+    )
+    expect(@energy_estimate.call).to eq(100.0 * 0.1 / 0.1)
+  end
+
+  it 'estimates correctly if billing period covers a partial month' do
+    @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
+      100.0,
+      '1/04/2019',
+      '15/04/2019'
+    )
+    month_factors = 0.1 * (0.7 * (11.0 / 22.0) + 0.3 * (4.0 / 8.0))
+    expect(@energy_estimate.call).to eq(100.0 * 0.1 / month_factors)
+  end
+
+  it 'estimates correctly if billing period covers two partial months' do
+    @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
+      100.0,
       '15/04/2019',
       '17/05/2019'
     )
-    Profile.destroy_all
-    FactoryBot.create(:profile, period: 'month', month: 4, profile: 0.094610524)
-    FactoryBot.create(:profile, period: 'wkend', month: 4, profile: 0.24123403)
-    FactoryBot.create(:profile, period: 'wkday', month: 4, profile: 0.75876597)
-    FactoryBot.create(:profile, period: 'month', month: 5, profile: 0.094610524)
-    @energy_estimate.call
+    month_factors = 0.1 * (0.7 * (12.0 / 22.0) + 0.3 * (4.0 / 8.0)) +
+      0.1 * (0.7 * (13.0 / 23.0) + 0.3 * (4.0 / 8.0))
+    expect(@energy_estimate.call).to eq(100.0 * 0.1 / month_factors)
   end
 
-  it 'calculates the correct energy for march' do
+  it 'estimates correctly if billing period covers two partial months and one full month' do
+    @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
+      100.0,
+      '15/04/2019',
+      '15/06/2019'
+    )
+    month_factors = 0.1 * (0.7 * (12.0 / 22.0) + 0.3 * (4.0 / 8.0)) +
+      0.1 +
+      0.1 * (0.7 * (10.0 / 20.0) + 0.3 * (5.0 / 10.0))
+    expect(@energy_estimate.call).to eq(100.0 * 0.1 / month_factors)
+  end
 
+  it 'estimates correctly if billing period covers two partial months and two full month' do
+    @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
+      100.0,
+      '15/04/2019',
+      '15/07/2019'
+    )
+    month_factors = 0.1 * (0.7 * (12.0 / 22.0) + 0.3 * (4.0 / 8.0)) +
+      0.2 +
+      0.1 * (0.7 * (11.0 / 23.0) + 0.3 * (4.0 / 8.0))
+    expect(@energy_estimate.call).to be_within(0.0001).of(100.0 * 0.1 / month_factors)
+  end
+
+  it 'estimates correctly if billing period covers one partial months and one full month' do
+    @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
+      100.0,
+      '15/04/2019',
+      '31/05/2019'
+    )
+    month_factors = 0.1 * (0.7 * (12.0 / 22.0) + 0.3 * (4.0 / 8.0)) + 0.1
+    expect(@energy_estimate.call).to eq(100.0 * 0.1 / month_factors)
   end
 
 end
