@@ -31,10 +31,8 @@ class Power::ClearedOfferData
     trading_periods.each do |trading_period|
       rows = csv.select { |row| row['TradingPeriod'] == trading_period && row['Type'] == 'ENOF' }
       energy = rows.sum { |row| row["ClearedEnergy (MW)"] * 0.5 }
-      traders = (
-        HalfHourlyEmission.where(month: @month, period: trading_period).pluck(:trader) +
-        rows.map { |row| row["Trader"] }).uniq
-      traders.each do |trader|
+      (HalfHourlyEmission.where(month: @month, period: trading_period).pluck(:trader) +
+        rows.map { |row| row["Trader"] }).uniq.each do |trader|
         for_each_trader(rows, trading_period, trader, energy)
       end
     end
