@@ -74,6 +74,7 @@ class Power::ClearedOfferData
       half_hourly_emission = HalfHourlyEmission.find_or_create_by(month: @month, period: record[:period], trader: record[:trader])
       pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update_attributes(record)
     end
+    # Reset for the next csv file!
     @half_hourly_emission_record=[]
   end
 end
