@@ -1,14 +1,15 @@
 class Power::PreviousMonthEnergyEstimate
-  def initialize(billed_energy, start_date, end_date)
+  def initialize(billed_energy, start_date, end_date, previous_month)
     @start_date = start_date
     @end_date = end_date
     @billed_energy = billed_energy
+    @previous_month = previous_month
   end
 
   def call
     start_month = Date.parse(@start_date).month
     end_month = Date.parse(@end_date).month
-    @billed_energy * get_profile(Date.parse(Time.new.to_s).prev_month.month, 'month') /
+    @billed_energy * get_profile(@previous_month, 'month') /
       (partial_month_factors(start_month, end_month) + full_month_factors(start_month, end_month))
   end
 

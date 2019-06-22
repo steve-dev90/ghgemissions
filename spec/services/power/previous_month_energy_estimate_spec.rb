@@ -14,7 +14,8 @@ RSpec.describe Power::PreviousMonthEnergyEstimate do
     @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
       100.0,
       '1/04/2019',
-      '30/04/2019'
+      '30/04/2019',
+      Date.parse(Time.new.to_s).prev_month.month
     )
     expect(@energy_estimate.call).to eq(100.0 * 0.1 / 0.1)
   end
@@ -23,7 +24,8 @@ RSpec.describe Power::PreviousMonthEnergyEstimate do
     @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
       100.0,
       '1/04/2019',
-      '15/04/2019'
+      '15/04/2019',
+      Date.parse(Time.new.to_s).prev_month.month
     )
     month_factors = 0.1 * (0.7 * (11.0 / 22.0) + 0.3 * (4.0 / 8.0))
     expect(@energy_estimate.call).to eq(100.0 * 0.1 / month_factors)
@@ -33,7 +35,8 @@ RSpec.describe Power::PreviousMonthEnergyEstimate do
     @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
       100.0,
       '15/04/2019',
-      '17/05/2019'
+      '17/05/2019',
+      Date.parse(Time.new.to_s).prev_month.month
     )
     month_factors = 0.1 * (0.7 * (12.0 / 22.0) + 0.3 * (4.0 / 8.0)) +
       0.1 * (0.7 * (13.0 / 23.0) + 0.3 * (4.0 / 8.0))
@@ -44,7 +47,8 @@ RSpec.describe Power::PreviousMonthEnergyEstimate do
     @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
       100.0,
       '15/04/2019',
-      '15/06/2019'
+      '15/06/2019',
+      Date.parse(Time.new.to_s).prev_month.month
     )
     month_factors = 0.1 * (0.7 * (12.0 / 22.0) + 0.3 * (4.0 / 8.0)) +
       0.1 +
@@ -56,7 +60,8 @@ RSpec.describe Power::PreviousMonthEnergyEstimate do
     @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
       100.0,
       '15/04/2019',
-      '15/07/2019'
+      '15/07/2019',
+      Date.parse(Time.new.to_s).prev_month.month
     )
     month_factors = 0.1 * (0.7 * (12.0 / 22.0) + 0.3 * (4.0 / 8.0)) +
       0.2 +
@@ -68,7 +73,8 @@ RSpec.describe Power::PreviousMonthEnergyEstimate do
     @energy_estimate = Power::PreviousMonthEnergyEstimate.new(
       100.0,
       '15/04/2019',
-      '31/05/2019'
+      '31/05/2019',
+      Date.parse(Time.new.to_s).prev_month.month
     )
     month_factors = 0.1 * (0.7 * (12.0 / 22.0) + 0.3 * (4.0 / 8.0)) + 0.1
     expect(@energy_estimate.call).to eq(100.0 * 0.1 / month_factors)

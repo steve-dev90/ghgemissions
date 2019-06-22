@@ -31,7 +31,8 @@ class Power::ClearedOfferData
     trading_periods.each do |trading_period|
       rows = csv.select { |row| row['TradingPeriod'] == trading_period && row['Type'] == 'ENOF' }
       energy = rows.sum { |row| row["ClearedEnergy (MW)"] * 0.5 }
-      rows.map { |row| row["Trader"] }.uniq.each do |trader|
+      (HalfHourlyEmission.where(month: @month, period: trading_period).pluck(:trader) +
+        rows.map { |row| row["Trader"] }).uniq.each do |trader|
         for_each_trader(rows, trading_period, trader, energy)
       end
     end
@@ -73,5 +74,7 @@ class Power::ClearedOfferData
       half_hourly_emission = HalfHourlyEmission.find_or_create_by(month: @month, period: record[:period], trader: record[:trader])
       pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update_attributes(record)
     end
+    # Reset for the next csv file!
+    @half_hourly_emission_record=[]
   end
 end
