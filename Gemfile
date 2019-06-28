@@ -31,6 +31,9 @@ gem 'font-awesome-rails'
 gem 'sassc-rails'
 gem 'fusioncharts-rails'
 
+# To make external api request
+gem 'httparty'
+
 # To pick a date
 gem 'pickadate-rails'
 
