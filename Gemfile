@@ -34,6 +34,9 @@ gem 'fusioncharts-rails'
 # To make external api request
 gem 'httparty'
 
+# To parse xml
+gem 'nokogiri', '~> 1.6', '>= 1.6.8'
+
 # To pick a date
 gem 'pickadate-rails'
 
