@@ -34,3 +34,4 @@
 
 # Ignore large clearing offer files
 /lib/assets/cleared_offer_data/*
+/lib/assets/cleared_offer_data_emi/*
