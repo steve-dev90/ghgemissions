@@ -1,7 +1,8 @@
 class Power::ProcessClearedOfferCSV
-  def initialize(csv)
+  def initialize(csv, half_hourly_emission_table)
     @csv = csv
     @half_hourly_emission_record = []
+    @half_hourly_emission_table = half_hourly_emission_table
   end
 
   def call
@@ -31,7 +32,7 @@ class Power::ProcessClearedOfferCSV
   end
 
   def add_record(trading_period, trader, energy, emissions)
-    previous_record = HalfHourlyEmission.find_by(month: @month, period: trading_period, trader: trader)
+    previous_record = @half_hourly_emission_table.find_by(month: @month, period: trading_period, trader: trader)
     unless previous_record.nil?
       energy = energy + previous_record[:energy] || 0.0
       emissions = emissions + previous_record[:emissions] || 0.0
@@ -56,7 +57,7 @@ class Power::ProcessClearedOfferCSV
 
   def save_records
     @half_hourly_emission_record.each do |record|
-      half_hourly_emission = HalfHourlyEmission.find_or_create_by(month: @month, period: record[:period], trader: record[:trader])
+      half_hourly_emission = @half_hourly_emission_table.find_or_create_by(month: @month, period: record[:period], trader: record[:trader])
       pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update_attributes(record)
     end
     # Reset for the next csv file!

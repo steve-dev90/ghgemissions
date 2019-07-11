@@ -16,12 +16,10 @@ class Power::ClearedOfferDataEMI
       CSV.open(EMI_IMPORTS_FOLDER + file, "wb") do |csv|
         emi_csv.each { |row| csv << row }
       end
-
       csv = CSV.read(EMI_IMPORTS_FOLDER + file, converters: :numeric, headers:true)
-      pp csv.map { |row| row['TradingPeriod'] }.uniq
+      process_file = Power::ProcessClearedOfferCSV.new(csv, TempHalfHourlyEmission)
+      process_file.call
     end
-
-
 
     # Get URL
     # Make sure you have the right year and month
@@ -31,6 +29,7 @@ class Power::ClearedOfferDataEMI
     # Load and process emi file
     # Emi file gets saved in temp database
     # Send email
+    # Error handling
   end
 
   def get_imported_emi_files
