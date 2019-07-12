@@ -12,6 +12,7 @@ class Power::ClearedOfferDataEMI
     get_available_emi_files.reject { |f| get_imported_emi_files.include? f }.each do |file|
       url = EMI_CLEARED_OFFER_FILE + file
       pp file
+      pp HTTParty.get(url)
       emi_csv = CSV.parse(HTTParty.get(url).gsub(FIRST_ROW_CLEARED_OFFER_FILE,''))
       CSV.open(EMI_IMPORTS_FOLDER + file, "wb") do |csv|
         emi_csv.each { |row| csv << row }
@@ -39,14 +40,30 @@ class Power::ClearedOfferDataEMI
   end
 
   def get_available_emi_files
-    # need to get year + month combos in database
-    # year = Date.parse(Time.new.to_s).year.to_s
-    year_and_months = [{ year: '2019', month: '06' }]
-    year_and_months.reduce([]) do |files, year_and_month|
+    pp get_years_and_months
+    get_years_and_months.reduce([]) do |files, year_and_month|
       url = EMI_CLEARED_OFFER_FOLDER + year_and_month[:year]
       response = HTTParty.get(url)
       files.concat(process_emi_response(response, year_and_month))
     end
+  end
+
+  def get_years_and_months
+    months = (TempHalfHourlyEmission.pluck(:month).uniq <<
+      Date.parse(Time.new.to_s).month).uniq
+    todays_year = Date.parse(Time.new.to_s).year.to_s
+    months.reduce([]) do |years_and_months, month|
+      if months.include?(1) && month == 12
+        years_and_months << { year: todays_year - 1, month: get_month(month) }
+      else
+        years_and_months << { year: todays_year, month: get_month(month) }
+      end
+    end
+  end
+
+  def get_month(month)
+    return month if month >= 10
+    "0#{month}"
   end
 
   def process_emi_response(response, year_and_month)
