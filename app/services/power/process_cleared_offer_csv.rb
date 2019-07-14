@@ -6,6 +6,7 @@ class Power::ProcessClearedOfferCSV
   end
 
   def call
+    raise ArgumentError, "csv only contains header" if @csv[0].nil?
     obtain_half_hourly_emission_records
     save_records
   end
