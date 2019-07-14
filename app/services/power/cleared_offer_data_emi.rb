@@ -8,20 +8,12 @@ class Power::ClearedOfferDataEMI
   EMI_IMPORTS_FOLDER = "./lib/assets/cleared_offer_data_emi/"
 
   def call
-
-    get_available_emi_files.reject { |f| get_imported_emi_files.include? f }.each do |file|
-      url = EMI_CLEARED_OFFER_FILE + file
-      pp file
-      pp HTTParty.get(url)
-      emi_csv = CSV.parse(HTTParty.get(url).gsub(FIRST_ROW_CLEARED_OFFER_FILE,''))
-      CSV.open(EMI_IMPORTS_FOLDER + file, "wb") do |csv|
-        emi_csv.each { |row| csv << row }
-      end
-      csv = CSV.read(EMI_IMPORTS_FOLDER + file, converters: :numeric, headers:true)
-      process_file = Power::ProcessClearedOfferCSV.new(csv, TempHalfHourlyEmission)
-      process_file.call
+    get_list_of_emi_files_to_process.each do |file|
+      process_emi_file
     end
+    TaskSchedulerMailer.send_cleared_offer_processed_success_email.deliver
 
+    # If full month copy over to database
     # Get URL
     # Make sure you have the right year and month
     # get array of emi cleared offer files
@@ -33,15 +25,32 @@ class Power::ClearedOfferDataEMI
     # Error handling
   end
 
-  def get_imported_emi_files
+  def process_emi_file
+    url = EMI_CLEARED_OFFER_FILE + file
+    pp file
+    pp HTTParty.get(url)
+    emi_csv = CSV.parse(HTTParty.get(url).gsub(FIRST_ROW_CLEARED_OFFER_FILE,''))
+    CSV.open(EMI_IMPORTS_FOLDER + file, "wb") do |csv|
+      emi_csv.each { |row| csv << row }
+    end
+    csv = CSV.read(EMI_IMPORTS_FOLDER + file, converters: :numeric, headers:true)
+    process_file = Power::ProcessClearedOfferCSV.new(csv, TempHalfHourlyEmission)
+    process_file.call
+  end
+
+  def get_list_of_emi_files_to_process
+    get_available_emi_files.reject { |f| get_processed_emi_files.include? f }
+  end
+
+  def get_processed_emi_files
     Dir[ EMI_IMPORTS_FOLDER + "*"].reduce([]) do |filenames, filepathname|
       filenames << File.basename(filepathname)
     end
   end
 
   def get_available_emi_files
-    pp get_years_and_months
-    get_years_and_months.reduce([]) do |files, year_and_month|
+    # get_years_and_months
+    [{year: '2019', month: '06'}].reduce([]) do |files, year_and_month|
       url = EMI_CLEARED_OFFER_FOLDER + year_and_month[:year]
       response = HTTParty.get(url)
       files.concat(process_emi_response(response, year_and_month))

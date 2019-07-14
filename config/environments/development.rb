@@ -27,6 +27,16 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  ActionMailer::Base.smtp_settings = {
+    :user_name => Rails.application.credentials.send_grid_user_name,
+    :password => Rails.application.credentials.send_grid_password,
+    :domain => 'yourdomain.com',
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
 
