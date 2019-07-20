@@ -4,13 +4,17 @@ class Power::ClearedOfferDataEMI
   #Electricity Authority emi file url path, excluding file name
   EMI_CLEARED_OFFER_FILE = 'https://emidatasets.blob.core.windows.net/publicdata/Datasets/Wholesale/Final_pricing/Cleared_Offers/'
   FIRST_ROW_CLEARED_OFFER_FILE = 'Date,TradingPeriod,Island,PointOfConnection,Trader,Type,ClearedEnergy (MW),ClearedFIR (MW),ClearedSIR (MW)\r\n'
-  EMI_IMPORTS_FOLDER = "./lib/assets/cleared_offer_data_emi/"
+
+  def initialize(folder)
+    @folder = folder
+  end
 
   def call
-    get_list_of_emi_files_to_process.each do |file|
-      process_emi_file(file)
-    end
-    TaskSchedulerMailer.send_cleared_offer_processed_success_email.deliver
+    pp get_list_of_emi_files_to_process
+    # get_list_of_emi_files_to_process.each do |file|
+    #   process_emi_file(file)
+    # end
+    # TaskSchedulerMailer.send_cleared_offer_processed_success_email.deliver
   end
 
   def process_emi_file(file)
@@ -18,10 +22,10 @@ class Power::ClearedOfferDataEMI
       url = EMI_CLEARED_OFFER_FILE + file
       check_api_errors(url)
       emi_csv = CSV.parse(HTTParty.get(url).gsub(FIRST_ROW_CLEARED_OFFER_FILE,''))
-      CSV.open(EMI_IMPORTS_FOLDER + file, "wb") do |csv|
+      CSV.open(@folder + file, "wb") do |csv|
         emi_csv.each { |row| csv << row }
       end
-      csv = CSV.read(EMI_IMPORTS_FOLDER + file, converters: :numeric, headers:true)
+      csv = CSV.read(@folder + file, converters: :numeric, headers:true)
       process_file = Power::ProcessClearedOfferCSV.new(csv, TempHalfHourlyEmission)
       process_file.call
     rescue RuntimeError, ArgumentError => e
@@ -43,27 +47,24 @@ class Power::ClearedOfferDataEMI
   end
 
   def get_processed_emi_files
-    Dir[ EMI_IMPORTS_FOLDER + "*"].reduce([]) do |filenames, filepathname|
+    Dir[ @folder + "*"].reduce([]) do |filenames, filepathname|
       filenames << File.basename(filepathname)
     end
   end
 
   def get_available_emi_files
-    # get_years_and_months
-    [{year: '2019', month: '06'}].reduce([]) do |files, year_and_month|
+    get_years_and_months.reduce([]) do |files, year_and_month|
       # Get list of blobs in folder
       url = EMI_CLEARED_OFFER_FOLDER + year_and_month[:year]
       check_api_errors(url)
       response = HTTParty.get(url)
-      pp response.code
       files.concat(process_emi_response(response, year_and_month))
     end
   end
 
   def get_years_and_months
-    months = (TempHalfHourlyEmission.pluck(:month).uniq <<
-      Date.parse(Time.new.to_s).month).uniq
-    todays_year = Date.parse(Time.new.to_s).year.to_s
+    pp months = (TempHalfHourlyEmission.pluck(:month).uniq << Time.new.month).uniq
+    pp todays_year = Time.new.year.to_s
     months.reduce([]) do |years_and_months, month|
       if months.include?(1) && month == 12
         years_and_months << { year: todays_year - 1, month: get_month(month) }
