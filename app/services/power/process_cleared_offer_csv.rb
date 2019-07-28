@@ -18,7 +18,7 @@ class Power::ProcessClearedOfferCSV
     trading_periods.each do |trading_period|
       rows = @csv.select { |row| row['TradingPeriod'] == trading_period && row['Type'] == 'ENOF' }
       energy = rows.sum { |row| row["ClearedEnergy (MW)"] * 0.5 }
-      (HalfHourlyEmission.where(month: @month, period: trading_period).pluck(:trader) +
+      (@half_hourly_emission_table.where(month: @month, period: trading_period).pluck(:trader) +
         rows.map { |row| row["Trader"] }).uniq.each do |trader|
         for_each_trader(rows, trading_period, trader, energy)
       end
@@ -34,6 +34,7 @@ class Power::ProcessClearedOfferCSV
 
   def add_record(trading_period, trader, energy, emissions)
     previous_record = @half_hourly_emission_table.find_by(month: @month, period: trading_period, trader: trader)
+    pp 'hello', previous_record
     unless previous_record.nil?
       energy = energy + previous_record[:energy] || 0.0
       emissions = emissions + previous_record[:emissions] || 0.0

@@ -10,10 +10,11 @@ class Power::ClearedOfferDataEMI
   end
 
   def call
-    pp get_list_of_emi_files_to_process
-    # get_list_of_emi_files_to_process.each do |file|
-    #   process_emi_file(file)
-    # end
+    # get_list_of_emi_files_to_process
+    get_list_of_emi_files_to_process.each do |file|
+      process_emi_file(file)
+    end
+    process_month_of_emissions_data
     # TaskSchedulerMailer.send_cleared_offer_processed_success_email.deliver
   end
 
@@ -31,7 +32,6 @@ class Power::ClearedOfferDataEMI
     rescue RuntimeError, ArgumentError => e
       pp "#{e.class}: #{e.message}"
     end
-
   end
 
   def check_api_errors(url)
@@ -43,6 +43,7 @@ class Power::ClearedOfferDataEMI
   end
 
   def get_list_of_emi_files_to_process
+    # pp get_available_emi_files
     get_available_emi_files.reject { |f| get_processed_emi_files.include? f }
   end
 
@@ -58,35 +59,46 @@ class Power::ClearedOfferDataEMI
       url = EMI_CLEARED_OFFER_FOLDER + year_and_month[:year]
       check_api_errors(url)
       response = HTTParty.get(url)
+      # pp process_emi_response(response, year_and_month)
       files.concat(process_emi_response(response, year_and_month))
     end
   end
 
   def get_years_and_months
-    pp months = (TempHalfHourlyEmission.pluck(:month).uniq << Time.new.month).uniq
-    pp todays_year = Time.new.year.to_s
+    months = (TempHalfHourlyEmission.pluck(:month).uniq << Time.new.month).uniq
+    todays_year = Time.new.year
     months.reduce([]) do |years_and_months, month|
       if months.include?(1) && month == 12
-        years_and_months << { year: todays_year - 1, month: get_month(month) }
+        years_and_months << { year: (todays_year - 1).to_s, month: get_month(month) }
       else
-        years_and_months << { year: todays_year, month: get_month(month) }
+        years_and_months << { year: todays_year.to_s, month: get_month(month) }
       end
     end
   end
 
   def get_month(month)
-    return month if month >= 10
+    return month.to_s if month >= 10
     "0#{month}"
   end
 
   def process_emi_response(response, year_and_month)
     Nokogiri::XML(response.body).xpath('//Url').reduce([]) do |files, blob|
+      # pp "kJuuuu"
+      # pp blob.content
+      # pp EMI_CLEARED_OFFER_FILE + year_and_month[:year] + year_and_month[:month]
       if blob.content.include?(EMI_CLEARED_OFFER_FILE + year_and_month[:year] + year_and_month[:month])
         files << blob.content.gsub(EMI_CLEARED_OFFER_FILE,'')
+        # pp "N", files
       else
         files
       end
     end
+  end
+
+
+  def process_month_of_emissions_data
+
+
   end
 
 end
