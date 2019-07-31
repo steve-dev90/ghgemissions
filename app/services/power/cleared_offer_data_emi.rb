@@ -97,7 +97,10 @@ class Power::ClearedOfferDataEMI
 
 
   def process_month_of_emissions_data
-
+    year = Time.new.month != 1 ? Time.new.year : Time.new.year - 1
+    month = Time.new.month != 1 ? Time.new.month - 1 : 12
+    pp "#{EMI_CLEARED_OFFER_FILE}#{year}#{month}#{Time.days_in_month(month, year)}"
+    pp get_processed_emi_files.include?("#{year}#{month}#{Time.days_in_month(month, year)}_Cleared_Offers.csv")
 
   end
 
