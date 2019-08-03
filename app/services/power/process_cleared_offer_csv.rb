@@ -34,7 +34,6 @@ class Power::ProcessClearedOfferCSV
 
   def add_record(trading_period, trader, energy, emissions)
     previous_record = @half_hourly_emission_table.find_by(month: @month, period: trading_period, trader: trader)
-    pp 'hello', previous_record
     unless previous_record.nil?
       energy = energy + previous_record[:energy] || 0.0
       emissions = emissions + previous_record[:emissions] || 0.0

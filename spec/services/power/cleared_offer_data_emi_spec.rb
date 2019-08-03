@@ -88,8 +88,7 @@ RSpec.describe Power::ClearedOfferDataEMI do
     expect(Dir[ TEST_FOLDER + '*']).to include(TEST_FOLDER + '20200101_Cleared_Offers.csv')
   end
 
-  it "processes once all days have been captured" do
-
+  it 'processes once all days have been captured' do
     CSV.open("#{TEST_FOLDER}20190801_Cleared_Offers.csv", "wb") do |csv|
       csv << ["test"]
     end
@@ -110,9 +109,20 @@ RSpec.describe Power::ClearedOfferDataEMI do
     set_up_mocks(xml, data, 8, 2019)
     @cleared_offer = Power::ClearedOfferDataEMI.new(TEST_FOLDER)
     @cleared_offer.call
-    pp HalfHourlyEmission.all
+    expect(HalfHourlyEmission.find_by(month: 7, period: '1', trader: 'WRKO')[:energy]).to eq(25)
+    expect(Dir[ TEST_FOLDER + '201907*_Cleared_Offers.csv'].size).to eq(0)
+    expect(Dir[ TEST_FOLDER + '*']).to include(TEST_FOLDER + '20190801_Cleared_Offers.csv')
   end
 
+  it 'handles errors' do
+    allow(HTTParty).to receive_message_chain(:get, :[] => {'Error': 'Test'})
+    allow(HTTParty).to receive_message_chain(:get, :code => 200)
+    @cleared_offer = Power::ClearedOfferDataEMI.new(TEST_FOLDER)
+    expect { @cleared_offer.call }.to raise_error(RuntimeError)
+    allow(HTTParty).to receive_message_chain(:get, :[])
+    allow(HTTParty).to receive_message_chain(:get, :code => 500)
+    # expect { @cleared_offer.call }.to raise_error(RuntimeError)
+  end
 
   def set_up_mocks(xml, data, month, year)
     # To clear detect error method
