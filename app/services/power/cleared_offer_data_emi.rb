@@ -10,7 +10,6 @@ class Power::ClearedOfferDataEMI
   end
 
   def call
-    # get_list_of_emi_files_to_process
     get_list_of_emi_files_to_process.each do |file|
       process_emi_file(file)
     end
@@ -83,25 +82,27 @@ class Power::ClearedOfferDataEMI
 
   def process_emi_response(response, year_and_month)
     Nokogiri::XML(response.body).xpath('//Url').reduce([]) do |files, blob|
-      # pp "kJuuuu"
-      # pp blob.content
-      # pp EMI_CLEARED_OFFER_FILE + year_and_month[:year] + year_and_month[:month]
       if blob.content.include?(EMI_CLEARED_OFFER_FILE + year_and_month[:year] + year_and_month[:month])
         files << blob.content.gsub(EMI_CLEARED_OFFER_FILE,'')
-        # pp "N", files
       else
         files
       end
     end
   end
 
-
   def process_month_of_emissions_data
     year = Time.new.month != 1 ? Time.new.year : Time.new.year - 1
     month = Time.new.month != 1 ? Time.new.month - 1 : 12
-    pp "#{EMI_CLEARED_OFFER_FILE}#{year}#{month}#{Time.days_in_month(month, year)}"
-    pp get_processed_emi_files.include?("#{year}#{month}#{Time.days_in_month(month, year)}_Cleared_Offers.csv")
+    files = "#{@folder}#{year}#{get_month(month)}*_Cleared_Offers.csv"
 
+    return if Dir[files].size == Time.days_in_month(month, year)
+
+    TempHalfHourlyEmission.where(month: month).each do |record|
+      hash = { month: record.month, period: record.period, trader: record.trader,
+               emissions: record.emissions, energy: record.energy, emissions_factor: record.emissions_factor }
+      half_hourly_emission = HalfHourlyEmission.find_or_create_by(month: record.month, period: record.period, trader: record.trader)
+      pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update_attributes(hash)
+    end
+    FileUtils.rm_rf(Dir[files])
   end
-
 end

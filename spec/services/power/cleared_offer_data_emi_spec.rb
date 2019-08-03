@@ -8,6 +8,7 @@ RSpec.describe Power::ClearedOfferDataEMI do
     GenerationStation.destroy_all
     FactoryBot.create(:generation_station, poc: 'WRK2201 WRK0', emissions_factor: 0.1)
     TempHalfHourlyEmission.destroy_all
+    HalfHourlyEmission.destroy_all
   end
 
   before(:each) do
@@ -86,6 +87,32 @@ RSpec.describe Power::ClearedOfferDataEMI do
     expect(Dir[ TEST_FOLDER + '*']).to include(TEST_FOLDER + '20191231_Cleared_Offers.csv')
     expect(Dir[ TEST_FOLDER + '*']).to include(TEST_FOLDER + '20200101_Cleared_Offers.csv')
   end
+
+  it "processes once all days have been captured" do
+
+    CSV.open("#{TEST_FOLDER}20190801_Cleared_Offers.csv", "wb") do |csv|
+      csv << ["test"]
+    end
+    # Set up 30 days fo files
+    (1..30).each do |d|
+      day = d >= 10 ? d.to_s : "0#{d}"
+      file = "201907#{day}_Cleared_Offers.csv"
+      CSV.open(TEST_FOLDER + file, "wb") do |csv|
+         csv << ["test"]
+      end
+    end
+    # Add a month 7 record to database, so it knows to process month 7
+    FactoryBot.create(:temp_half_hourly_emission, month: 7)
+    data = "Date,TradingPeriod,Island,PointOfConnection,Trader,Type,ClearedEnergy (MW),ClearedFIR (MW),ClearedSIR (MW)\r\n" +
+      "2019-07-31,1,NI,WRK2201 WRK0,WRKO,ENOF,50.000,.000,.000\r\n"
+    xml = "<Url>https://emidatasets.blob.core.windows.net/publicdata/Datasets/Wholesale/Final_pricing/Cleared_Offers/20190731_Cleared_Offers.csv</Url>"
+    # Tests if previous month is complete
+    set_up_mocks(xml, data, 8, 2019)
+    @cleared_offer = Power::ClearedOfferDataEMI.new(TEST_FOLDER)
+    @cleared_offer.call
+    pp HalfHourlyEmission.all
+  end
+
 
   def set_up_mocks(xml, data, month, year)
     # To clear detect error method
