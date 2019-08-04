@@ -30,7 +30,7 @@ Rails.application.configure do
   ActionMailer::Base.smtp_settings = {
     :user_name => Rails.application.credentials.send_grid_user_name,
     :password => Rails.application.credentials.send_grid_password,
-    :domain => 'yourdomain.com',
+    :domain => 'ghgemissions.herokuapp.com',
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,

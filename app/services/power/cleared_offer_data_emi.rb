@@ -15,11 +15,13 @@ class Power::ClearedOfferDataEMI
   end
 
   def call
-    list_of_emi_files_to_process.each do |file|
+    files = list_of_emi_files_to_process
+    files.each do |file|
       process_emi_file(file)
+      pp "Processed #{file}"
     end
+    TaskSchedulerMailer.send_cleared_offer_processed_success_email(files).deliver
     process_month_of_emissions_data
-    # TaskSchedulerMailer.send_cleared_offer_processed_success_email.deliver
   end
 
   def process_emi_file(file)
@@ -29,20 +31,20 @@ class Power::ClearedOfferDataEMI
     csv = CSV.read(@folder + file, converters: :numeric, headers: true)
     process_file = Power::ProcessClearedOfferCSV.new(csv, TempHalfHourlyEmission)
     process_file.call
+  rescue RuntimeError, ArgumentError => error
+    TaskSchedulerMailer.send_cleared_offer_error_email(file, error).deliver
   end
 
   def emi_response(file)
     url = EMI_CLEARED_OFFER_FILE + file
     check_api_errors(url)
     HTTParty.get(url).gsub(FIRST_ROW_CLEARED_OFFER_FILE, '')
-  rescue RuntimeError, ArgumentError => e
-    pp "#{e.class}: #{e.message}"
   end
 
   def check_api_errors(url)
     response = HTTParty.get(url)
-    return if response['Error'].nil?
     return raise "EMI api response #{response.code}" unless response.code == 200
+    return if response['Error'].nil?
 
     raise "Code: #{response['Error']['Code']} Message: #{response['Error']['Message']}"
   end
@@ -59,11 +61,9 @@ class Power::ClearedOfferDataEMI
 
   def available_emi_files
     years_and_months.reduce([]) do |files, year_and_month|
-      # Get list of blobs in folder
       url = EMI_CLEARED_OFFER_FOLDER + year_and_month[:year]
       check_api_errors(url)
       response = HTTParty.get(url)
-      # pp process_emi_response(response, year_and_month)
       files.concat(process_emi_response(response, year_and_month))
     end
   end
@@ -102,6 +102,7 @@ class Power::ClearedOfferDataEMI
 
     transfer_records
     FileUtils.rm_rf(Dir[last_month_files])
+    TaskSchedulerMailer.send_cleared_offer_monthly_processing_complete_email(@last_month).deliver
   end
 
   def last_month_files

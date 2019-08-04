@@ -4,8 +4,12 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h1>Thanks for signing up</h1>
-    <p>Thanks for joining and have a great day! Now sign in and do
-awesome things!</p>
+    <ul>Files sucessfully processed</ul>
+    <% @processed_files.each do |file| %>
+      <li><%= file  %> </li>
+    <% end %>
+    <% if @processed_files.empty? %>
+      <li>No files today</li>
+    <% end %>
   </body>
 </html>
