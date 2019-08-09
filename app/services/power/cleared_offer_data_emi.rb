@@ -97,7 +97,6 @@ class Power::ClearedOfferDataEMI
 
   def process_month_of_emissions_data
     last_month_january_check
-    pp "FFGG", last_month_files
     return unless last_month_files == Time.days_in_month(@last_month, @last_month_year)
 
     transfer_records
