@@ -89,17 +89,14 @@ RSpec.describe Power::ClearedOfferDataEMI do
   end
 
   it 'processes once all days have been captured' do
-    CSV.open("#{TEST_FOLDER}20190801_Cleared_Offers.csv", "wb") do |csv|
-      csv << ["test"]
-    end
+
     # Set up 30 days fo files
     (1..30).each do |d|
       day = d >= 10 ? d.to_s : "0#{d}"
       file = "201907#{day}_Cleared_Offers.csv"
-      CSV.open(TEST_FOLDER + file, "wb") do |csv|
-         csv << ["test"]
-      end
+      ProcessedEmiFile.create(file_name: file)
     end
+
     # Add a month 7 record to database, so it knows to process month 7
     FactoryBot.create(:temp_half_hourly_emission, month: 7)
     data = "Date,TradingPeriod,Island,PointOfConnection,Trader,Type,ClearedEnergy (MW),ClearedFIR (MW),ClearedSIR (MW)\r\n" +
@@ -111,8 +108,6 @@ RSpec.describe Power::ClearedOfferDataEMI do
     @cleared_offer.call
     expect(HalfHourlyEmission.find_by(month: 7, period: '1', trader: 'WRKO')[:energy]).to eq(25)
     expect(TempHalfHourlyEmission.find_by(month: 7)).to be_nil
-    expect(Dir[ TEST_FOLDER + '201907*_Cleared_Offers.csv'].size).to eq(0)
-    expect(Dir[ TEST_FOLDER + '*']).to include(TEST_FOLDER + '20190801_Cleared_Offers.csv')
   end
 
   it 'handles errors' do

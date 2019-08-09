@@ -1,0 +1,2 @@
+class ProcessedEmiFile < ApplicationRecord
+end
