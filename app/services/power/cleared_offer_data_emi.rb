@@ -31,6 +31,7 @@ class Power::ClearedOfferDataEMI
     csv = CSV.read(@folder + file, converters: :numeric, headers: true)
     process_file = Power::ProcessClearedOfferCSV.new(csv, TempHalfHourlyEmission)
     process_file.call
+    ProcessedEmiFile.create(file_name: file)
   rescue RuntimeError, ArgumentError => error
     TaskSchedulerMailer.send_cleared_offer_error_email(file, error).deliver
   end
@@ -54,9 +55,7 @@ class Power::ClearedOfferDataEMI
   end
 
   def processed_emi_files
-    Dir["#{@folder}*"].reduce([]) do |filenames, filepathname|
-      filenames << File.basename(filepathname)
-    end
+    ProcessedEmiFile.pluck(:file_name)
   end
 
   def available_emi_files
@@ -98,15 +97,19 @@ class Power::ClearedOfferDataEMI
 
   def process_month_of_emissions_data
     last_month_january_check
-    return unless Dir[last_month_files].size == Time.days_in_month(@last_month, @last_month_year)
+    pp "FFGG", last_month_files
+    return unless last_month_files == Time.days_in_month(@last_month, @last_month_year)
 
     transfer_records
-    FileUtils.rm_rf(Dir[last_month_files])
     TaskSchedulerMailer.send_cleared_offer_monthly_processing_complete_email(@last_month).deliver
   end
 
   def last_month_files
-    "#{@folder}#{@last_month_year}#{two_digit_month(@last_month)}*_Cleared_Offers.csv"
+    ProcessedEmiFile
+      .all
+      .select{ |r| r.file_name.include?(two_digit_month(@last_month))}
+      .size
+    # "#{@folder}#{@last_month_year}#{two_digit_month(@last_month)}*_Cleared_Offers.csv"
   end
 
   def transfer_records
