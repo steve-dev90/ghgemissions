@@ -63,6 +63,8 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.2)
       xpath (~> 3.2)
+    chartjs-ror (3.6.4)
+      rails (>= 3.1)
     childprocess (0.9.0)
       ffi (~> 1.0, >= 1.0.11)
     chromedriver-helper (2.1.1)
@@ -269,6 +271,7 @@ DEPENDENCIES
   bulma-rails (~> 0.7.4)
   byebug
   capybara (>= 2.15, < 4.0)
+  chartjs-ror
   chromedriver-helper
   coffee-rails (~> 4.2)
   database_cleaner

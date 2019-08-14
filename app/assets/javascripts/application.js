@@ -16,6 +16,7 @@
 //= require jquery_ujs
 //= require pickadate/picker
 //= require pickadate/picker.date
+//= require Chart.min
 //= require fusioncharts/fusioncharts
 //= require fusioncharts/fusioncharts.charts
 //= require fusioncharts/themes/fusioncharts.theme.fint

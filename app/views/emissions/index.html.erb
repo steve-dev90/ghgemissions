@@ -11,7 +11,7 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-two-thirds has-text-centered">
-        <div id="chartContainer"><%= get_user_emissions_chart(@user_emissions).render() %></div>
+        <%= line_chart chart_data(@user_emissions, :trading_period, :user_emission), user_emissions_options %>
       </div>
   </div>
 </section>
@@ -20,7 +20,7 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-two-thirds has-text-centered">
-        <div id="piechartContainer"><%= get_trader_emissions_chart(@trader_emissions).render() %></div>
+        <%= doughnut_chart chart_data(@trader_emissions, :trader, :emissions_factor), { } %>
       </div>
   </div>
 </section>
