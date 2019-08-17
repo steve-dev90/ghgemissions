@@ -29,7 +29,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'bulma-rails', '~> 0.7.4'
 gem 'font-awesome-rails'
 gem 'sassc-rails'
-gem 'fusioncharts-rails'
+
+# Charting
+gem 'chartjs-ror'
 
 # To make external api request
 gem 'httparty'
