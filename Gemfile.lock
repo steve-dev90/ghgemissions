@@ -91,7 +91,6 @@ GEM
     ffi (1.10.0)
     font-awesome-rails (4.7.0.4)
       railties (>= 3.2, < 6.0)
-    fusioncharts-rails (0.0.2)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     httparty (0.16.3)
@@ -277,7 +276,6 @@ DEPENDENCIES
   database_cleaner
   factory_bot_rails
   font-awesome-rails
-  fusioncharts-rails
   httparty
   jbuilder (~> 2.5)
   jquery-rails
