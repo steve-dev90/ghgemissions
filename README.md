@@ -1,7 +1,7 @@
 # Carbon Footprint Calculator 
 This app calculates the carbon footprint for a typical New Zealand household.
 
-Jan 2019 : This is a work in progress; have a look at the models and service objects. 
+August 2019 : Working on providing users with there ghg emissions from using electricity!
 
 ## Technologies
 CSS framework : Bulma
@@ -14,13 +14,22 @@ Testing : Rspec, FactoryBot
 
 Linting : Rubocop
 
+Charts : Chartjs
+
 ## Configuration
 
 TBA
 
 ## Database creation and initialization
 
-TBA
+To set up dev database from scratch
+`bin/rails db:migrate`- set up database
+`bin/rails power:import_ea_exist_generation` - generation_stations table
+`bin/rails power:import_half_hourly_emissions_table_csv` - half_hourly_emissions table
+`bin/rails power:import_ea_profile`- profiles table
+`bin/rails power:import_trader_data` - traders table
+
+The processed_emi_files and temp_half_hourly_emissions tables are really just used in production.
 
 ## How to run the test suite
 
