@@ -1,7 +1,7 @@
 module EmissionsHelper
   # Refactoring required
 
-  def chart_data(query_data, label, data_name)
+  def chart_data(query_data, label, data_name, background_color)
 
     labels = []
     data = []
@@ -13,11 +13,12 @@ module EmissionsHelper
 
     pp labels
     pp data
+    # "rgba(220,220,220,0.2)"
 
     { labels: labels,
       datasets: [
         { label: "My First dataset",
-          backgroundColor: "rgba(220,220,220,0.2)",
+          backgroundColor: background_color,
           borderColor: "rgba(220,220,220,1)",
           data: data
         }] }

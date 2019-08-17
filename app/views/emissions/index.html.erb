@@ -11,7 +11,7 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-two-thirds has-text-centered">
-        <%= line_chart chart_data(@user_emissions, :trading_period, :user_emission), user_emissions_options %>
+        <%= line_chart chart_data(@user_emissions, :trading_period, :user_emission, "rgba(220,220,220,0.2)"), user_emissions_options %>
       </div>
   </div>
 </section>
@@ -20,7 +20,8 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-two-thirds has-text-centered">
-        <%= doughnut_chart chart_data(@trader_emissions, :trader, :emissions_factor), { } %>
+        <% background_color = ['red', 'green', 'blue', 'pink', 'purple', 'yellow']%>
+        <%= doughnut_chart chart_data(@trader_emissions, :trader, :emissions_factor, background_color), { } %>
       </div>
   </div>
 </section>

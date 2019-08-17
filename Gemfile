@@ -31,7 +31,6 @@ gem 'font-awesome-rails'
 gem 'sassc-rails'
 
 # Charting
-gem 'fusioncharts-rails'
 gem 'chartjs-ror'
 
 # To make external api request
