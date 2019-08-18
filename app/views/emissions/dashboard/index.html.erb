@@ -1,0 +1,19 @@
+<section class="hero">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h2 class="is-size-4">You emitted <%= @total_emissions %> kilograms of greenhouse gases </h2>
+      <h2 class="is-size-4">for the month of <%= Date::MONTHNAMES[Date.parse(Time.new.to_s).prev_month.month] =%> </h2>
+      </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-two-thirds has-text-centered">
+        <%= link_to "Learn more about your electricity emissions", emissions_power_emissions_path(previous_month_power: @previous_month_power) %>
+      </div>
+  </div>
+</section>

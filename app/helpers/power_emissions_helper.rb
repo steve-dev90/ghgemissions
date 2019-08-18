@@ -1,19 +1,11 @@
-module EmissionsHelper
-  # Refactoring required
-
+module PowerEmissionsHelper
   def chart_data(query_data, label, data_name, background_color)
-
     labels = []
     data = []
     query_data.each do |data_item|
       labels << data_item[label].to_s
-
       data << data_item[data_name]
     end
-
-    pp labels
-    pp data
-    # "rgba(220,220,220,0.2)"
 
     { labels: labels,
       datasets: [
@@ -36,5 +28,4 @@ module EmissionsHelper
         }
     }
   end
-
 end
