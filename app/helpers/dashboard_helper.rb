@@ -1,4 +1,4 @@
-module EmissionsHelper
+module DashboardHelper
   # Refactoring required
 
   def chart_data(query_data, label, data_name, background_color)

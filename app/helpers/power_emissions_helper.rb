@@ -1,0 +1,2 @@
+module PowerEmissionsHelper
+end
