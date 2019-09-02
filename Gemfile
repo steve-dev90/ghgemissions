@@ -37,7 +37,7 @@ gem 'chartjs-ror'
 gem 'httparty'
 
 # To parse xml
-gem 'nokogiri', '~> 1.6', '>= 1.6.8'
+gem "nokogiri", ">= 1.10.4"
 
 # To pick a date
 gem 'pickadate-rails'

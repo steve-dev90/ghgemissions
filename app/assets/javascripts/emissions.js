@@ -16,6 +16,7 @@ $( document ).ready(function() {
         incorrectEndDate(inputs.start_date, inputs.end_date) &
         userEnergyToHigh(inputs.user_energy)) {
       changeActiveTab('power', 'gas')
+      tabStatus.power=true
     }
   })
 
