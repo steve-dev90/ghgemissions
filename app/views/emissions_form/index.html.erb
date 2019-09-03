@@ -37,35 +37,10 @@
   <div class='container'>
     <div class="columns is-centered">
       <div class="column is-two-fifths">
-        <h4 class="title is-4">From your most recent power bill</h4>
 
         <%= form_tag('emissions/dashboard', method: 'get') do %>
-          <div class='form__power'>
-            <div class='field'>
-              <label class="label">Bill start date</label>
-              <div class="control">
-                <%= text_field_tag(:start_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill start date'}) %>
-              </div>
-              <div class="form__errmessage"></div>
-            </div>
-            <div class='field'>
-              <label class="label">Bill end date</label>
-              <div class="control">
-                <%= text_field_tag(:end_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill end date' }) %>
-              </div>
-              <div class="form__errmessage"></div>
-            </div>
-            <div class='field'>
-              <%= label_tag(:user_energy, 'How much power did you use?', class: 'label') %>
-              <div class="control">
-                <%= text_field_tag(:user_energy, value=nil, type: 'number', class: 'input', placeholder: 'Enter your power in kWh') %>
-              </div>
-              <div class="form__errmessage"></div>
-            </div>
-            <div class='field'>
-              <%= button_tag('Next', type: 'button', class: 'button is-link button__next--power') %>
-            </div>
-          </div>
+          <%= render 'emissions_form/power_form' %>
+          <%= render 'emissions_form/gas_form' %>
           <div class='field'>
             <%= submit_tag('Calculate your emissions', class: 'button is-link button__submit') %>
           </div>

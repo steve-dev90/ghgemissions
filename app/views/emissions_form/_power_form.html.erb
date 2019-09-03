@@ -1,0 +1,27 @@
+<div class='form__power'>
+  <h4 class="title is-4">From your most recent power bill</h4>
+  <div class='field'>
+    <label class="label">Bill start date</label>
+    <div class="control">
+      <%= text_field_tag(:start_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill start date'}) %>
+    </div>
+    <div class="form__errmessage"></div>
+  </div>
+  <div class='field'>
+    <label class="label">Bill end date</label>
+    <div class="control">
+      <%= text_field_tag(:end_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill end date' }) %>
+    </div>
+    <div class="form__errmessage"></div>
+  </div>
+  <div class='field'>
+    <%= label_tag(:user_energy, 'How much power did you use?', class: 'label') %>
+    <div class="control">
+      <%= text_field_tag(:user_energy, value=nil, type: 'number', class: 'input', placeholder: 'Enter your power in kWh') %>
+    </div>
+    <div class="form__errmessage"></div>
+  </div>
+  <div class='field'>
+    <%= button_tag('Next', type: 'button', class: 'button is-link button__next--power') %>
+  </div>
+</div>

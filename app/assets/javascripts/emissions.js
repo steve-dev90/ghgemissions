@@ -3,6 +3,9 @@ $( document ).ready(function() {
 
   var tabStatus = { power: false }
 
+  $('.button__submit').hide()
+  $(".form__gas").hide()
+
   $('.datepicker').pickadate({
     today: false,
     clear: 'Clear date',
@@ -17,6 +20,7 @@ $( document ).ready(function() {
         userEnergyToHigh(inputs.user_energy)) {
       changeActiveTab('power', 'gas')
       tabStatus.power=true
+      $('.button__submit').show()
     }
   })
 
@@ -91,6 +95,7 @@ function changeActiveTab(currentTab, nextTab) {
   $(".tabs__" + currentTab).removeClass("is-active")
   $(".tabs__" + nextTab).addClass("is-active")
   $(".form__" + currentTab).slideUp()
+  $(".form__" + nextTab).slideDown()
 }
 
 function appendErrMessage(errmessage, field_id) {
