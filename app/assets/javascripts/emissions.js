@@ -9,31 +9,30 @@ $( document ).ready(function() {
     formatSubmit: 'dd/mm/yyyy'
   })
 
+  // Check for missing inputs
   $('.form__power').change(function() {
     missingInputs(getPowerFormInputs())
   })
 
   $('.button__next--power').click(function(event){
-    inputs = getPowerFormInputs()
-    clearInputErrors(inputs)
-    if (incorrectEndDate(inputs.start_date, inputs.end_date) &
-        userEnergyToHigh(inputs.user_energy)) {
-          $('.form__gas').removeClass("is-hidden")
-          changeActiveTab('power', 'gas')
-          tabStatus.power=true
-          $('.button__submit').removeClass("is-hidden")
-          $('.button__next--power').hide()
-        }
+    if (checkPowerFormInputs()) {
+      $('.form__gas').removeClass("is-hidden")
+      changeActiveTab('power', 'gas')
+      tabStatus.power=true
+      $('.button__submit').removeClass("is-hidden")
+      $('.button__next--power').hide()
+      addTickToFormStatusIcon('.form-status__power--icon')
+      $(window).scrollTop(0);
+    }
   })
 
   $('form').submit(function(e) {
-    console.log("BOO")
-    var validData = false
-    if (validData) {
+    if (!checkPowerFormInputs()) {
       e.preventDefault();
     }
   })
 
+  // Power tab listener
   $('.tabs__power').click(function() {
     isActive = $('.tabs__power').attr('class').includes('is-active')
     if (tabStatus.power==true & !isActive) {
@@ -43,7 +42,32 @@ $( document ).ready(function() {
 
 })
 
+// *** FORM STATUS ***
+function addTickToFormStatusIcon(icon) {
+  $(icon).addClass('fa-check-circle')
+  $(icon).removeClass('fa-circle')
+}
+
 // *** POWER FORM VALIDATION ***
+// Dealing with missing inputs
+function missingInputs(inputs) {
+  var missing = 0
+  $.each( inputs, function( key, value ) {
+    if (value != "" ) { missing ++}
+  })
+  if (missing == 3) { $('.button__next--power').prop('disabled', false) }
+}
+
+// Dealing with input errors
+function checkPowerFormInputs() {
+  inputs = getPowerFormInputs()
+  clearInputErrors(inputs)
+  if (incorrectEndDate(inputs.start_date, inputs.end_date) & userEnergyToHigh(inputs.user_energy)) {
+    return true
+  } else {
+    return false
+  }
+}
 
 function getPowerFormInputs() {
   return {
@@ -58,14 +82,6 @@ function clearInputErrors(inputs) {
     $("#" + key).parent().next().empty()
     $("#" + key).removeClass("is-danger")
   })
-}
-
-function missingInputs(inputs) {
-  var missing = 0
-  $.each( inputs, function( key, value ) {
-    if (value != "" ) { missing ++}
-  })
-  if (missing == 3) { $('.button__next--power').prop('disabled', false) }
 }
 
 function incorrectEndDate(startDate, endDate) {

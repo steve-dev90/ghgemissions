@@ -5,25 +5,25 @@
       <ul>
         <li class='tabs__power is-active'>
           <a>
-            <span class='icon is-small'><%= fa_icon 'bolt' %></i></span>
+            <span class='icon is-small'><%= fa_icon 'bolt' %></span>
             <span>Power</span>
           </a>
         </li>
         <li class='tabs__gas'>
           <a>
-            <span class='icon is-small'><%= fa_icon 'fire' %></i></span>
+            <span class='icon is-small'><%= fa_icon 'fire' %></span>
             <span>Natural Gas</span>
           </a>
         </li>
         <li>
           <a>
-            <span class='icon is-small'><%= fa_icon 'car' %></i></span>
+            <span class='icon is-small'><%= fa_icon 'car' %></span>
             <span>Car travel</span>
           </a>
         </li>
         <li>
           <a>
-            <span class='icon is-small'><%= fa_icon 'plane' %></i></span>
+            <span class='icon is-small'><%= fa_icon 'plane' %></span>
             <span>Air plane travel</span>
           </a>
         </li>
@@ -35,14 +35,25 @@
 
 <section class='section'>
   <div class='container'>
-    <div class="columns is-centered">
-      <div class="column is-two-fifths">
-
+    <div class="columns">
+      <div class="column is-one-third">
+        <ul>
+          <li>
+            <span class='icon is-small'><i class="fa fa-circle form-status__power--icon"></i></span>
+            Power
+          </li>
+          <li>
+            <span class='icon is-small'><i class="fa fa-circle form-status__gas--icon"></i></span>
+            Natural gas
+          </li>
+        </ul>
+      </div>
+      <div class="column is-one-third">
         <%= form_tag('emissions/dashboard', method: 'get') do %>
           <%= render 'emissions_form/power_form' %>
           <%= render 'emissions_form/gas_form' %>
-          <div class='field'>
-            <%= submit_tag('Calculate your emissions', class: 'button is-link is-hidden button__submit') %>
+          <div class='field has-text-centered'>
+            <%= submit_tag('Calculate your emissions', class: 'button is-link is-rounded is-hidden button__submit') %>
           </div>
         <% end %>
       </div>
