@@ -1,4 +1,5 @@
 
+(function() {
 $( document ).ready(function() {
 
   var tabStatus = { power: false }
@@ -116,5 +117,4 @@ function changeActiveTab(currentTab, nextTab) {
   $(".form__" + currentTab).slideUp()
   $(".form__" + nextTab).slideDown()
 }
-
-
+})()
