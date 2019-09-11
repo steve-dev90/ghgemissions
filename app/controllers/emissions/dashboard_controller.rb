@@ -1,11 +1,14 @@
 module Emissions
   class DashboardController < ApplicationController
     def index
+
+      pp "hello"
+      pp dashboard_params
       previous_month = Date.parse(Time.new.to_s).prev_month.month
       previous_month_power = Power::PreviousMonthEnergyEstimate.new(
         dashboard_params[:user_energy].to_f,
-        dashboard_params[:start_date_submit],
-        dashboard_params[:end_date_submit],
+        dashboard_params[:start_date],
+        dashboard_params[:end_date],
         previous_month
       )
 
@@ -18,7 +21,7 @@ module Emissions
     private
 
     def dashboard_params
-      params.permit(:user_energy, :start_date_submit, :end_date_submit)
+      params.permit(:user_energy, :start_date, :end_date)
     end
   end
 end
