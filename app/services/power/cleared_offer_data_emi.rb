@@ -97,12 +97,8 @@ class Power::ClearedOfferDataEMI
 
   def process_month_of_emissions_data
     last_month_january_check
-    pp @last_month
-    pp last_month_files
-    pp Time.days_in_month(@last_month, @last_month_year)
     return unless last_month_files == Time.days_in_month(@last_month, @last_month_year)
 
-    pp "HEELLOOO JJJ"
     transfer_records
     TaskSchedulerMailer.send_cleared_offer_monthly_processing_complete_email(@last_month).deliver
   end
