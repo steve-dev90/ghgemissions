@@ -108,6 +108,9 @@ class Power::ClearedOfferDataEMI
   end
 
   def last_month_files
+    pp ProcessedEmiFile
+    .all
+    .select{ |r| r.file_name[4,5].include?(two_digit_month(@last_month))}
     ProcessedEmiFile
       .all
       .select{ |r| r.file_name[4,5].include?(two_digit_month(@last_month))}
