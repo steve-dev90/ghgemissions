@@ -110,7 +110,7 @@ class Power::ClearedOfferDataEMI
   def last_month_files
     ProcessedEmiFile
       .all
-      .select{ |r| r.file_name.include?(two_digit_month(@last_month))}
+      .select{ |r| r.file_name[4,5].include?(two_digit_month(@last_month))}
       .size
     # "#{@folder}#{@last_month_year}#{two_digit_month(@last_month)}*_Cleared_Offers.csv"
   end
