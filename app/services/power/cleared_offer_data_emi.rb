@@ -37,7 +37,7 @@ class Power::ClearedOfferDataEMI
   end
 
   def emi_response(file)
-    url = EMI_CLEARED_OFFER_FILE + file
+    url = EMI_CLEARED_OFFER_FILE  + file[0,4] + "/" + file
     check_api_errors(url)
     HTTParty.get(url).gsub(FIRST_ROW_CLEARED_OFFER_FILE, '')
   end
@@ -119,12 +119,11 @@ class Power::ClearedOfferDataEMI
       pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update_attributes(hash)
     end
     TempHalfHourlyEmission.where(month: @last_month).destroy_all
-    ProcessedEmiFile.where(month: @last_month).destroy_all
   end
 
   def last_month_january_check
-    @last_month = Time.now.month - 1
-    @last_month_year = Time.now.year
+    @last_month = Time.new.month - 1
+    @last_month_year = Time.new.year
     return if Time.new.month > 1
 
     @last_month = 12
