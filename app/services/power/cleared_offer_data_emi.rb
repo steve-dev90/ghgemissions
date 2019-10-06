@@ -119,6 +119,7 @@ class Power::ClearedOfferDataEMI
       pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update_attributes(hash)
     end
     TempHalfHourlyEmission.where(month: @last_month).destroy_all
+    ProcessedEmiFile.where("file_name LIKE ? ", "#{@last_month_year}#{two_digit_month(@last_month)}%").destroy_all
   end
 
   def last_month_january_check
