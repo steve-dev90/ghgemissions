@@ -1,0 +1,39 @@
+<section class="section">
+  <div class="container">
+    <div class="columns is-multiline is-centered">
+      <div class="column is-two-thirds">
+        <h4 class="title is-5"><%= title %></h4>
+        <div class='tabs is-boxed is-medium'>
+          <ul>
+            <li class='tabs__item is-active'>
+              <a>
+                <span>Chart</span>
+              </a>
+            </li>
+            <li class='tabs__item'>
+              <a>
+                <span>More Information</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="chart__body">
+          <%= line_chart line_data(@user_emissions, :trading_period, :user_emission), line_options %>
+        </div>
+        <div class="info__body content" style="display: none">
+          <p>
+          This chart shows how emissions from
+          your eletricity use changes over a twenty four hour day.
+          We assume that the amount of electricity that you use varies
+          in the same way, more or less, as a typical residential user in Wellington.
+          </p>
+          <p>
+          Emissions are typically high in the evening and morning. This is
+          because most households use more electricity at this time but
+          also because this is when the most emission intensive electricity
+          if produced.
+          </p>
+        </div>
+      </div>
+  </div>
+</section>

@@ -6,21 +6,18 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-two-thirds has-text-centered">
-        <%= line_chart chart_data(@user_emissions, :trading_period, :user_emission, "rgba(220,220,220,0.2)"), user_emissions_options %>
-      </div>
-  </div>
-</section>
+<%= render partial: "power_chart",
+  locals: {title: "Typical electricity emissions over a day"}  %>
 
 <section class="section">
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-two-thirds has-text-centered">
-        <% background_color = ['red', 'green', 'blue', 'pink', 'purple', 'yellow']%>
-        <%= doughnut_chart chart_data(@trader_emissions, :trader, :emissions_factor, background_color), { } %>
+        <%= doughnut_chart doughnut_data(@trader_emissions, :trader, :emissions_factor), doughnut_options %>
       </div>
   </div>
 </section>
+
+
+
+<%= javascript_include_tag "power_emissions" %>
