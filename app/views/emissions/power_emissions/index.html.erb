@@ -6,8 +6,15 @@
   </div>
 </section>
 
+
+
 <%= render partial: "power_chart",
-  locals: {title: "Typical electricity emissions over a day"}  %>
+  locals: {title: "Typical electricity emissions over a day",
+  chart: capture { %> <%= line_chart line_data(@user_emissions, :trading_period, :user_emission), line_options %>
+  <% }} %>
+
+
+
 
 <section class="section">
   <div class="container">
