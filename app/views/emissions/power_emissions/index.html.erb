@@ -2,29 +2,49 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <h2 class="is-size-4"> Your electricity emissions in detail </h2>
-      </div>
+    </div>
   </div>
 </section>
 
+<% @daily_emissions_chart = capture do %>
+    <%= line_chart line_data(@user_emissions, :trading_period, :user_emission), line_options %>
+<% end %>
 
+<% @daily_emissions_chart_info = capture do %>
+  <p>
+    This chart shows how emissions from
+    your eletricity use changes over a twenty four hour day.
+    We assume that the amount of electricity that you use varies
+    in the same way, more or less, as a typical residential user in Wellington.
+  </p>
+  <p>
+    Emissions are typically high in the evening and morning. This is
+    because most households use more electricity at this time but
+    also because this is when the most emission intensive electricity
+    if produced.
+  </p>
+<% end %>
 
 <%= render partial: "power_chart",
-  locals: {title: "Typical electricity emissions over a day",
-  chart: capture { %> <%= line_chart line_data(@user_emissions, :trading_period, :user_emission), line_options %>
-  <% }} %>
+  locals: { title: "Typical electricity emissions over a day",
+    chart: @daily_emissions_chart,
+    chart_info: @daily_emissions_chart_info }
+%>
 
+<% @emissions_by_trader_chart = capture do %>
+  <%= doughnut_chart doughnut_data(@trader_emissions, :trader, :emissions_factor), doughnut_options %>
+<% end %>
 
+<% @emissions_by_trader_chart_info = capture do %>
+<p>
+  This chart shows how ....
+</p>
+<% end %>
 
-
-<section class="section">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-two-thirds has-text-centered">
-        <%= doughnut_chart doughnut_data(@trader_emissions, :trader, :emissions_factor), doughnut_options %>
-      </div>
-  </div>
-</section>
-
-
+<%= render partial: "power_chart",
+locals: { title: "Monthly emissions by trader",
+  chart: @emissions_by_trader_chart,
+  chart_info: @emissions_by_trader_chart_info }
+%>
 
 <%= javascript_include_tag "power_emissions" %>
