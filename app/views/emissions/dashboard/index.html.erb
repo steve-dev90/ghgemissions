@@ -2,12 +2,10 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <h2 class="is-size-4">You emitted <%= @total_emissions %> kilograms of greenhouse gases </h2>
-      <h2 class="is-size-4">for the month of <%= Date::MONTHNAMES[Date.parse(Time.new.to_s).prev_month.month] =%> </h2>
+        <h2 class="is-size-4">for <%= Date::MONTHNAMES[previous_month.month] %> <%= previous_month.year %></h2>
       </div>
   </div>
 </section>
-
-
 
 <section class="section">
   <div class="container">

@@ -9,4 +9,8 @@ module ApplicationHelper
       page_title + " | " + base_title
     end
   end
+
+  def previous_month
+    Date.parse(Time.new.to_s).prev_month
+  end
 end

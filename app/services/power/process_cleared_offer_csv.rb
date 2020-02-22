@@ -26,6 +26,8 @@ class Power::ProcessClearedOfferCSV
   end
 
   def for_each_trader(rows, trading_period, trader, energy)
+    # Returns 0 if there are no rows with a trader
+    # Note .sum returns 0 if there is no row
     emissions = rows
                   .select { |row| row['Trader'] == trader }
                   .sum { |row| get_emissions(row['ClearedEnergy (MW)'] * 0.5, row['PointOfConnection'] )}

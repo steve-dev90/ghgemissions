@@ -2,25 +2,57 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <h2 class="is-size-4"> Your electricity emissions in detail </h2>
-      </div>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-two-thirds has-text-centered">
-        <%= line_chart chart_data(@user_emissions, :trading_period, :user_emission, "rgba(220,220,220,0.2)"), user_emissions_options %>
-      </div>
-  </div>
-</section>
+<% @daily_emissions_chart = capture do %>
+    <%= line_chart line_data(@user_emissions, :trading_period, :user_emission), line_options %>
+<% end %>
 
-<section class="section">
-  <div class="container">
-    <div class="columns is-centered">
-      <div class="column is-two-thirds has-text-centered">
-        <% background_color = ['red', 'green', 'blue', 'pink', 'purple', 'yellow']%>
-        <%= doughnut_chart chart_data(@trader_emissions, :trader, :emissions_factor, background_color), { } %>
-      </div>
-  </div>
-</section>
+<% @daily_emissions_chart_info = capture do %>
+  <p>
+    This chart shows how emissions from
+    your use of eletricity changes over a twenty four hour day.
+    We assume that the amount of electricity that you use varies
+    in the same way, more or less, as a typical household in Wellington.
+  </p>
+  <p>
+    Emissions are typically high in the evening and morning. This is
+    because most households use more electricity at this time and
+    also because this is when the most emission intensive electricity
+    if produced.
+  </p>
+  <p>
+    Your daily emissions use will change over the year, being higher
+    in the winter and lower in the summer. Over winter most households
+    will use a lot more electricity, and it may also be because more
+    emission intensive electricity is produced.
+  </p>
+<% end %>
+
+<%= render partial: "power_chart",
+  locals: { title: "Typical electricity emissions over a day",
+    chart: @daily_emissions_chart,
+    chart_info: @daily_emissions_chart_info }
+%>
+
+<% @emissions_by_trader_chart = capture do %>
+  <%= doughnut_chart doughnut_data(@trader_emissions, :trader, :emissions_factor), doughnut_options %>
+<% end %>
+
+<% @emissions_by_trader_chart_info = capture do %>
+<p>
+  This chart shows an estimate of the percentage of total emissions produced by the
+  New Zealand electricity system for each electricity company
+  for the stated month.
+</p>
+<% end %>
+
+<%= render partial: "power_chart",
+locals: { title: "Emissions by electricity company",
+  chart: @emissions_by_trader_chart,
+  chart_info: @emissions_by_trader_chart_info }
+%>
+
+<%= javascript_include_tag "power_emissions" %>
