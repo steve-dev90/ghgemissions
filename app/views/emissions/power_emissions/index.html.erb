@@ -13,15 +13,21 @@
 <% @daily_emissions_chart_info = capture do %>
   <p>
     This chart shows how emissions from
-    your eletricity use changes over a twenty four hour day.
+    your use of eletricity changes over a twenty four hour day.
     We assume that the amount of electricity that you use varies
-    in the same way, more or less, as a typical residential user in Wellington.
+    in the same way, more or less, as a typical household in Wellington.
   </p>
   <p>
     Emissions are typically high in the evening and morning. This is
-    because most households use more electricity at this time but
+    because most households use more electricity at this time and
     also because this is when the most emission intensive electricity
     if produced.
+  </p>
+  <p>
+    Your daily emissions use will change over the year, being higher
+    in the winter and lower in the summer. Over winter most households
+    will use a lot more electricity, and it may also be because more
+    emission intensive electricity is produced.
   </p>
 <% end %>
 
@@ -37,12 +43,14 @@
 
 <% @emissions_by_trader_chart_info = capture do %>
 <p>
-  This chart shows how ....
+  This chart shows an estimate of the percentage of total emissions produced by the
+  New Zealand electricity system for each electricity company
+  for the stated month.
 </p>
 <% end %>
 
 <%= render partial: "power_chart",
-locals: { title: "Emissions by trader",
+locals: { title: "Emissions by electricity company",
   chart: @emissions_by_trader_chart,
   chart_info: @emissions_by_trader_chart_info }
 %>
