@@ -11,7 +11,11 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-two-thirds has-text-centered">
-        <%= link_to "Learn more about your electricity emissions", emissions_power_emissions_path(previous_month_power: @previous_month_power) %>
+        <%=
+          link_to "Learn more about your electricity emissions",
+          emissions_power_emissions_path(previous_month_power: @previous_month_power),
+          class: "button is-rounded is-link"
+        %>
       </div>
   </div>
 </section>
