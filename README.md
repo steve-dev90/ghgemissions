@@ -1,4 +1,4 @@
-# Carbon Footprint Calculator 
+# Carbon Footprint Calculator
 This app calculates the carbon footprint for a typical New Zealand household.
 
 August 2019 : Working on providing users with there ghg emissions from using electricity!
@@ -37,7 +37,9 @@ The processed_emi_files and temp_half_hourly_emissions tables are really just us
 
 ## How to run the test suite
 
-In the command line: `bundle exec rspec`
+For all tests: In the command line: `bundle exec rspec`
+
+For a single test (example): In the command line: `bundle exec rspec ./spec/services/power/profile_data_spec.rb`
 
 ## Services (job queues, cache servers, search engines, etc.)
 

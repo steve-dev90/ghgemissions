@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe Power::ProfileData do
+RSpec.describe Energy::ProfileData do
   before(:all) do
     Profile.destroy_all
   end
 
   it 'calculates normalised monthly, trading period, weekday and weekend profiles correctly - one month only' do
-    @profile = Power::ProfileData.new('./spec/services/power/CPK0111_RPS_Test.csv')
+    @profile = Energy::ProfileData.new('./spec/services/power/CPK0111_RPS_Test.csv', &POWER_TRADING_PERIOD_PROCESSOR)
     @profile.call
     #sum profile over all trading periods, trading dates for each month
     sum_monthly_profile = [0, 0, 0, 0, 0, 0, 0, 0, 90.0, 0, 0, 0]
@@ -27,7 +27,7 @@ RSpec.describe Power::ProfileData do
   end
 
   it 'calculates normalised monthly, trading period, weekday and weekend profiles correctly - multiple months only' do
-    @profile = Power::ProfileData.new('./spec/services/power/CPK0111_RPS_Test_Months.csv')
+    @profile = Energy::ProfileData.new('./spec/services/power/CPK0111_RPS_Test_Months.csv', &POWER_TRADING_PERIOD_PROCESSOR)
     @profile.call
     #sum profile over all trading periods, trading dates for each month
     sum_monthly_profile = [12.0, 12.0, 12.0, 12.0, 0, 0, 0, 0, 0.0, 0, 0, 0]
