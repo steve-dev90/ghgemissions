@@ -10,4 +10,8 @@ class Profile < ApplicationRecord
   validates :profile,
             presence: true,
             numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 1.0 }
+  validates :energy_type,
+            presence: true,
+            numericality: { only_integer: true },
+            inclusion: { in: EnergyType.pluck(:id) }
 end

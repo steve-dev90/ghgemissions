@@ -2,10 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Profile, type: :model do
   before(:all) do
+    # Energy types must be defined for profile validation to work
+    FactoryBot.create(:energy_type)
     @profile1 = FactoryBot.build(:profile)
   end
 
   it 'is valid with valid attributes' do
+    # EnergyType.pluck(:id)
     expect(@profile1).to be_valid
   end
 
@@ -75,4 +78,20 @@ RSpec.describe Profile, type: :model do
     profile2 = FactoryBot.build(:profile, profile: 1.01)
     expect(profile2).to_not be_valid
   end
+
+  it 'invalidates records with a no energy_type' do
+    profile2 = FactoryBot.build(:profile, energy_type: nil)
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with a non-integer energy_type' do
+    profile2 = FactoryBot.build(:profile, energy_type: 'one')
+    expect(profile2).to_not be_valid
+  end
+
+  it 'invalidates records with a energy_type that is not a 1 or 2' do
+    profile2 = FactoryBot.build(:profile, energy_type: 3)
+    expect(profile2).to_not be_valid
+  end
+
 end
