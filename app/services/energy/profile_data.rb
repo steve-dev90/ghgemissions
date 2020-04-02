@@ -1,6 +1,5 @@
 POWER_TRADING_PERIOD_PROCESSOR = lambda do |profile_monthly_sum, month, context|
   #Where `context` is the current ProfileData object
-  pp "hello FTY"
   trading_periods = context.csv.select { |row| context.profile_test(row, month, 'month') }.map { |row| row[4] }.uniq
   trading_periods.each do |trading_period|
     context.add_profile_records(profile_monthly_sum, month, trading_period.to_s)
@@ -19,12 +18,14 @@ class Energy::ProfileData
   # ** At present only run at setup **
   # Will need to destroy all records for gas
   PERIOD_TYPES = %w[ wkday wkend ].freeze
+  PROFILE_COLUMN = { 'power' => 5, 'gas'=> 4 }.freeze
 
   attr_accessor :csv
 
   def initialize(file, energy_type, &trading_period_processor)
     @file = file
-    @energy_type = energy_type
+    @profile_col = PROFILE_COLUMN[energy_type]
+    @energy_type_index = EnergyType.find_by(name: energy_type).id
     @profile_records = []
     @trading_period_processor = trading_period_processor
   end
@@ -38,7 +39,7 @@ class Energy::ProfileData
   end
 
   def obtain_profile_records_all_months
-    profile_annual_sum = @csv.sum { |row| row[5] }
+    profile_annual_sum = @csv.sum { |row| row[@profile_col] }
     months = @csv.map { |row| Date.parse(row[3]).month }.uniq
     months.each do |month|
       obtain_monthly_profile_records(month, profile_annual_sum)
@@ -56,17 +57,17 @@ class Energy::ProfileData
   def profile_monthly_sum(month)
     @csv
       .select { |row| profile_test(row, month, 'month') }
-      .sum { |row| row[5]}
+      .sum { |row| row[@profile_col]}
   end
 
   def add_profile_records(profile_sum, month, period)
     profile = @csv
                 .select { |row| profile_test(row, month, period) }
-                .sum { |row| row[5]} / profile_sum
+                .sum { |row| row[@profile_col]} / profile_sum
     @profile_records << {
       month: month,
       profile: profile, period: period,
-      energy_type: @energy_type
+      energy_type: @energy_type_index
     }
   end
 
