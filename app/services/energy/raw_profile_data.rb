@@ -1,3 +1,6 @@
+#This is the context class for PowerProfileProcessor and
+#GasProfileProcessor
+
 class Energy::RawProfileData
   attr_reader :input_path, :output_path, :profile_loc
   attr_accessor :file_processor

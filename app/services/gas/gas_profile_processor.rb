@@ -1,10 +1,12 @@
+# For processing raw GIC gas profiles
+# Generates a single file containing profile data for a
+# single Gas Gate, for 12 months
+
 class Gas::GasProfileProcessor
   def process_raw_profile_data(context)
-    @csv = CSV.read(context.input_path, converters: :numeric, headers: true)
+    @csv = CSV.read(context.input_path, converters: :numeric)[1..-1]
     max_year = find_max_year
     max_month = find_max_month(max_year)
-    pp @csv
-      .map { |row| row[3] }
     @csv
       .select { |row| row_test(row, max_year, max_month, context.profile_loc)}
       .each do |row|

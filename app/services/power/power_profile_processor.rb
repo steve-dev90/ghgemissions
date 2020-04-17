@@ -1,3 +1,6 @@
+# For processing raw Electricity Authority power profiles
+# Generates a single file containing profile data for a
+# single GXP, for 12 months
 class Power::PowerProfileProcessor
   def process_raw_profile_data(context)
     begin
