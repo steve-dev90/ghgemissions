@@ -1,9 +1,10 @@
-class Power::PreviousMonthEnergyEstimate
-  def initialize(billed_energy, start_date, end_date, previous_month)
+class Energy::PreviousMonthEnergyEstimate
+  def initialize(billed_energy, start_date, end_date, previous_month, energy_type)
     @start_date = start_date
     @end_date = end_date
     @billed_energy = billed_energy
     @previous_month = previous_month
+    @energy_type = energy_type
   end
 
   def call
@@ -35,7 +36,8 @@ class Power::PreviousMonthEnergyEstimate
 
   def get_profile(month, period)
     Profile
-      .where("profiles.month = ? AND profiles.period = ?", month, period)
+      .joins('INNER JOIN energy_types ON energy_types.id = profiles.energy_type')
+      .where("energy_types.name = ? AND profiles.month = ? AND profiles.period = ?", @energy_type, month, period)
       .pluck(:profile)
       .first
   end

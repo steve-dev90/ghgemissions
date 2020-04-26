@@ -4,11 +4,12 @@ RSpec.describe Profile, type: :model do
   before(:all) do
     # Energy types must be defined for profile validation to work
     FactoryBot.create(:energy_type)
+    FactoryBot.create(:energy_type, name: 'gas', id: 2)
     @profile1 = FactoryBot.build(:profile)
   end
 
   it 'is valid with valid attributes' do
-    # EnergyType.pluck(:id)
+    EnergyType.pluck(:id)
     expect(@profile1).to be_valid
   end
 
