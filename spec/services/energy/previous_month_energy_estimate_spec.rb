@@ -9,8 +9,8 @@ RSpec.describe Energy::PreviousMonthEnergyEstimate do
     EnergyType.pluck(:id)
   end
 
-  describe 'with power' do
-    before(:context) do
+  context 'with power' do
+    before(:all) do
       Profile.destroy_all
       (1..12).each do |month|
         FactoryBot.create(:profile, period: 'month', month: month, profile: 0.1)
@@ -99,8 +99,8 @@ RSpec.describe Energy::PreviousMonthEnergyEstimate do
     end
   end
 
-  describe 'with gas' do
-    before(:context) do
+  context 'with gas' do
+    before(:all) do
       Profile.destroy_all
       (1..12).each do |month|
         FactoryBot.create(:profile, period: 'month', month: month, profile: 0.1, energy_type: 2)

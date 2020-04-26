@@ -13,7 +13,8 @@ class Power::UserEmissions
       .joins('INNER JOIN traders ON traders.code = half_hourly_emissions.trader')
       .select('traders.name as trader, sum(profiles.profile *
         half_hourly_emissions.emissions_factor) as emissions_factor')
-      .where("half_hourly_emissions.month = ?", @month)
+      .where("profiles.energy_type = ? AND half_hourly_emissions.month = ?",
+        EnergyType.find_by(name: 'power').id, @month)
       .group('traders.name')
   end
 
@@ -35,7 +36,8 @@ class Power::UserEmissions
         profiles.month = half_hourly_emissions.month')
       .select('half_hourly_emissions.period,
         sum(profiles.profile * half_hourly_emissions.emissions_factor) as user_emissions_factor')
-      .where("half_hourly_emissions.month = ?", @month)
+      .where("profiles.energy_type = ? AND half_hourly_emissions.month = ?",
+        EnergyType.find_by(name: 'power').id, @month)
       .group('half_hourly_emissions.period, half_hourly_emissions.month')
   end
 end
