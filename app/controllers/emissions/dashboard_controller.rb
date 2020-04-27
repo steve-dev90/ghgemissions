@@ -5,11 +5,12 @@ module Emissions
       pp "hello"
       pp dashboard_params
       previous_month = Date.parse(Time.new.to_s).prev_month.month
-      previous_month_power = Power::PreviousMonthEnergyEstimate.new(
+      previous_month_power = Energy::PreviousMonthEnergyEstimate.new(
         dashboard_params[:user_energy].to_f,
         dashboard_params[:start_date],
         dashboard_params[:end_date],
-        previous_month
+        previous_month,
+        'power'
       )
 
       @previous_month_power = previous_month_power.call

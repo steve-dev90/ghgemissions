@@ -10,10 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_08_003511) do
+ActiveRecord::Schema.define(version: 2020_03_29_041854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "energy_types", force: :cascade do |t|
+    t.string "name"
+  end
 
   create_table "generation_stations", force: :cascade do |t|
     t.string "station_name"
@@ -49,6 +53,7 @@ ActiveRecord::Schema.define(version: 2019_08_08_003511) do
     t.datetime "updated_at", null: false
     t.string "period"
     t.integer "month"
+    t.integer "energy_type"
   end
 
   create_table "temp_half_hourly_emissions", force: :cascade do |t|
