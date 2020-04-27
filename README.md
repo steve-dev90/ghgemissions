@@ -6,7 +6,7 @@ August 2019 : Working on providing users with there ghg emissions from using ele
 ## Technologies
 CSS framework : Bulma
 
-Front end : Rails v5.2
+Front end : Rails v5.2, jquery
 
 Back end : Rails v5.2
 
@@ -32,6 +32,7 @@ To set up dev database from scratch (in this order):
 - `bin/rails power:import_half_hourly_emissions_table_csv` - half_hourly_emissions table
 - `bin/rails energy:import_energy_types` - energy_types table
 - `bin/rails power:import_ea_profile`- profiles table (needs energy_types to exist and be populated)
+- `bin/rails gas:import_GIC_profile`- profiles table (needs energy_types to exist and be populated)
 - `bin/rails power:import_trader_data` - traders table
 
 The processed_emi_files and temp_half_hourly_emissions tables are really just used in production.
