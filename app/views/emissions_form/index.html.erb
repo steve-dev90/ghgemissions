@@ -52,6 +52,7 @@
         <%= form_tag('emissions/dashboard', method: 'get') do %>
           <%= render 'emissions_form/power_form' %>
           <%= render 'emissions_form/gas_form' %>
+          <%= render 'emissions_form/car_form' %>
           <div class='field has-text-centered'>
             <%= submit_tag('Calculate your emissions', class: 'button is-link is-rounded is-hidden button__submit') %>
           </div>

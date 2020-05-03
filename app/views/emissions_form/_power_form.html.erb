@@ -3,21 +3,21 @@
   <div class='field'>
     <label class="label">Bill start date</label>
     <div class="control">
-      <%= text_field_tag(:start_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill start date'}) %>
+      <%= text_field_tag(:power_start_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill start date'}) %>
     </div>
     <div class="form__errmessage"></div>
   </div>
   <div class='field'>
     <label class="label">Bill end date</label>
     <div class="control">
-      <%= text_field_tag(:end_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill end date' }) %>
+      <%= text_field_tag(:power_end_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill end date' }) %>
     </div>
     <div class="form__errmessage"></div>
   </div>
   <div class='field'>
-    <%= label_tag(:user_energy, 'How much power did you use?', class: 'label') %>
+    <%= label_tag(:power_user_energy, 'How much power did you use?', class: 'label') %>
     <div class="control">
-      <%= text_field_tag(:user_energy, value=nil, type: 'number', class: 'input', placeholder: 'Enter your power in kWh') %>
+      <%= text_field_tag(:power_user_energy, value=nil, type: 'number', class: 'input', placeholder: 'Enter your power in kWh') %>
     </div>
     <div class="form__errmessage"></div>
   </div>
