@@ -46,6 +46,10 @@
             <span class='icon is-small'><i class="fa fa-circle form-status__gas--icon"></i></span>
             Natural gas
           </li>
+          <li>
+            <span class='icon is-small'><i class="fa fa-circle form-status__car--icon"></i></span>
+            Car travel
+          </li>
         </ul>
       </div>
       <div class="column is-one-third">
@@ -54,7 +58,7 @@
           <%= render 'emissions_form/gas_form' %>
           <%= render 'emissions_form/car_form' %>
           <div class='field has-text-centered'>
-            <%= submit_tag('Calculate your emissions', class: 'button is-link is-rounded is-hidden button__submit') %>
+            <%= submit_tag('Calculate your emissions',  disabled: true, class: 'button is-link is-rounded is-hidden button__submit') %>
           </div>
         <% end %>
       </div>

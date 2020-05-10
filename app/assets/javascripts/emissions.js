@@ -27,16 +27,22 @@
 
     function nextButtonActions(currentTab, nextTab) {
       if (checkFormInputs(currentTab)) {
-        $('.form__' + nextTab).removeClass("is-hidden")
-        changeActiveTab(currentTab, nextTab)
-        tabStatus.power=true
-        if (nextTab == "car") {
-          $('.button__submit').removeClass("is-hidden")
-        }
-        $('.button__next--' + currentTab).hide()
-        addTickToFormStatusIcon('.form-status__power--icon')
-        $(window).scrollTop(0);
+        progressToNextForm (currentTab, nextTab)
       }
+    }
+
+    function progressToNextForm (currentTab, nextTab)  {
+      $('.form__' + nextTab).removeClass("is-hidden")
+      changeActiveTab(currentTab, nextTab)
+      tabStatus.power=true
+      if (nextTab == "car") {
+        $('.button__submit')
+          .prop('disabled', false)
+          .removeClass("is-hidden")
+      }
+      $('.button__next--' + currentTab).hide()
+      addTickToFormStatusIcon('.form-status__' + currentTab + '--icon')
+      $(window).scrollTop(0);
     }
 
     $('form').submit(function(e) {
@@ -55,6 +61,16 @@
     })
   })
 
+  // *** GAS YES NO BUTTONS
+  $('.button__yes--gas').click(function() {
+    $('.form__gas--check').slideUp()
+    $('.form__gas--proper').removeClass("is-hidden")
+  })
+
+  $('.button__no--gas').click(function() {
+    progressToNextForm (currentTab, nextTab)
+  })
+
   // *** FORM STATUS ***
   function addTickToFormStatusIcon(icon) {
     $(icon).addClass('fa-check-circle')
@@ -68,7 +84,6 @@
     $.each( inputs, function( key, value ) {
       if (value != "" ) { missing ++}
     })
-    console.log(missing, inputs)
     if (missing == 3) { $('.button__next--' + tab).prop('disabled', false) }
   }
 
