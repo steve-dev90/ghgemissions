@@ -1,3 +1,40 @@
 <div class='form__gas is-hidden'>
-  <h4 class="title is-5 has-text-centered">Gas is coming soon!</h4>
+  <div class='form__gas--check'>
+    <h4 class="title is-5">Use gas?</h4>
+      <div class="level">
+        <p class="level-item has-text-centered">
+          <%= button_tag('Yes', type: 'button', class: 'button is-link is-rounded button__yes--gas') %>
+       </p>
+        <p class="level-item has-text-centered">
+          <%= button_tag('No', type: 'button', class: 'button is-link is-rounded button__no--gas') %>
+        </p>
+      </div>
+  </div>
+  <div class='form__gas--proper is-hidden'>
+    <h4 class="title is-5">From your most recent gas bill</h4>
+    <div class='field'>
+      <label class="label">Bill start date</label>
+      <div class="control">
+        <%= text_field_tag(:gas_start_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill start date'}) %>
+      </div>
+      <div class="form__errmessage"></div>
+    </div>
+    <div class='field'>
+      <label class="label">Bill end date</label>
+      <div class="control">
+        <%= text_field_tag(:gas_end_date, value = nil, html_options = {class: 'datepicker input', placeholder: 'Enter your bill end date' }) %>
+      </div>
+      <div class="form__errmessage"></div>
+    </div>
+    <div class='field'>
+      <%= label_tag(:gas_user_energy, 'How much gas did you use?', class: 'label') %>
+      <div class="control">
+        <%= text_field_tag(:gas_user_energy, value=nil, type: 'number', class: 'input', placeholder: 'Enter gas used in kWh') %>
+      </div>
+      <div class="form__errmessage"></div>
+    </div>
+    <div class='field has-text-centered'>
+      <%= button_tag('Next', type: 'button', disabled: true, class: 'button is-link is-rounded button__next--gas') %>
+    </div>
+  </div>
 </div>
