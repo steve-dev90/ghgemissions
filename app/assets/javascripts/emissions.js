@@ -10,6 +10,17 @@
       formatSubmit: 'dd/mm/yyyy'
     })
 
+    // *** GAS YES NO BUTTONS
+    $('.button__yes--gas').click(function() {
+      $('.form__gas--check').slideUp()
+      $('.form__gas--proper').removeClass("is-hidden")
+    })
+
+    $('.button__no--gas').click(function() {
+      console.log("kf is going to rock you")
+      progressToNextForm ('gas', 'car')
+    })
+
     // *** NEXT BUTTON ***
     // Check for missing inputs and if none enanle next button
     $('.form__power, .form__gas').change(function() {
@@ -59,16 +70,6 @@
         changeActiveTab('gas', 'power')
       }
     })
-  })
-
-  // *** GAS YES NO BUTTONS
-  $('.button__yes--gas').click(function() {
-    $('.form__gas--check').slideUp()
-    $('.form__gas--proper').removeClass("is-hidden")
-  })
-
-  $('.button__no--gas').click(function() {
-    progressToNextForm (currentTab, nextTab)
   })
 
   // *** FORM STATUS ***
