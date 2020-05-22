@@ -2,10 +2,12 @@
   <div class="hero-body">
     <div class="container has-text-centered">
       <h2 class="is-size-4">You emitted <%= @total_emissions %> kilograms of greenhouse gases </h2>
-        <h2 class="is-size-4">for <%= Date::MONTHNAMES[previous_month.month] %> <%= previous_month.year %></h2>
-      </div>
+      <h2 class="is-size-4">for <%= Date::MONTHNAMES[previous_month.month] %> <%= previous_month.year %></h2>
+    </div>
   </div>
 </section>
+
+<%= bar_chart bar_data(@user_emissions, :emission_source, :user_emission), bar_options %>
 
 <section class="section">
   <div class="container">
