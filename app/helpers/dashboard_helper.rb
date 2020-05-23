@@ -1,6 +1,5 @@
 module DashboardHelper
   def bar_data(query_data, label_title, data_title)
-
     { labels: query_data.reduce([]) {|labels, data_pt| labels << data_pt[label_title].to_s},
       datasets: [
         { label: "User Emissions",
@@ -14,14 +13,16 @@ module DashboardHelper
 
   def bar_options
     {
-      height: 300,
+      height: 200,
       legend: {display: false},
-      scales:{
-        xAxes: [{
-            gridLines: {
-                offsetGridLines: true
-            }
-        }]
+      scales: {
+        xAxes: [{ scaleLabel: { display: true,
+                                labelString: 'Emisssions Source' },
+                  gridLines: { offsetGridLines: true }
+                }],
+        yAxes: [{ scaleLabel: { display: true,
+                                labelString: 'Emisssions kgCO2' }
+                }],
       }
     }
   end
