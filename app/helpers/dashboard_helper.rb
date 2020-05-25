@@ -7,7 +7,8 @@ module DashboardHelper
           barThickness: 6,
           maxBarThickness: 8,
           minBarLength: 2,
-          data: query_data.reduce([]) {|data, data_pt| data << data_pt[data_title].to_s}
+          data: query_data.reduce([]) {|data, data_pt| data << data_pt[data_title].to_s},
+          backgroundColor: [ 'hsl(37, 90%, 51%)', 'hsl(204, 70%, 81%)']
         }] }
   end
 
@@ -16,11 +17,11 @@ module DashboardHelper
       height: 200,
       legend: {display: false},
       scales: {
-        xAxes: [{ scaleLabel: { display: true,
+        yAxes: [{ scaleLabel: { display: true,
                                 labelString: 'Emisssions Source' },
                   gridLines: { offsetGridLines: true }
                 }],
-        yAxes: [{ scaleLabel: { display: true,
+        xAxes: [{ scaleLabel: { display: true,
                                 labelString: 'Emisssions kgCO2' }
                 }],
       }
