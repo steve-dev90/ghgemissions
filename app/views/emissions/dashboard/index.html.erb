@@ -1,8 +1,15 @@
-<section class="hero">
-  <div class="hero-body">
-    <div class="container has-text-centered">
-      <h2 class="is-size-4">You emitted <%= @total_emissions %> kilograms of greenhouse gases </h2>
-        <h2 class="is-size-4">for <%= Date::MONTHNAMES[previous_month.month] %> <%= previous_month.year %></h2>
+<section class="dashboard__results">
+  <div class="container has-text-centered">
+    <h3 class="is-size-5">Your <%= Date::MONTHNAMES[previous_month.month] %> <%= previous_month.year %> greenhouse gas emissions:</h3>
+    <h2 class="is-size-4 has-text-info"><%= @total_emissions %> kg </h2>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-two-thirds has-text-centered">
+        <%= horizontal_bar_chart bar_data(@user_emissions, :emissions_source, :user_emission), bar_options %>
       </div>
   </div>
 </section>
@@ -11,11 +18,15 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-two-thirds has-text-centered">
+        <div class="box">
+        <h2 class="is-size-4" > What's next </h2>
         <%=
           link_to "Learn more about your electricity emissions",
           emissions_power_emissions_path(previous_month_power: @previous_month_power),
-          class: "button is-rounded is-link"
+          class: "dashboard__button--powerlearn button is-rounded is-link"
         %>
+        </div>
       </div>
+    </div>
   </div>
 </section>

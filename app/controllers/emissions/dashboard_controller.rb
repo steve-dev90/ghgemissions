@@ -1,32 +1,39 @@
 module Emissions
   class DashboardController < ApplicationController
     def index
-
-      pp "hello"
-      pp dashboard_params
       previous_month = Date.parse(Time.new.to_s).prev_month.month
 
-      previous_month_power = Energy::PreviousMonthEnergyEstimate.new(
+      @previous_month_power = Energy::PreviousMonthEnergyEstimate.new(
         dashboard_params[:power_user_energy].to_f,
         dashboard_params[:power_start_date],
         dashboard_params[:power_end_date],
         previous_month,
         'power'
-      )
-      @previous_month_power = previous_month_power.call
+      ).call
 
-      previous_month_gas = Energy::PreviousMonthEnergyEstimate.new(
-        dashboard_params[:gas_user_energy].to_f,
-        dashboard_params[:gas_start_date],
-        dashboard_params[:gas_end_date],
-        previous_month,
-        'gas'
-      )
-      @previous_month_gas = previous_month_gas.call
+      power_emissions = {
+        emissions_source: 'Power',
+        user_emission:
+          Power::UserEmissions.new(@previous_month_power, previous_month)
+            .calculate_user_emissions
+            .sum{ |e| e[:user_emission] }
+      }
 
-      emissions = Power::UserEmissions.new(@previous_month_power, previous_month)
-      @user_emissions = emissions.calculate_user_emissions
-      @total_emissions = @user_emissions.sum{ |e| e[:user_emission]}.round(1)
+      if !dashboard_params[:gas_user_energy].empty?
+        previous_month_gas = Energy::PreviousMonthEnergyEstimate.new(
+          dashboard_params[:gas_user_energy].to_f,
+          dashboard_params[:gas_start_date],
+          dashboard_params[:gas_end_date],
+          previous_month,
+          'gas'
+        )
+        gas_emissions = { emissions_source: 'Gas', user_emission: 53.96 * 0.0036 * previous_month_gas.call}
+      else
+        gas_emissions = { emissions_source: 'Gas', user_emission: 0}
+      end
+
+      @user_emissions = [ power_emissions, gas_emissions]
+      @total_emissions = @user_emissions.sum { |data_pt| data_pt[:user_emission] }.round(1)
     end
 
     private
