@@ -84,7 +84,7 @@ class Energy::ProfileData
     pp "saving records"
     @profile_records.each do |record|
       profile = Profile.find_or_create_by(period: record[:period], month: record[:month], energy_type: record[:energy_type])
-      pp '*** Record not Valid ***', record, profile.errors.messages unless profile.update_attributes(record)
+      pp '*** Record not Valid ***', record, profile.errors.messages unless profile.update(record)
     end
   end
 end

@@ -5,6 +5,7 @@ RSpec.describe Power::UserEmissions do
     @user_energy = 100.0
     @month = 1
     @user_emissions = Power::UserEmissions.new(@user_energy, @month)
+    EnergyType.destroy_all
     FactoryBot.create(:energy_type)
     FactoryBot.create(:energy_type, name: 'gas', id: 2)
     HalfHourlyEmission.destroy_all

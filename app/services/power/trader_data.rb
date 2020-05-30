@@ -14,7 +14,7 @@ class Power::TraderData
   def save_records
     TRADERS.each do |record|
       trader = Trader.find_or_create_by(code: record[:code])
-      pp '*** Record not Valid ***', record, trader.errors.messages unless trader.update_attributes(record)
+      pp '*** Record not Valid ***', record, trader.errors.messages unless trader.update(record)
     end
   end
 end

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Energy::PreviousMonthEnergyEstimate do
 
   before(:all) do
+    EnergyType.destroy_all
     FactoryBot.create(:energy_type)
     FactoryBot.create(:energy_type, name: 'gas', id: 2)
     # Need this next line all EnergyType doesn't save - weird

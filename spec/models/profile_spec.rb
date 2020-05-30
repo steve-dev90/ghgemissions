@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Profile, type: :model do
   before(:all) do
     # Energy types must be defined for profile validation to work
+    EnergyType.destroy_all
     FactoryBot.create(:energy_type)
     FactoryBot.create(:energy_type, name: 'gas', id: 2)
     @profile1 = FactoryBot.build(:profile)
