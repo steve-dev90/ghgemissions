@@ -5,6 +5,7 @@ RSpec.describe Power::UserEmissions do
     @user_energy = 100.0
     @month = 1
     @user_emissions = Power::UserEmissions.new(@user_energy, @month)
+    EnergyType.destroy_all
     FactoryBot.create(:energy_type)
     FactoryBot.create(:energy_type, name: 'gas', id: 2)
     HalfHourlyEmission.destroy_all
@@ -55,9 +56,9 @@ RSpec.describe Power::UserEmissions do
                           emissions_factor: 0.005)
       end
       half_hourly_emission = HalfHourlyEmission.find_or_create_by(period: '1', trader: 'GENE')
-      half_hourly_emission.update_attributes(emissions_factor: 0.01)
+      half_hourly_emission.update(emissions_factor: 0.01)
       profile = Profile.find_or_create_by(period: '2')
-      profile.update_attributes(profile: 0.2)
+      profile.update(profile: 0.2)
     end
 
     it 'calculates user emissions by trading period' do

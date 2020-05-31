@@ -93,7 +93,7 @@ class Power::GenerationData
         station_name: record[:station_name],
         poc: record[:poc]
       )
-      pp '*** Record not Valid ***', record, station.errors.messages unless station.update_attributes(record)
+      pp '*** Record not Valid ***', record, station.errors.messages unless station.update(record)
     end
   end
 end

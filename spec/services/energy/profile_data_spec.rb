@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Energy::ProfileData do
   before(:all) do
+    EnergyType.destroy_all
     FactoryBot.create(:energy_type)
     FactoryBot.create(:energy_type, id: 2, name: 'gas')
     Profile.destroy_all

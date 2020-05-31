@@ -116,7 +116,7 @@ class Power::ClearedOfferDataEMI
       hash = { month: record.month, period: record.period, trader: record.trader,
                emissions: record.emissions, energy: record.energy, emissions_factor: record.emissions_factor }
       half_hourly_emission = HalfHourlyEmission.find_or_create_by(month: record.month, period: record.period, trader: record.trader)
-      pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update_attributes(hash)
+      pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update(hash)
     end
     TempHalfHourlyEmission.where(month: @last_month).destroy_all
     ProcessedEmiFile.where("file_name LIKE ? ", "#{@last_month_year}#{two_digit_month(@last_month)}%").destroy_all

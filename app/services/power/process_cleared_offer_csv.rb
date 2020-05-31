@@ -61,7 +61,7 @@ class Power::ProcessClearedOfferCSV
   def save_records
     @half_hourly_emission_record.each do |record|
       half_hourly_emission = @half_hourly_emission_table.find_or_create_by(month: @month, period: record[:period], trader: record[:trader])
-      pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update_attributes(record)
+      pp '*** Record not Valid ***', record, half_hourly_emission.errors.messages unless half_hourly_emission.update(record)
     end
     # Reset for the next csv file!
     @half_hourly_emission_record=[]
