@@ -1,4 +1,16 @@
-@import "font-awesome";
+/*
+
+
+
+ */
+
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
+@import url('https://fonts.googleapis.com/css?family=Nothing+You+Could+Do');
+// @import "font-awesome";
+
+$family-sans-serif: "Nunito", sans-serif;
+$family-primary: $family-sans-serif;
 @import "bulma";
+
 
 

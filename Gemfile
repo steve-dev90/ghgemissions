@@ -31,7 +31,9 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'bulma-rails', '~> 0.7.4'
 gem 'font-awesome-rails'
-gem 'sassc-rails'
+
+# Use SCSS for stylesheets
+gem 'sass-rails', '>= 6'
 
 # Charting
 gem 'chartjs-ror'
