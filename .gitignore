@@ -35,3 +35,9 @@
 # Ignore large clearing offer files
 /lib/assets/cleared_offer_data/*
 /lib/assets/cleared_offer_data_emi/*
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
