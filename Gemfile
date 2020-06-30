@@ -10,11 +10,12 @@ gem 'pg'
 # Use Puma as the app server
 gem 'puma', '~> 3.12.5'
 
-# Use SCSS for stylesheets
-# gem 'sass-rails', '~> 5.0'
+# Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
+gem 'webpacker', '~> 4.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 gem 'roo'
@@ -31,7 +32,9 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'bulma-rails', '~> 0.7.4'
 gem 'font-awesome-rails'
-gem 'sassc-rails'
+
+# Use SCSS for stylesheets
+gem 'sass-rails', '>= 6'
 
 # Charting
 gem 'chartjs-ror'
@@ -86,3 +89,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "react-rails", "~> 2.6"
