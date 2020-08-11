@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_063617) do
   enable_extension "plpgsql"
 
   create_table "automotive_fuel_prices", force: :cascade do |t|
-    t.date "week_ending"
+    t.integer "month"
     t.string "fuel_type"
     t.decimal "fuel_price"
     t.datetime "created_at", precision: 6, null: false
