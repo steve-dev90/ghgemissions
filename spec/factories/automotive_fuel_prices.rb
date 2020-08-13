@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :automotive_fuel_price do
-    week_ending { "2020-08-02" }
-    fuel_type { "MyString" }
-    fuel_price { "9.99" }
+    month { 1 }
+    fuel_type { "diesel" }
+    fuel_price { "90.99" }
   end
 end

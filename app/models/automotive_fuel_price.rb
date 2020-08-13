@@ -11,5 +11,5 @@ class AutomotiveFuelPrice < ApplicationRecord
 
   validates :fuel_price,
             numericality: { greater_than_or_equal_to: 0.0, less_than_or_equal_to: 300.0 },
-            allow_nil: true
+            allow_nil: false
 end
