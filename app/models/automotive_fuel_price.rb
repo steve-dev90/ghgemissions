@@ -1,9 +1,8 @@
 class AutomotiveFuelPrice < ApplicationRecord
   FUEL_NAMES = %w[diesel regular_petrol premium_petrol].freeze
 
-  validates :month,
-            presence: true,
-            numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 12 }
+  validates :month_beginning,
+            presence: true
 
   validates :fuel_type,
             presence: true,

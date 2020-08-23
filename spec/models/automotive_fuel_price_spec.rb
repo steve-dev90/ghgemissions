@@ -10,22 +10,7 @@ RSpec.describe AutomotiveFuelPrice, type: :model do
   end
 
   it 'invalidates records with no month' do
-    fuel_price2 = FactoryBot.build(:automotive_fuel_price, month: nil)
-    expect(fuel_price2).to_not be_valid
-  end
-
-  it 'invalidates records with non integer months' do
-    fuel_price2 = FactoryBot.build(:automotive_fuel_price, month: 'Jan')
-    expect(fuel_price2).to_not be_valid
-  end
-
-  it 'invalidates records with a month less than 1' do
-    fuel_price2 = FactoryBot.build(:automotive_fuel_price, month: 0)
-    expect(fuel_price2).to_not be_valid
-  end
-
-  it 'invalidates records with a month greater than 12' do
-    fuel_price2 = FactoryBot.build(:automotive_fuel_price, month: 14)
+    fuel_price2 = FactoryBot.build(:automotive_fuel_price, month_beginning: nil)
     expect(fuel_price2).to_not be_valid
   end
 
