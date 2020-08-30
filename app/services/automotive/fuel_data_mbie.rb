@@ -9,6 +9,6 @@ class Automotive::FuelDataMbie
     weekly_fuel_data.call
     TaskSchedulerMailer.send_mbie_fuel_data_processing_complete_email(AutomotiveFuelPrice.pluck(:month_beginning)).deliver
   rescue RuntimeError, ArgumentError => error
-    pp error
+    TaskSchedulerMailer.send_mbie_fuel_data_error_email(error).deliver
   end
 end
