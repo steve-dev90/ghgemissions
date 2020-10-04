@@ -17,4 +17,16 @@ class TaskSchedulerMailer < ApplicationMailer
     mail( :to => 'stevetorrens70@gmail.com',
       :subject => "Cleared offer files monthly processing complete #{Time.now.to_s}" )
   end
+
+  def send_mbie_fuel_data_processing_complete_email(processed_months)
+    @processed_months = processed_months
+    mail( :to => 'stevetorrens70@gmail.com',
+      :subject => "MBIE weekly fuel data processing complete #{Time.now.to_s}" )
+  end
+
+  def send_mbie_fuel_data_error_email(error)
+    @error = error
+    mail( :to => 'stevetorrens70@gmail.com',
+      :subject => "MBIE weekly fuel data process error #{Time.now.to_s}" )
+  end
 end

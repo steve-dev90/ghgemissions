@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>MBIE weekly fuel data processed!<p>
+    <ul>Months saved to database:</ul>
+    <% @processed_months.each do |month| %>
+      <li><%= month  %> </li>
+    <% end %>
+  </body>
+</html>
