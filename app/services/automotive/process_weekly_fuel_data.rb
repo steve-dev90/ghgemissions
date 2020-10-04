@@ -1,4 +1,5 @@
 class Automotive::ProcessWeeklyFuelData
+  # Based on simple analysis of MBIE data
   RATIO_PREMIUM_PETROL_PRICE_REGULAR_PETROL_PRICE = 1.06
 
   def initialize(fuel_data)
@@ -8,6 +9,8 @@ class Automotive::ProcessWeeklyFuelData
   def call
     AutomotiveFuelPrice.delete_all
 
+    # get_last_three_months returns an array of Date objects
+    # month is a Date object
     get_last_three_months.each do |month|
       rows =  @fuel_data.select do |row|
                 Date.parse(row[0]).month == month.month &&
@@ -16,7 +19,6 @@ class Automotive::ProcessWeeklyFuelData
       save_records(get_monthly_record(rows, month))
     end
 
-    pp AutomotiveFuelPrice.all
     puts 'Automotive fuel file processed!'
   end
 

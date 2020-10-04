@@ -3,6 +3,7 @@ class Automotive::FuelDataMbie
     # HTTParty returns an array of csv rows
     data = HTTParty.get("https://www.mbie.govt.nz/assets/Data-Files/Energy/Weekly-fuel-price-monitoring/weekly-table.csv")
     # Get rid of the header row
+    raise "request forbidden" if data.code == 403
     data.shift()
     raise "Empty MBIE weekly fuel file" if data.empty?
     weekly_fuel_data = Automotive::ProcessWeeklyFuelData.new(data)
