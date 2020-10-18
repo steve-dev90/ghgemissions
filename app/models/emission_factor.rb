@@ -1,0 +1,2 @@
+class EmissionFactor < ApplicationRecord
+end
