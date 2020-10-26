@@ -16,7 +16,7 @@ class Energy::EmissionFactorsData
 
   def save_records
     EMISSION_FACTORS.each do |record|
-      energy_type = EnergyFactor.find_or_create_by(fuel_type: record[:fuel_type], unit: record[:unit])
+      energy_type = EmissionFactor.find_or_create_by(fuel_type: record[:fuel_type], units: record[:unit])
       pp '*** Record not Valid ***', record, energy_type.errors.messages unless energy_type.update(record)
     end
   end
