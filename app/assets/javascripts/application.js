@@ -17,3 +17,4 @@
 //= require pickadate/picker
 //= require pickadate/picker.date
 //= require Chart.min
+//= require bulma-extensions

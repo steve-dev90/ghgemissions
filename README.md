@@ -4,11 +4,11 @@ This app calculates the carbon footprint for a typical New Zealand household.
 August 2019 : Working on providing users with there ghg emissions from using electricity!
 
 ## Technologies
-CSS framework : Bulma
+CSS framework : Bulma, Bulma Extensions (https://wikiki.github.io/)
 
-Front end : Rails v5.2, jquery
+Front end : Rails v6.0, jquery
 
-Back end : Rails v5.2
+Back end : Rails v6.0
 
 Testing : Rspec, FactoryBot
 

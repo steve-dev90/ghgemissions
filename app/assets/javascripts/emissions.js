@@ -17,12 +17,23 @@
     })
 
     $('.button__no--gas').click(function() {
-      console.log("kf is going to rock you")
       progressToNextForm ('gas', 'car')
     })
 
+    // *** CAR FORM TOGGLES
+    $('.toggle__reg-petrol').children("input").click(function() {
+      // toggle is-hidden
+      console.log($(this).attr('class'))
+      if ($(this).attr('class').includes('is-hidden')) {
+        $(this).removeClass("is-hidden")
+      } else {
+        $(this).addClass("is-hidden")
+      }
+
+    })
+
     // *** NEXT BUTTON ***
-    // Check for missing inputs and if none enanle next button
+    // Check for missing inputs and if none enable next button
     $('.form__power, .form__gas').change(function() {
       if ($(this).hasClass('form__power')) {
         missingInputs(getPowerGasFormInputs('power'),'power')
