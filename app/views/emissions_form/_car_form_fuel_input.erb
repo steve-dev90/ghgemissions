@@ -1,25 +1,25 @@
-<div class="field toggle__<%= class_fuel_modifier %>" >
-  <input id="switchRoundedDefault" type="checkbox" name="switchRoundedDefault" class="switch is-rounded">
-  <label class="label" for="switchRoundedDefault"><%= fuel_type %></label>
+<div class="field toggle__<%= fuel_selector %>" >
+  <input id="<%= fuel_selector %>" type="checkbox" name="<%= fuel_selector %>" class="switch is-rounded">
+  <label class="label" for="<%= fuel_selector %>"><%= fuel_type %></label>
 </div>
-<div class="field is-horizontal is-hidden form__car--<%= class_fuel_modifier %>">
-  <div class="field-body">
-    <div class="field">
-      <p class="control is-expanded">
-        <div class="select is-primary">
-          <select>
-            <option>For last week</option>
-            <option>For last month</option>
-          </select>
-        </div>
-      </p>
-      <div class="form__errmessage"></div>
-    </div>
-    <div class="field">
-      <p class="control is-expanded">
-          <%= text_field_tag(amount_input_id, value=nil, type: 'number', class: 'input is-primary', placeholder: 'Enter purchases in $') %>
-      </p>
-      <div class="form__errmessage"></div>
-    </div>
-  </div>
+
+<div class="field is-grouped is-grouped-centered is-hidden form__car--<%= fuel_selector %>">
+  <p class="control">
+    <span class="select is-primary">
+      <%= select_tag "#{fuel_selector}-period", raw("<option>For last week</option><option>For last month</option>"), id: "#{fuel_selector}-period" %>
+    </span>
+  </p>
+  <div class="form__errmessage"></div>
+
+  <p class="control">
+    <%= text_field_tag( "#{fuel_selector}-amount", value=nil, type: 'number', class: 'input is-primary', placeholder: 'Enter purchases in') %>
+  </p>
+  <div class="form__errmessage"></div>
+
+  <p class="control">
+    <span class="select is-primary">
+      <%= select_tag "#{fuel_selector}-unit", raw("<option>$</option><option>Litres</option>"), id: "#{fuel_selector}-unit" %>
+    </span>
+  </p>
+  <div class="form__errmessage"></div>
 </div>

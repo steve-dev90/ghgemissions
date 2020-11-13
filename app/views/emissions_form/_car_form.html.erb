@@ -1,16 +1,15 @@
-<div class='form__car'>
+<div class='form__car is-hidden'>
 
+<h4 class="title is-5">Select the fuels used in your cars or vehicles</h4>
   <%= render partial: 'emissions_form/car_form_fuel_input',
     locals: {
       fuel_type: "Regular Petrol",
-      class_fuel_modifier: "reg-petrol",
-      amount_input_id: :regular_petrol_amount
+      fuel_selector: "reg-petrol",
     }
   %>
 
 
   <div class='field has-text-centered'>
-      <%= button_tag('Next', type: 'button', disabled: true, class: 'button is-link is-rounded button__next--power') %>
-    </div>
+    <%= button_tag('Next', type: 'button', disabled: true, class: 'button is-link is-rounded button__next--car') %>
   </div>
 </div>

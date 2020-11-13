@@ -2,7 +2,7 @@
 (function() {
   $( document ).ready(function() {
 
-    var tabStatus = { power: false }
+    var tabStatus = { power: false, gas: false, car: false, plane: false }
 
     $('.datepicker').pickadate({
       today: false,
@@ -23,16 +23,14 @@
     // *** CAR FORM TOGGLES
     $('.toggle__reg-petrol').children("input").click(function() {
       // toggle is-hidden
-      console.log($(this).attr('class'))
-      if ($(this).attr('class').includes('is-hidden')) {
-        $(this).removeClass("is-hidden")
+      if ($(this).prop('checked')) {
+        $('.form__car--reg-petrol').removeClass("is-hidden")
       } else {
-        $(this).addClass("is-hidden")
+        $('.form__car--reg-petrol').addClass("is-hidden")
       }
-
     })
 
-    // *** NEXT BUTTON ***
+    // *** NEXT BUTTON
     // Check for missing inputs and if none enable next button
     $('.form__power, .form__gas').change(function() {
       if ($(this).hasClass('form__power')) {
@@ -46,6 +44,7 @@
     // https://stackoverflow.com/questions/979337/how-can-i-pass-arguments-to-event-handlers-in-jquery
     $('.button__next--power').click(function() { nextButtonActions('power','gas') })
     $('.button__next--gas').click(function() { nextButtonActions('gas','car') })
+    $('.button__next--car').click(function() { nextButtonActions('car','plane') })
 
     function nextButtonActions(currentTab, nextTab) {
       if (checkFormInputs(currentTab)) {
@@ -56,8 +55,8 @@
     function progressToNextForm (currentTab, nextTab)  {
       $('.form__' + nextTab).removeClass("is-hidden")
       changeActiveTab(currentTab, nextTab)
-      tabStatus.power=true
-      if (nextTab == "car") {
+      tabStatus[currentTab] = true
+      if (nextTab == 'plane') {
         $('.button__submit')
           .prop('disabled', false)
           .removeClass("is-hidden")
@@ -74,13 +73,26 @@
       }
     })
 
-    // Power tab listener
-    $('.tabs__power').click(function() {
-      isActive = $('.tabs__power').attr('class').includes('is-active')
-      if (tabStatus.power==true & !isActive) {
-        changeActiveTab('gas', 'power')
+    // Tabs listener for switching between tabs
+    $('.tabs__power').click(function() { tabActions($(this)) })
+    $('.tabs__gas').click(function() { tabActions($(this)) })
+    $('.tabs__car').click(function() { tabActions($(this)) })
+    $('.tabs__plane').click(function() { tabActions($(this)) })
+
+    function tabActions(nextTabElement) {
+      nextTab = nextTabElement.attr('class').split(" ")[0].substr(6)
+      $('.tabs > ul > li').each(function () {
+        if ($(this).attr('class').includes('is-active')) {
+          currentTab = $(this).attr('class').split(" ")[0].substr(6)
+        }
+      })
+
+      if (tabStatus[nextTab]) {
+        // Next line : So you can return to uncompleted form
+        tabStatus[currentTab] = true
+        changeActiveTab(currentTab, nextTab)
       }
-    })
+    }
   })
 
   // *** FORM STATUS ***

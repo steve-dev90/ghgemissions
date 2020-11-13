@@ -15,13 +15,13 @@
             <span>Natural Gas</span>
           </a>
         </li>
-        <li>
+        <li class='tabs__car'>
           <a>
             <span class='icon is-small'><%= fa_icon 'car' %></span>
             <span>Car travel</span>
           </a>
         </li>
-        <li>
+        <li class='tabs__plane'>
           <a>
             <span class='icon is-small'><%= fa_icon 'plane' %></span>
             <span>Air plane travel</span>
@@ -52,7 +52,7 @@
           </li>
         </ul>
       </div>
-      <div class="column is-5">
+      <div class="column is-6">
         <%= form_tag('emissions/dashboard', method: 'get') do %>
           <%= render 'emissions_form/power_form' %>
           <%= render 'emissions_form/gas_form' %>
