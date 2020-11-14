@@ -1,13 +1,29 @@
-<div class='form__car is-hidden'>
+<div class='form__car'>
 
 <h4 class="title is-5">Select the fuels used in your cars or vehicles</h4>
+  <div class="field toggle__no-car" >
+    <input id='no-car' type="checkbox" name='no-car' class="switch is-rounded">
+    <label class="label" for='no-car'>I don't have a car</label>
+  </div>
+
   <%= render partial: 'emissions_form/car_form_fuel_input',
     locals: {
-      fuel_type: "Regular Petrol",
+      fuel_type: "Regular petrol",
       fuel_selector: "reg-petrol",
     }
   %>
-
+  <%= render partial: 'emissions_form/car_form_fuel_input',
+    locals: {
+      fuel_type: "Premium petrol",
+      fuel_selector: "prem-petrol",
+    }
+  %>
+  <%= render partial: 'emissions_form/car_form_fuel_input',
+    locals: {
+      fuel_type: "Diesel",
+      fuel_selector: "Diesel",
+    }
+  %>
 
   <div class='field has-text-centered'>
     <%= button_tag('Next', type: 'button', disabled: true, class: 'button is-link is-rounded button__next--car') %>

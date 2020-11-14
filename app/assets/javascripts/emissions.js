@@ -32,12 +32,11 @@
 
     // *** NEXT BUTTON
     // Check for missing inputs and if none enable next button
-    $('.form__power, .form__gas').change(function() {
-      if ($(this).hasClass('form__power')) {
-        missingInputs(getPowerGasFormInputs('power'),'power')
-      } else {
-        missingInputs(getPowerGasFormInputs('gas'), 'gas')
-      }
+    $('.form__power, .form__gas, .form__car').change(function() {
+      form_name = $(this).attr('class').split(" ")[0].substr(6)
+      inputs = getPowerGasFormInputs(form_name)
+      if (form_name == 'car') { inputs = getCarFormInputs() }
+      missingInputs(inputs,form_name)
     })
 
     // Useful article on passing arguments in jquery
@@ -104,11 +103,11 @@
   // *** POWER FORM VALIDATION ***
   // Dealing with missing inputs
   function missingInputs(inputs, tab) {
-    var missing = 0
+    var missing = false
     $.each( inputs, function( key, value ) {
-      if (value != "" ) { missing ++}
+      if (!value) { missing = true}
     })
-    if (missing == 3) { $('.button__next--' + tab).prop('disabled', false) }
+    if (!missing) { $('.button__next--' + tab).prop('disabled', false) }
   }
 
   // Dealing with input errors
@@ -122,6 +121,8 @@
         return testPowerGasInputs(
           inputs.start_date, inputs.end_date,
           inputs.user_energy, tab)
+      case 'car':
+        return true
     }
   }
 
@@ -140,6 +141,14 @@
       start_date: $(start_css_id + 'start_date').val(),
       end_date: $(start_css_id + 'end_date').val(),
       user_energy: $(start_css_id + 'user_energy').val(),
+    }
+  }
+
+  function getCarFormInputs() {
+    return {
+      reg_petrol_period: $('#reg-petrol-period').val(),
+      reg_petrol_amount: $('#reg-petrol-amount').val(),
+      reg_petrol_unit: $('#reg-petrol-unit').val()
     }
   }
 
@@ -164,17 +173,20 @@
   }
 
   function userEnergyToHigh(userEnergy, tab) {
-    // MBIE gas 134 per week
-    start_css_id = '#' + tab + '_'
+    if (userEnergy >= 0 & userEnergy <= 10000) { return true }
+
+    field_id = '#' + tab + '_' + 'user_energy'
+    if (userEnergy < 0) { errmessage = "Must be a positive number" }
     if (userEnergy > 10000) {
       if (tab == 'power') {
-        appendErrMessage("This seems a bit high, most households use about 250 - 750 kWh per month", start_css_id + 'user_energy')
-      } else {
-        appendErrMessage("This seems a bit high, most households use about 200 - 600 kWh per month", start_css_id + 'user_energy')
+        errmessage = "This seems a bit high, most households use about 250 - 750 kWh per month"
       }
-      return false
+      if (tab == 'gas') {
+        errmessage = "This seems a bit high, most households use about 200 - 600 kWh per month"
+      }
     }
-    return true
+    appendErrMessage(errmessage, field_id)
+    return false
   }
 
   function appendErrMessage(errmessage, field_id) {
