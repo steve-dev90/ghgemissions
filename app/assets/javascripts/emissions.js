@@ -10,17 +10,29 @@
       formatSubmit: 'dd/mm/yyyy'
     })
 
-    // *** GAS YES NO BUTTONS
-    $('.button__yes--gas').click(function() {
-      $('.form__gas--check').slideUp()
-      $('.form__gas--proper').removeClass("is-hidden")
-    })
+    // *** YES NO BUTTONS
+    $('.button__yes--gas').click(function() { yesButtonActions('.form__gas--check','.form__gas--proper') })
+    $('#car_form_answer_yes').click(function() { yesButtonActions('.form__car--check','.form__car--proper') })
+
+    function yesButtonActions(formCheck, formProper) {
+      $(formCheck).slideUp()
+      $(formProper).removeClass("is-hidden")
+    }
+
 
     $('.button__no--gas').click(function() {
       progressToNextForm ('gas', 'car')
     })
 
     // *** CAR FORM TOGGLES
+    $('.toggle__no-car').children("input").click(function() {
+      // if ($(this).prop('checked')) {
+      //   $('.form__car--reg-petrol').removeClass("is-hidden")
+      // } else {
+      //   $('.form__car--reg-petrol').addClass("is-hidden")
+      // }
+    })
+
     $('.toggle__reg-petrol').children("input").click(function() {
       // toggle is-hidden
       if ($(this).prop('checked')) {

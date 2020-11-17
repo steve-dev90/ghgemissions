@@ -1,31 +1,44 @@
-<div class='form__car'>
+<div class='form__car is-hidden'>
 
-<h4 class="title is-5">Select the fuels used in your cars or vehicles</h4>
-  <div class="field toggle__no-car" >
-    <input id='no-car' type="checkbox" name='no-car' class="switch is-rounded">
-    <label class="label" for='no-car'>I don't have a car</label>
+  <div class='form__car--check columns'>
+    <div class='column'>
+      <h4 class="title is-5">Got a car or vehicle?</h4>
+    </div>
+    <div class="control column has-text-right">
+      <label class="radio">
+        <%= radio_button_tag('car_form_answer', 'yes') %>
+        Yes
+      </label>
+      <label class="radio">
+        <%= radio_button_tag('car_form_answer', 'no') %>
+        No
+      </label>
+    </div>
   </div>
 
-  <%= render partial: 'emissions_form/car_form_fuel_input',
-    locals: {
-      fuel_type: "Regular petrol",
-      fuel_selector: "reg-petrol",
-    }
-  %>
-  <%= render partial: 'emissions_form/car_form_fuel_input',
-    locals: {
-      fuel_type: "Premium petrol",
-      fuel_selector: "prem-petrol",
-    }
-  %>
-  <%= render partial: 'emissions_form/car_form_fuel_input',
-    locals: {
-      fuel_type: "Diesel",
-      fuel_selector: "Diesel",
-    }
-  %>
+  <div class='form__car--proper is-hidden'>
+    <h4 class="title is-5">Select the fuels used in your cars or vehicles</h4>
+    <%= render partial: 'emissions_form/car_form_fuel_input',
+      locals: {
+        fuel_type: "Regular petrol",
+        fuel_selector: "reg-petrol",
+      }
+    %>
+    <%= render partial: 'emissions_form/car_form_fuel_input',
+      locals: {
+        fuel_type: "Premium petrol",
+        fuel_selector: "prem-petrol",
+      }
+    %>
+    <%= render partial: 'emissions_form/car_form_fuel_input',
+      locals: {
+        fuel_type: "Diesel",
+        fuel_selector: "Diesel",
+      }
+    %>
 
-  <div class='field has-text-centered'>
-    <%= button_tag('Next', type: 'button', disabled: true, class: 'button is-link is-rounded button__next--car') %>
+    <div class='field has-text-centered'>
+      <%= button_tag('Next', type: 'button', disabled: true, class: 'button is-link is-rounded button__next--car') %>
+    </div>
   </div>
 </div>
