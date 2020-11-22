@@ -1,14 +1,18 @@
 <div class='form__gas is-hidden'>
-  <div class='form__gas--check'>
-    <h4 class="title is-5">Use gas?</h4>
-      <div class="level">
-        <p class="level-item has-text-centered">
-          <%= button_tag('Yes', type: 'button', class: 'button is-link is-rounded button__yes--gas') %>
-        </p>
-        <p class="level-item has-text-centered">
-          <%= button_tag('No', type: 'button', class: 'button is-link is-rounded button__no--gas') %>
-        </p>
-      </div>
+  <div class='form__gas--check columns'>
+    <div class='column'>
+      <h4 class="title is-5">Use gas?</h4>
+    </div>
+    <div class="control column has-text-right">
+      <label class="radio">
+        <%= radio_button_tag('gas_form_answer', 'yes') %>
+        Yes
+      </label>
+      <label class="radio">
+        <%= radio_button_tag('gas_form_answer', 'no') %>
+        No
+      </label>
+    </div>
   </div>
   <div class='form__gas--proper is-hidden'>
     <h4 class="title is-5">From your most recent gas bill</h4>

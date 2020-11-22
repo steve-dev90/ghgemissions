@@ -1,9 +1,11 @@
 
 (function() {
+
+  var tabStatus = { power: false, gas: false, car: false, plane: false }
+
   $( document ).ready(function() {
 
-    var tabStatus = { power: false, gas: false, car: false, plane: false }
-
+    // *** DATE PICKER
     $('.datepicker').pickadate({
       today: false,
       clear: 'Clear date',
@@ -11,36 +13,24 @@
     })
 
     // *** YES NO BUTTONS
-    $('.button__yes--gas').click(function() { yesButtonActions('.form__gas--check','.form__gas--proper') })
+    $('#gas_form_answer_yes').click(function() { yesButtonActions('.form__gas--check','.form__gas--proper') })
     $('#car_form_answer_yes').click(function() { yesButtonActions('.form__car--check','.form__car--proper') })
-
-    function yesButtonActions(formCheck, formProper) {
-      $(formCheck).slideUp()
-      $(formProper).removeClass("is-hidden")
-    }
-
-
-    $('.button__no--gas').click(function() {
-      progressToNextForm ('gas', 'car')
-    })
+    $('#gas_form_answer_no').click(function() { noButtonActions('gas', 'car') })
+    $('#car_form_answer_no').click(function() { noButtonActions('car', 'plane') })
 
     // *** CAR FORM TOGGLES
-    $('.toggle__no-car').children("input").click(function() {
-      // if ($(this).prop('checked')) {
-      //   $('.form__car--reg-petrol').removeClass("is-hidden")
-      // } else {
-      //   $('.form__car--reg-petrol').addClass("is-hidden")
-      // }
-    })
+    $('.toggle__reg-petrol').children("input").click(function() {toggleCarFuel($(this))})
+    $('.toggle__prem-petrol').children("input").click(function() {toggleCarFuel($(this))})
+    $('.toggle__diesel').children("input").click(function() {toggleCarFuel($(this))})
 
-    $('.toggle__reg-petrol').children("input").click(function() {
+    function toggleCarFuel(toggleInput) {
       // toggle is-hidden
-      if ($(this).prop('checked')) {
-        $('.form__car--reg-petrol').removeClass("is-hidden")
+      if (toggleInput.prop('checked')) {
+        toggleInput.parent().next().removeClass("is-hidden")
       } else {
-        $('.form__car--reg-petrol').addClass("is-hidden")
+        toggleInput.parent().next().addClass("is-hidden")
       }
-    })
+    }
 
     // *** NEXT BUTTON
     // Check for missing inputs and if none enable next button
@@ -63,20 +53,6 @@
       }
     }
 
-    function progressToNextForm (currentTab, nextTab)  {
-      $('.form__' + nextTab).removeClass("is-hidden")
-      changeActiveTab(currentTab, nextTab)
-      tabStatus[currentTab] = true
-      if (nextTab == 'plane') {
-        $('.button__submit')
-          .prop('disabled', false)
-          .removeClass("is-hidden")
-      }
-      $('.button__next--' + currentTab).hide()
-      addTickToFormStatusIcon('.form-status__' + currentTab + '--icon')
-      $(window).scrollTop(0);
-    }
-
     $('form').submit(function(e) {
       // Don't submit unless form inputs are OK
       if (!checkPowerFormInputs()) {
@@ -90,31 +66,67 @@
     $('.tabs__car').click(function() { tabActions($(this)) })
     $('.tabs__plane').click(function() { tabActions($(this)) })
 
-    function tabActions(nextTabElement) {
-      nextTab = nextTabElement.attr('class').split(" ")[0].substr(6)
-      $('.tabs > ul > li').each(function () {
-        if ($(this).attr('class').includes('is-active')) {
-          currentTab = $(this).attr('class').split(" ")[0].substr(6)
-        }
-      })
-
-      if (tabStatus[nextTab]) {
-        // Next line : So you can return to uncompleted form
-        tabStatus[currentTab] = true
-        changeActiveTab(currentTab, nextTab)
-      }
-    }
   })
 
-  // *** FORM STATUS ***
+  // *** YES NO RADIO BUTTONS ***
+  function yesButtonActions(formCheck, formProper) {
+    $(formCheck).slideUp()
+    $(formProper).removeClass("is-hidden")
+  }
+
+  function noButtonActions(currentTab, nextTab) {
+    progressToNextForm (currentTab, nextTab)
+  }
+
+  // *** NEXT BUTTON ***
+  function progressToNextForm (currentTab, nextTab)  {
+    $('.form__' + nextTab).removeClass("is-hidden")
+    changeActiveTab(currentTab, nextTab)
+    tabStatus[currentTab] = true
+    if (nextTab == 'plane') {
+      $('.button__submit')
+        .prop('disabled', false)
+        .removeClass("is-hidden")
+    }
+    $('.button__next--' + currentTab).hide()
+    addTickToFormStatusIcon('.form-status__' + currentTab + '--icon')
+    $(window).scrollTop(0);
+  }
+
+  // *** FORM STATUS ICONS ***
   function addTickToFormStatusIcon(icon) {
     $(icon).addClass('fa-check-circle')
     $(icon).removeClass('fa-circle')
   }
 
+  // *** FORM TABS ***
+  function tabActions(nextTabElement) {
+    nextTab = nextTabElement.attr('class').split(" ")[0].substr(6)
+    $('.tabs > ul > li').each(function () {
+      if ($(this).attr('class').includes('is-active')) {
+        currentTab = $(this).attr('class').split(" ")[0].substr(6)
+      }
+    })
+
+    if (tabStatus[nextTab]) {
+      // Next line : So you can return to uncompleted form
+      tabStatus[currentTab] = true
+      changeActiveTab(currentTab, nextTab)
+    }
+  }
+
+  function changeActiveTab(currentTab, nextTab) {
+    $(".tabs__" + currentTab).removeClass("is-active")
+    $(".tabs__" + nextTab).addClass("is-active")
+    $(".form__" + currentTab).slideUp()
+    $(".form__" + nextTab).slideDown()
+  }
+
   // *** POWER FORM VALIDATION ***
   // Dealing with missing inputs
   function missingInputs(inputs, tab) {
+    // Check to amke sure inputs Object isn't empty
+    if (jQuery.isEmptyObject(inputs)) { return }
     var missing = false
     $.each( inputs, function( key, value ) {
       if (!value) { missing = true}
@@ -134,12 +146,15 @@
           inputs.start_date, inputs.end_date,
           inputs.user_energy, tab)
       case 'car':
-        return true
+        inputs = getCarFormInputs()
+        clearCarInputErrors()
+        return userEnergyToHigh(inputs.reg_petrol_user_energy, 'reg_petrol') &
+          userEnergyToHigh(inputs.prem_petrol_user_energy, 'prem_petrol') &
+          userEnergyToHigh(inputs.diesel_user_energy, 'diesel')
     }
   }
 
   function testPowerGasInputs(startDate, endDate, userEnergy, tab) {
-    console.log(userEnergy)
     if (incorrectEndDate(startDate, endDate, tab) & userEnergyToHigh(userEnergy, tab)) {
       return true
     } else {
@@ -157,11 +172,16 @@
   }
 
   function getCarFormInputs() {
-    return {
-      reg_petrol_period: $('#reg-petrol-period').val(),
-      reg_petrol_amount: $('#reg-petrol-amount').val(),
-      reg_petrol_unit: $('#reg-petrol-unit').val()
-    }
+    var carFuels = ['reg_petrol', 'prem_petrol', 'diesel']
+    var carFormInputs = {}
+    $.each( carFuels, function(index, carFuel){
+       if ($('#' + carFuel).prop('checked')) {
+        carFormInputs[carFuel + '_period'] = $('#' + carFuel + '_period').val(),
+        carFormInputs[carFuel + '_user_energy'] = $('#' + carFuel + '_user_energy').val(),
+        carFormInputs[carFuel + '_unit'] = $('#' + carFuel + '_unit').val()
+      }
+    })
+    return carFormInputs
   }
 
   function clearInputErrors(inputs, tab) {
@@ -169,6 +189,14 @@
     $.each( inputs, function( key, value ) {
       $(start_css_id + key).parent().next().empty()
       $(start_css_id  + key).removeClass("is-danger")
+    })
+  }
+
+  function clearCarInputErrors() {
+    $('.car__form--error').remove()
+    var carFuels = ['reg_petrol', 'prem_petrol', 'diesel']
+    $.each( carFuels, function(index, carFuel) {
+      $('#' + carFuel + '_' + 'user_energy').removeClass("is-danger")
     })
   }
 
@@ -184,7 +212,10 @@
     return true
   }
 
-  function userEnergyToHigh(userEnergy, tab) {
+  function userEnergyToHigh(userEnergy = 0, tab) {
+    var errmessage
+    console.log(userEnergy)
+    // if (userEnergy) {return true}
     if (userEnergy >= 0 & userEnergy <= 10000) { return true }
 
     field_id = '#' + tab + '_' + 'user_energy'
@@ -196,22 +227,20 @@
       if (tab == 'gas') {
         errmessage = "This seems a bit high, most households use about 200 - 600 kWh per month"
       }
+      errmessage = "This seems a bit high"
     }
+    // console.log(errmessage, userEnergy,tab)
     appendErrMessage(errmessage, field_id)
     return false
   }
 
   function appendErrMessage(errmessage, field_id) {
     $(field_id).addClass('is-danger')
-    $(field_id).parent().next().append("<p>" + errmessage + "<p>")
-  }
-
-  // *** FORM TABS ***
-  function changeActiveTab(currentTab, nextTab) {
-    $(".tabs__" + currentTab).removeClass("is-active")
-    $(".tabs__" + nextTab).addClass("is-active")
-    $(".form__" + currentTab).slideUp()
-    $(".form__" + nextTab).slideDown()
+    if (field_id.includes('petrol') || field_id.includes('diesel')) {
+      $(field_id).parent().append("<li class='car__form--error'>" + errmessage + "</li>")
+      return
+    }
+    $(field_id).parent().next().append("<p>" + errmessage + "</p>")
   }
 
 })()
