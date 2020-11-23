@@ -1,7 +1,7 @@
 
 (function() {
 
-  var tabStatus = { power: false, gas: false, car: false, plane: false }
+  const tabStatus = { power: false, gas: false, car: false, plane: false }
 
   $( document ).ready(function() {
 
@@ -13,10 +13,12 @@
     })
 
     // *** YES NO BUTTONS
-    $('#gas_form_answer_yes').click(function() { yesButtonActions('.form__gas--check','.form__gas--proper') })
-    $('#car_form_answer_yes').click(function() { yesButtonActions('.form__car--check','.form__car--proper') })
-    $('#gas_form_answer_no').click(function() { noButtonActions('gas', 'car') })
-    $('#car_form_answer_no').click(function() { noButtonActions('car', 'plane') })
+    const gasRadioButtons = yesNoRadioButtons('.form__gas--check','.form__gas--proper', 'gas', 'car')
+    $('#gas_form_answer_yes').click(gasRadioButtons.yes)
+    $('#gas_form_answer_no').click(gasRadioButtons.no)
+    const carRadioButtons = yesNoRadioButtons('.form__car--check','.form__car--proper','car', 'plane')
+    $('#car_form_answer_yes').click(carRadioButtons.yes)
+    $('#car_form_answer_no').click(carRadioButtons.no)
 
     // *** CAR FORM TOGGLES
     $('.toggle__reg-petrol').children("input").click(function() {toggleCarFuel($(this))})
@@ -69,13 +71,18 @@
   })
 
   // *** YES NO RADIO BUTTONS ***
-  function yesButtonActions(formCheck, formProper) {
-    $(formCheck).slideUp()
-    $(formProper).removeClass("is-hidden")
-  }
-
-  function noButtonActions(currentTab, nextTab) {
-    progressToNextForm (currentTab, nextTab)
+  // See this Medium article:
+  // https://medium.com/javascript-in-plain-english/why-factories-are-better-than-classes-in-javascript-1248b600b6d4
+  const yesNoRadioButtons = (formCheck, formProper, currentTab, nextTab) => {
+    return {
+      yes: () => {
+        $(formCheck).slideUp()
+        $(formProper).removeClass("is-hidden")
+      },
+      no: () => {
+        progressToNextForm(currentTab, nextTab)
+      }
+    }
   }
 
   // *** NEXT BUTTON ***

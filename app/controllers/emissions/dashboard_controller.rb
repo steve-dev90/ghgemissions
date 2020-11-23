@@ -32,7 +32,9 @@ module Emissions
         gas_emissions = { emissions_source: 'Gas', user_emission: 0}
       end
 
-      @user_emissions = [ power_emissions, gas_emissions]
+      car_emissions = { emissions_source: 'Car', user_emission: dashboard_params[:reg_petrol_user_energy].to_f}
+
+      @user_emissions = [ power_emissions, gas_emissions, car_emissions]
       @total_emissions = @user_emissions.sum { |data_pt| data_pt[:user_emission] }.round(1)
     end
 
@@ -40,7 +42,8 @@ module Emissions
 
     def dashboard_params
       params.permit(:power_user_energy, :power_start_date, :power_end_date,
-        :gas_user_energy, :gas_start_date, :gas_end_date)
+        :gas_user_energy, :gas_start_date, :gas_end_date, :reg_petrol_period,
+        :reg_petrol_user_energy, :reg_petrol_unit)
     end
   end
 end
