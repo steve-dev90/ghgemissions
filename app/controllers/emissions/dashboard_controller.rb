@@ -32,7 +32,18 @@ module Emissions
         gas_emissions = { emissions_source: 'Gas', user_emission: 0}
       end
 
-      car_emissions = { emissions_source: 'Car', user_emission: dashboard_params[:reg_petrol_user_energy].to_f}
+      # Get the latest petrol price
+      reg_petrol_price = AutomotiveFuelPrice
+        .where("fuel_type = ?", "regular_petrol")
+        .order("month_beginning DESC")
+        .first[:fuel_price]
+      reg_petrol_emission_factor = EmissionFactor
+        .where("fuel_type = ? AND units = ?", "regular_petrol", "kgCO2/litre")
+        .first[:factor]
+      user_emission = reg_petrol_emission_factor *
+        dashboard_params[:reg_petrol_user_energy].to_f /
+        reg_petrol_price
+      car_emissions = { emissions_source: 'Car', user_emission: user_emission}
 
       @user_emissions = [ power_emissions, gas_emissions, car_emissions]
       @total_emissions = @user_emissions.sum { |data_pt| data_pt[:user_emission] }.round(1)
