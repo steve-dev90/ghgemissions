@@ -33,6 +33,7 @@ module Emissions
       end
 
       # Get the latest petrol price
+      pp dashboard_params
       reg_petrol_price = AutomotiveFuelPrice
         .where("fuel_type = ?", "regular_petrol")
         .order("month_beginning DESC")
@@ -41,8 +42,13 @@ module Emissions
         .where("fuel_type = ? AND units = ?", "regular_petrol", "kgCO2/litre")
         .first[:factor]
       user_emission = reg_petrol_emission_factor *
-        dashboard_params[:reg_petrol_user_energy].to_f /
-        reg_petrol_price
+        dashboard_params[:reg_petrol_user_energy].to_f
+      pp user_emission
+      user_emission = user_emission / reg_petrol_price if dashboard_params[:reg_petrol_unit] == "Litres"
+      pp user_emission
+      pp dashboard_params[:reg_petrol_period].include? "week"
+      user_emission = user_emission * 4 if dashboard_params[:reg_petrol_period].include? "week"
+      pp user_emission
       car_emissions = { emissions_source: 'Car', user_emission: user_emission}
 
       @user_emissions = [ power_emissions, gas_emissions, car_emissions]
