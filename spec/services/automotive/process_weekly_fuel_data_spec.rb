@@ -9,9 +9,9 @@ RSpec.describe Automotive::ProcessWeeklyFuelData do
     weekly_fuel_data.call
     expect(AutomotiveFuelPrice.order(:month_beginning).first[:month_beginning]).to eq(Date.new(2020,3,1))
     expect(AutomotiveFuelPrice.all.count).to eq(9)
-    expect(AutomotiveFuelPrice.where(fuel_type: "regular_petrol").sum("fuel_price")).to eq(600.0)
+    expect(AutomotiveFuelPrice.where(fuel_type: "reg_petrol").sum("fuel_price")).to eq(600.0)
     expect(AutomotiveFuelPrice.where(fuel_type: "diesel").sum("fuel_price")).to eq(300.0)
-    expect(AutomotiveFuelPrice.where(fuel_type: "premium_petrol").sum("fuel_price")).to eq(600.0 * 1.06)
+    expect(AutomotiveFuelPrice.where(fuel_type: "prem_petrol").sum("fuel_price")).to eq(600.0 * 1.06)
   end
 
   it 'processes nine records - excluding earlier date' do
@@ -21,9 +21,9 @@ RSpec.describe Automotive::ProcessWeeklyFuelData do
     weekly_fuel_data.call
     expect(AutomotiveFuelPrice.order(:month_beginning).first[:month_beginning]).to eq(Date.new(2020,3,1))
     expect(AutomotiveFuelPrice.all.count).to eq(9)
-    expect(AutomotiveFuelPrice.where(fuel_type: "regular_petrol").sum("fuel_price")).to eq(600.0)
+    expect(AutomotiveFuelPrice.where(fuel_type: "reg_petrol").sum("fuel_price")).to eq(600.0)
     expect(AutomotiveFuelPrice.where(fuel_type: "diesel").sum("fuel_price")).to eq(300.0)
-    expect(AutomotiveFuelPrice.where(fuel_type: "premium_petrol").sum("fuel_price")).to eq(600.0 * 1.06)
+    expect(AutomotiveFuelPrice.where(fuel_type: "prem_petrol").sum("fuel_price")).to eq(600.0 * 1.06)
   end
 
 end

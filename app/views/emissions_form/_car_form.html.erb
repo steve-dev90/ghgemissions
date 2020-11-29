@@ -1,3 +1,47 @@
 <div class='form__car is-hidden'>
-  <h4 class="title is-5 has-text-centered">Car travel is coming soon!</h4>
+
+  <div class='form__car--check columns'>
+    <div class='column'>
+      <h4 class="title is-5">Got a car or vehicle?</h4>
+    </div>
+    <div class="control column has-text-right">
+      <label class="radio">
+        <%= radio_button_tag('car_form_answer', 'yes') %>
+        Yes
+      </label>
+      <label class="radio">
+        <%= radio_button_tag('car_form_answer', 'no') %>
+        No
+      </label>
+    </div>
+  </div>
+
+  <div class='form__car--proper is-hidden'>
+    <h4 class="title is-5">Select the fuels used in your cars or vehicles</h4>
+    <%= render partial: 'emissions_form/car_form_fuel_input',
+      locals: {
+        fuel_type: 'Regular petrol',
+        fuel_class_selector: 'reg-petrol',
+        fuel_id_selector: 'reg_petrol'
+      }
+    %>
+    <%= render partial: 'emissions_form/car_form_fuel_input',
+      locals: {
+        fuel_type: 'Premium petrol',
+        fuel_class_selector: 'prem-petrol',
+        fuel_id_selector: 'prem_petrol'
+      }
+    %>
+    <%= render partial: 'emissions_form/car_form_fuel_input',
+      locals: {
+        fuel_type: 'Diesel',
+        fuel_class_selector: 'diesel',
+        fuel_id_selector: 'diesel'
+      }
+    %>
+
+    <div class='field has-text-centered'>
+      <%= button_tag('Next', type: 'button', disabled: true, class: 'button is-link is-rounded button__next--car') %>
+    </div>
+  </div>
 </div>

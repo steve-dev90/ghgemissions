@@ -1,0 +1,24 @@
+<div class="field toggle__<%= fuel_class_selector %>" >
+  <input id="<%= fuel_id_selector %>" type="checkbox" name="<%= fuel_id_selector %>" class="switch is-rounded">
+  <label class="label" for="<%= fuel_id_selector %>"><%= fuel_type %></label>
+</div>
+
+<div class="field is-grouped is-grouped-centered is-hidden form__car--<%= fuel_class_selector %>">
+  <p class="control">
+    <span class="select is-primary">
+      <%= select_tag "#{fuel_id_selector}_period", raw("<option>For last week</option><option>For last month</option>"), id: "#{fuel_id_selector}_period" %>
+    </span>
+  </p>
+  <div class="form__errmessage"></div>
+
+  <ul class="control">
+    <li><%= text_field_tag( "#{fuel_id_selector}_user_energy", value=nil, type: 'number', class: 'input is-primary', placeholder: 'Enter purchases in') %></li>
+  </ul>
+
+  <p class="control">
+    <span class="select is-primary">
+      <%= select_tag "#{fuel_id_selector}_unit", raw("<option>$</option><option>Litres</option>"), id: "#{fuel_id_selector}_unit" %>
+    </span>
+  </p>
+  <div class="form__errmessage"></div>
+</div>

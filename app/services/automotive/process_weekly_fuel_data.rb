@@ -33,10 +33,10 @@ class Automotive::ProcessWeeklyFuelData
         fuel_type: 'diesel',
         fuel_price: average_fuel_price(rows, 12) },
       { month_beginning: month,
-        fuel_type: 'regular_petrol',
+        fuel_type: 'reg_petrol',
         fuel_price: average_fuel_price(rows, 21) },
       { month_beginning: month,
-        fuel_type: 'premium_petrol',
+        fuel_type: 'prem_petrol',
         fuel_price: average_fuel_price(rows, 21)  &&
                     average_fuel_price(rows, 21) * RATIO_PREMIUM_PETROL_PRICE_REGULAR_PETROL_PRICE }]
   end
