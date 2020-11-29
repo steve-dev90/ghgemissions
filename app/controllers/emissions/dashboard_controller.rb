@@ -34,22 +34,22 @@ module Emissions
 
       # Get the latest petrol price
       pp dashboard_params
-      reg_petrol_price = AutomotiveFuelPrice
-        .where("fuel_type = ?", "regular_petrol")
-        .order("month_beginning DESC")
-        .first[:fuel_price]
-      reg_petrol_emission_factor = EmissionFactor
-        .where("fuel_type = ? AND units = ?", "regular_petrol", "kgCO2/litre")
-        .first[:factor]
-      user_emission = reg_petrol_emission_factor *
-        dashboard_params[:reg_petrol_user_energy].to_f
-      pp user_emission
-      user_emission = user_emission / reg_petrol_price if dashboard_params[:reg_petrol_unit] == "Litres"
-      pp user_emission
-      pp dashboard_params[:reg_petrol_period].include? "week"
-      user_emission = user_emission * 4 if dashboard_params[:reg_petrol_period].include? "week"
-      pp user_emission
-      car_emissions = { emissions_source: 'Car', user_emission: user_emission}
+      car_emissions = { emissions_source: 'Car', user_emission:
+        ['reg_petrol', 'prem_petrol', 'diesel'].sum do |car_fuel_type|
+          user_emission= EmissionFactor
+            .where("fuel_type = ? AND units = ?", car_fuel_type, "kgCO2/litre")
+            .first[:factor] *
+            dashboard_params["#{car_fuel_type}_user_energy".to_sym].to_f
+          if dashboard_params["#{car_fuel_type}_unit".to_sym] == "Litres"
+            car_fuel_price = AutomotiveFuelPrice
+            .where("fuel_type = ?", car_fuel_type)
+            .order("month_beginning DESC")
+            .first[:fuel_price]
+            user_emission = user_emission / car_fuel_price
+          end
+          user_emission = user_emission * 4 if dashboard_params["#{car_fuel_type}_period".to_sym].include? "week"
+          user_emission
+        end }
 
       @user_emissions = [ power_emissions, gas_emissions, car_emissions]
       @total_emissions = @user_emissions.sum { |data_pt| data_pt[:user_emission] }.round(1)
@@ -60,7 +60,9 @@ module Emissions
     def dashboard_params
       params.permit(:power_user_energy, :power_start_date, :power_end_date,
         :gas_user_energy, :gas_start_date, :gas_end_date, :reg_petrol_period,
-        :reg_petrol_user_energy, :reg_petrol_unit)
+        :reg_petrol_user_energy, :reg_petrol_unit, :prem_petrol_period,
+        :prem_petrol_user_energy, :prem_petrol_unit, :diesel_period,
+        :diesel_user_energy, :diesel_unit)
     end
   end
 end

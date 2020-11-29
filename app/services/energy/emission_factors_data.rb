@@ -4,9 +4,9 @@ class Energy::EmissionFactorsData
   # From MFE, Summary of Emissions Factors for the Guidance for Voluntary
   # Corporate Greenhouse Gas Reporting - 2015
   EMISSION_FACTORS = [
-    {fuel_type: 'regular_petrol', units: 'kgCO2/litre', factor: 2.36 },
+    {fuel_type: 'reg_petrol', units: 'kgCO2/litre', factor: 2.36 },
     {fuel_type: 'diesel', units: 'kgCO2/litre', factor: 2.36 },
-    {fuel_type: 'premium_petrol', units: 'kgCO2/litre', factor: 2.72 }
+    {fuel_type: 'prem_petrol', units: 'kgCO2/litre', factor: 2.72 }
   ].freeze
 
   def call
