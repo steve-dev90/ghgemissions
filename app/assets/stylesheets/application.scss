@@ -5,6 +5,7 @@
 $family-sans-serif: "Nunito", sans-serif;
 $family-primary: $family-sans-serif;
 $family-secondary: 'Black Han Sans', sans-serif;
+$footer-background-color: white;
 @import 'bulma-extensions';
 @import "bulma";
 
@@ -13,9 +14,17 @@ $family-secondary: 'Black Han Sans', sans-serif;
   padding-bottom: 1.0rem;
 }
 
-.navbar-brand {
+.footer {
+  border-top: 0.5px solid $light;
+  box-shadow: 0px -0.5px 1px $light;
+}
+
+.navbar-brand, .footer-brand {
   background-color: rgb(121, 248, 121);
   border-radius: 0.5rem 1.0rem;
 }
 
-
+.footer-brand {
+  width: 11.1rem;
+  height: 2rem;
+}
