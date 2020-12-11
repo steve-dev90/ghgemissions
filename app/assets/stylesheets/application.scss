@@ -6,6 +6,7 @@ $family-sans-serif: "Nunito", sans-serif;
 $family-primary: $family-sans-serif;
 $family-secondary: 'Black Han Sans', sans-serif;
 $footer-background-color: white;
+$footer-padding: 3rem 1.5rem 2rem;
 @import 'bulma-extensions';
 @import "bulma";
 
@@ -17,6 +18,11 @@ $footer-background-color: white;
 .footer {
   border-top: 0.5px solid $light;
   box-shadow: 0px -0.5px 1px $light;
+}
+
+.footer--copyright {
+  padding-top: 3rem;
+  padding-right: 0.8rem;
 }
 
 .navbar-brand, .footer-brand {

@@ -11,4 +11,10 @@ Rails.application.routes.draw do
     resources :dashboard
     resources :power_emissions
   end
+
+  namespace :api do
+    namespace :v1 do
+      post 'contact', to: 'contact#send_email'
+    end
+  end
 end
