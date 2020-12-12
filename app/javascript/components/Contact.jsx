@@ -28,7 +28,7 @@ class Contact extends React.Component {
             <div className="columns is-centered is-multiline is-mobile">
 
               <div className="column is-11-mobile is-8-tablet is-8-desktop">
-                  <h2 className="title is-3 has-text-centered has-text-weight-semibold has-text-info">Contact</h2>
+                  <h2 className="is-size-4 has-text-centered has-text-weight-semibold">Contact</h2>
               </div>
 
               <div className="column is-11-mobile is-5-tablet is-5-desktop">

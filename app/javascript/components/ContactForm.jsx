@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const ContactForm = (props) => (
   <React.Fragment>
-    <p>Interested in working with me? If so, send me a message.</p>
+    <p>If you have any comments or feedback send me a message.</p>
     <Formik
       initialValues={{ name: '', subject: '', email: '', message: '' }}
       validate={values => {
