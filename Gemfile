@@ -43,6 +43,9 @@ gem 'chartjs-ror'
 # To make external api request
 gem 'httparty'
 
+# To allow markdown file to be rendered
+gem 'markdown_views'
+
 # To parse xml
 gem "nokogiri", ">= 1.10.4"
 

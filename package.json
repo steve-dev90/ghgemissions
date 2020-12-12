@@ -5,9 +5,12 @@
     "@babel/preset-react": "^7.10.1",
     "@rails/webpacker": "4.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "formik": "^2.2.6",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "react_ujs": "^2.6.1"
   },
   "devDependencies": {
