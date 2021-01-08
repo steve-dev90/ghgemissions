@@ -15,7 +15,6 @@ class Energy::UserEmissions::MonthlySummary
   end
 
   def previous_month_power
-    # power = Energy::UserEmissions::MonthlyPower.new(@dashboard_params)
     @power.previous_month_energy(
       @dashboard_params[:power_user_energy],
       @dashboard_params[:power_start_date],
