@@ -11,7 +11,7 @@ RSpec.describe Energy::UserEmissions::MonthlySummary do
     diesel_petrol_user_energy: '',
     reg_petrol_unit: '',
     prem_petrol_unit: '',
-    diesel_petrol_unit: '',
+    diesel_unit: '',
     reg_petrol_period: '',
     prem_petrol_period: '',
     diesel_period: ''
