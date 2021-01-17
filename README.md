@@ -16,6 +16,13 @@ Linting : Rubocop
 
 Charts : Chartjs
 
+## Coding Notes
+To allow responive display the following is added to the html <head>:
+
+```<meta name="viewport" content="width=device-width, initial-scale=1">```
+
+See https://www.w3schools.com/css/css_rwd_viewport.asp.
+
 ## Configuration
 
 Emails are sent using Sendgrid:
