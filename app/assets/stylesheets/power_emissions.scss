@@ -3,5 +3,9 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .info__body {
-  height: 300px;
+  min-height: 270px
+}
+
+.charts__header {
+  padding: 1.5rem 3.0rem 0rem;
 }

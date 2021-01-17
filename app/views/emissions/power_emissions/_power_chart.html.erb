@@ -1,29 +1,26 @@
-<section class="section">
-  <div class="container">
-    <div class="columns is-multiline is-centered">
-      <div class="column is-two-thirds">
-        <h4 class="title is-5"> <%= title %> </h4>
-        <h5 class="subtitle is-6"> For <%= Date::MONTHNAMES[previous_month.month] %> <%= previous_month.year %> </h5>
-        <div class='tabs is-boxed is-medium'>
-          <ul>
-            <li class='tabs__item is-active'>
-              <a>
-                <span>Chart</span>
-              </a>
-            </li>
-            <li class='tabs__item'>
-              <a>
-                <span>More Information</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="chart__body">
-          <%= chart %>
-        </div>
-        <div class="info__body content" style="display: none">
-          <%= chart_info %>
-        </div>
-      </div>
+<div class="column is-6 ">
+  <h6 class="is-size-6 has-text-weight-bold"> <%= title %> </h6>
+  <h7 class="is-size-7"><%= Date::MONTHNAMES[previous_month.month] %> <%= previous_month.year %> </h7>
+  <div class='box'>
+    <div class='tabs is-boxed is-medium'>
+      <ul>
+        <li class='tabs__item is-active'>
+          <a>
+            <span class='is-size-6'>Chart</span>
+          </a>
+        </li>
+        <li class='tabs__item'>
+          <a>
+            <span class='is-size-6'>More Information</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="chart__body">
+      <%= chart %>
+    </div>
+    <div class="info__body content" style="display: none">
+      <%= chart_info %>
+    </div>
   </div>
-</section>
+</div>
