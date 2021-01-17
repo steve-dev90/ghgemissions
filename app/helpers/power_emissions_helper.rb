@@ -15,7 +15,7 @@ module PowerEmissionsHelper
 
   def line_options
     {
-      height: 300,
+      height: 270,
       legend: {display: false},
       scales:
         { yAxes: [{ scaleLabel: { display: true,
@@ -40,7 +40,12 @@ module PowerEmissionsHelper
   end
 
   def doughnut_options
-    {}
+  {
+    height: 270,
+    legend: {
+      position: 'bottom'
+   }
+  }
   end
 
 end
