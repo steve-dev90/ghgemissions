@@ -1,6 +1,6 @@
 class EmissionFactor < ApplicationRecord
-  FUEL_NAMES = %w[diesel reg_petrol prem_petrol natural_gas].freeze
-  UNIT_NAMES = %w[kgCO2/litre kgCO2/kWh]
+  FUEL_NAMES = %w[diesel reg_petrol prem_petrol natural_gas coal].freeze
+  UNIT_NAMES = %w[kgCO2/litre kgCO2/kWh tCO2/TJ]
 
   validates :fuel_type,
             presence: true,
