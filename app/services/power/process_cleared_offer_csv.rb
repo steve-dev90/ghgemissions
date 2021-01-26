@@ -51,8 +51,9 @@ class Power::ProcessClearedOfferCSV
 
   def get_emissions(cleared_energy, poc)
     # Note GenerationStation only has fossil fuel power stations
-    emissions_factor = GenerationStation.where(poc: poc).first &&
-                       GenerationStation.where(poc: poc).first[:emissions_factor]
+     raise "Point of connection does not exist, poc: #{poc}" if GenerationStation.where(poc: poc).empty?
+
+    emissions_factor = GenerationStation.where(poc: poc).first[:emissions_factor]
     return 0.0 if emissions_factor.nil?
 
     (cleared_energy * (emissions_factor || 0)).round(2)
