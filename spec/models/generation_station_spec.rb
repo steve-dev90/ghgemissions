@@ -44,8 +44,8 @@ RSpec.describe GenerationStation, type: :model do
     expect(station2).to_not be_valid
   end
 
-  it 'invalidates records with emissions factor greater than 1.0' do
-    station2 = FactoryBot.build(:generation_station, emissions_factor: 1.02)
+  it 'invalidates records with emissions factor greater than 1.1' do
+    station2 = FactoryBot.build(:generation_station, emissions_factor: 1.12)
     expect(station2).to_not be_valid
   end
 end

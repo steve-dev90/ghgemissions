@@ -6,9 +6,12 @@ RSpec.describe Power::ClearedOfferData do
     FactoryBot.create(:generation_station)
     FactoryBot.create(:generation_station, poc: 'WRK2201 WRK0', emissions_factor: 0.1)
     FactoryBot.create(:generation_station, poc: 'HLY2201 HLY3', emissions_factor: 0.48)
+    FactoryBot.create(:generation_station, poc: 'ROX1101 ROX0', emissions_factor: 0)
+    FactoryBot.create(:generation_station, poc: 'AVI1201 AVI0', emissions_factor: 0)
     HalfHourlyEmission.destroy_all
     @cleared_offer = Power::ClearedOfferData.new('./spec/services/power/Cleared_Offers_Test_Data/*')
     @cleared_offer.call
+    HalfHourlyEmission.all
   end
 
   it 'saves the correct month' do
@@ -45,5 +48,16 @@ RSpec.describe Power::ClearedOfferData do
     expect(HalfHourlyEmission.find_by(period: 1, month: 11, trader:'GENE')[:emissions_factor]).to be_within(0.0001).of(450 * 0.5 * 0.48 / 425)
     expect(HalfHourlyEmission.find_by(period: 2, month: 11, trader:'CTCT')[:emissions_factor]).to be_within(0.0001).of(150 * 0.5 * 0.1 / 350)
     expect(HalfHourlyEmission.find_by(period: 20, month: 9, trader:'GENE')[:emissions_factor]).to be_within(0.0001).of(50 * 0.5 * 0.48 / 25)
+  end
+
+  it 'does not save records with zero emissions' do
+    expect(HalfHourlyEmission.find_by(emissions_factor: 0.0)).to be_nil
+  end
+
+  it 'raises an error for unknown pocs' do
+    HalfHourlyEmission.destroy_all
+    @cleared_offer = Power::ClearedOfferData.new('./spec/services/power/Cleared_Offers_Test_Data_Unknown_POC/*')
+    @cleared_offer.call
+    pp HalfHourlyEmission.all
   end
 end
