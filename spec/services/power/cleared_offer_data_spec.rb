@@ -56,8 +56,9 @@ RSpec.describe Power::ClearedOfferData do
 
   it 'raises an error for unknown pocs' do
     HalfHourlyEmission.destroy_all
-    @cleared_offer = Power::ClearedOfferData.new('./spec/services/power/Cleared_Offers_Test_Data_Unknown_POC/*')
-    @cleared_offer.call
-    pp HalfHourlyEmission.all
+    file = './spec/services/power/Cleared_Offers_Test_Data_Unknown_POC/Cleared_Offers_test_unknown_poc.csv'
+    csv = CSV.read(file, converters: :numeric, headers:true)
+    process_file = Power::ProcessClearedOfferCSV.new(csv, HalfHourlyEmission)
+    expect { process_file.call}.to raise_error(RuntimeError, 'Point of connection does not exist, poc: HLY3201 HLY1')
   end
 end
