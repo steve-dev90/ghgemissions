@@ -7,12 +7,40 @@ $family-primary: $family-sans-serif;
 $family-secondary: 'Black Han Sans', sans-serif;
 $footer-background-color: white;
 $footer-padding: 3rem 1.5rem 2rem;
+$navbar-item-hover-color: hsl(0, 0%, 21%);
+$greenfootprint-color: rgb(121, 248, 121);
 @import 'bulma-extensions';
 @import "bulma";
 
 .navbar {
   border-bottom: 0.5px solid $light;
   padding-bottom: 1.0rem;
+}
+
+.navbar--menu:hover, .footer--menu:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+  text-decoration-color: $greenfootprint-color;
+}
+
+.navbar--logo, .footer--logo {
+  background-color: $greenfootprint-color;
+  border-radius: 0.5rem 1.0rem;
+}
+
+.navbar--logo {
+  margin: 0.2rem 0;
+  transition: margin 0.2s;
+}
+
+.navbar--logo:hover {
+  margin: 0.4rem 0;
+}
+
+.footer--logo {
+  width: 11.1rem;
+  height: 2rem;
+  margin: 0 auto;
 }
 
 .footer {
@@ -22,15 +50,4 @@ $footer-padding: 3rem 1.5rem 2rem;
 
 .footer--copyright {
   padding-top: 3rem;
-  padding-right: 0.8rem;
-}
-
-.navbar-brand, .footer-brand {
-  background-color: rgb(121, 248, 121);
-  border-radius: 0.5rem 1.0rem;
-}
-
-.footer-brand {
-  width: 11.1rem;
-  height: 2rem;
 }
