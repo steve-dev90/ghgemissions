@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_11_073521) do
+ActiveRecord::Schema.define(version: 2021_03_16_063824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,13 @@ ActiveRecord::Schema.define(version: 2020_10_11_073521) do
     t.date "month_beginning"
     t.string "fuel_type"
     t.decimal "fuel_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "coal_emission_adjustments", force: :cascade do |t|
+    t.integer "month"
+    t.float "adjust_factor"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -47,7 +54,6 @@ ActiveRecord::Schema.define(version: 2020_10_11_073521) do
   end
 
   create_table "half_hourly_emissions", force: :cascade do |t|
-    t.string "trader"
     t.float "emissions"
     t.float "energy"
     t.float "emissions_factor"
@@ -55,6 +61,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_073521) do
     t.datetime "updated_at", null: false
     t.integer "month"
     t.string "period"
+    t.string "fuel_type"
   end
 
   create_table "processed_emi_files", force: :cascade do |t|
@@ -73,7 +80,6 @@ ActiveRecord::Schema.define(version: 2020_10_11_073521) do
   end
 
   create_table "temp_half_hourly_emissions", force: :cascade do |t|
-    t.string "trader"
     t.float "emissions"
     t.float "energy"
     t.float "emissions_factor"
@@ -81,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_10_11_073521) do
     t.string "period"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "fuel_type"
   end
 
   create_table "traders", force: :cascade do |t|

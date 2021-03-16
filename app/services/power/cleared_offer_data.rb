@@ -13,8 +13,6 @@ class Power::ClearedOfferData
           break
         end
         puts "File: #{file} CSV read completed"
-        # obtain_half_hourly_emission_records(csv)
-        # save_records
         process_file = Power::ProcessClearedOfferCSV.new(csv, HalfHourlyEmission)
         process_file.call
         puts "File: #{file} saved to database"

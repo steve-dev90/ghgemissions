@@ -50,13 +50,13 @@ RSpec.describe HalfHourlyEmission, type: :model do
     expect(hhemission2).to_not be_valid
   end
 
-  it 'invalidates records with no trader' do
-    hhemission2 = FactoryBot.build(:half_hourly_emission, trader: nil)
+  it 'invalidates records with no fuel_type' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, fuel_type: nil)
     expect(hhemission2).to_not be_valid
   end
 
-  it 'invalidates records with an invalid trader ID' do
-    hhemission2 = FactoryBot.build(:half_hourly_emission, trader: 'Genesis')
+  it 'invalidates records with an invalid fuel type' do
+    hhemission2 = FactoryBot.build(:half_hourly_emission, fuel_type: 'LPG')
     expect(hhemission2).to_not be_valid
   end
 

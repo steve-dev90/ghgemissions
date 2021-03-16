@@ -4,6 +4,8 @@ module HalfHourlyEmissionValidation
 
   included do
     include PeriodTypes
+    #Same fuel types as generation_station model
+    FUEL_NAMES = %w[geothermal coal natural_gas diesel hydro wood_waste wind process_waste].freeze
 
     validates :month,
               presence: true,
@@ -11,9 +13,9 @@ module HalfHourlyEmissionValidation
     validates :period,
               presence: true,
               inclusion: { in: (1..50).map { |n| n.to_s } }
-    validates :trader,
+    validates :fuel_type,
               presence: true,
-              format: { with: /[A-Z]{4}/, message: 'must be a valid trader id' }
+              inclusion: { in: FUEL_NAMES, message: '%{value} is not a valid fuel name' }
     validates :emissions, presence: true, numericality: true
     validates :energy, presence: true, numericality: true
     validates :emissions_factor, presence: true, numericality: true
